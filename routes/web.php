@@ -16,10 +16,18 @@ use App\Http\Controllers\RoutingController;
 
 require __DIR__ . '/auth.php';
 
+Route::get('/profile', App\Livewire\Mprofile\Index::class)->name('profile.index');
+
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('', [RoutingController::class, 'index'])->name('root');
     Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
     Route::get('{any}', [RoutingController::class, 'root'])->name('any');
 });
+/*
+|--------------------------------------------------------------------------
+| Master Data
+|--------------------------------------------------------------------------
+| Setting
+*/
 

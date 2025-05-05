@@ -48,7 +48,18 @@
                         </ul>
                     </div>
                 </li>
-
+                <li>
+                    <a href="#sidebarMaster" data-bs-toggle="collapse">
+                        <i data-feather="database"></i>
+                        <span> Master Data </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarMaster">
+                      <ul class="nav-second-level">
+                        <li><a  href="{{ route('profile.index') }}" class="tp-link" wire:current>Information</a></li>
+                      </ul>
+                    </div>
+                </li>
                 <li class="menu-title">Pages</li>
 
                 <li>

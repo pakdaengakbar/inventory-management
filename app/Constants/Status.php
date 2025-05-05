@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Constants;
+
+class Status
+{
+    const ACTIVE    = 'active';
+    const INACTIVE  = 'inactive';
+    const PENDING   = 'pending';
+    const PATH_     = 'public/';
+    const URL_      = 'storage/';
+}

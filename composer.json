@@ -23,7 +23,13 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/MyFormat.php",
+            "app/Helpers/MyHelper.php",
+            "app/Helpers/MyLibrary.php",
+            "app/Helpers/MyService.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
