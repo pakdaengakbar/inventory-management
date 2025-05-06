@@ -56,7 +56,9 @@
                     </a>
                     <div class="collapse" id="sidebarMaster">
                       <ul class="nav-second-level">
-                        <li><a  href="{{ route('profile.index') }}" class="tp-link" wire:current>Information</a></li>
+                        <li><a  href="{{ route('profiles.index') }}" class="tp-link" wire:current>Information</a></li>
+                        <li><a  href="{{ route('companies.index') }}" class="tp-link" wire:current>Companies</a></li>
+                        <li><a  href="{{ route('regions.index') }}" class="tp-link" wire:current>Regions</a></li>
                       </ul>
                     </div>
                 </li>

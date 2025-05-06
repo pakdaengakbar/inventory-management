@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
     @include('layouts.partials/head-css')
+    @vite(['node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css'])
 </head>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -24,10 +25,9 @@
         </div>
     </div>
     @livewireScripts
-    @yield('script')
-    @vite(['resources/js/app.js'])
-    @yield('script-bottom')
 
+    @include('layouts.partials/vendor')
     @vite(['resources/js/pages/datatable.init.js'])
+
 </body>
 </html>

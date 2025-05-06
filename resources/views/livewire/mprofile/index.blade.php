@@ -54,48 +54,19 @@
                         <li class="nav-item">
                             <a class="nav-link p-2" id="setting_tab" data-bs-toggle="tab" href="#profile_setting" role="tab">
                                 <span class="d-block d-sm-none"><i class="mdi mdi-information"></i></span>
-                                <span class="d-none d-sm-block">Setting</span>
+
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content text-muted bg-white">
                         <div class="tab-pane active show pt-4" id="profile_about" role="tabpanel">
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-md-6 mb-4">
-                                    <div class="">
-                                        <h5 class="fs-16 text-dark fw-semibold mb-3 text-capitalize">Aplication Name</h5>
-                                        <p>{{ $cname }}</p>
-                                        <h5 class="fs-16 text-dark fw-semibold mb-3 text-capitalize">Title</h5>
-                                        <p>{{ $ctitle }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-md-6 mb-4">
-                                    <h5 class="fs-16 text-dark fw-semibold mb-3 text-capitalize">Contact Details</h5>
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-lg-4 mb-3">
-                                            <div class="profile-email mb-md-2">
-                                                <h6 class="text-uppercase fs-13">Email Addess</h6>
-                                                <a href="#" class="text-primary fs-14 text-decoration-underline">{{ $cemail }}</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-lg-4 mb-3">
-                                            <div class="profile-email">
-                                                <h6 class="text-uppercase fs-13">Location</h6>
-                                                <a href="#" class="fs-14">{{ $caddress }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end Experience -->
-                        <div class="tab-pane pt-4" id="profile_setting" role="tabpanel">
-                            <div class="row">
-                                <form wire:submit="update" enctype="multipart/form-data">
+                            <form wire:submit="update" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-lg-6 col-xl-6">
                                         <div class="card border">
                                             <div class="card-body">
-                                                <div class="mb-3">
+                                                <div class="mb-3" hidden>
                                                     <label for="ccode" class="form-label">ID</label>
                                                     <input type="text" class="form-control" placeholder="Id Branch" wire:model="id" readonly>
                                                 </div>
@@ -173,7 +144,7 @@
                                                     <div class="col-lg-12 col-xl-12">
                                                         <div class="input-group">
                                                             <span class="input-group-text"><i class="mdi mdi-email"></i></span>
-                                                            <input type="text" class="form-control" wire:model="cemail"  placeholder="Email" aria-describedby="basic-addon1">
+                                                            <input type="email" class="form-control" wire:model="cemail"  placeholder="Email" aria-describedby="basic-addon1">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -182,6 +153,18 @@
                                                     <div class="col-lg-12 col-xl-12">
                                                         <input type="file" class="form-control @error('image') is-invalid @enderror" id="file-upload" wire:model.defer="image">
                                                         <div wire:loading wire:target="image" class="text-muted mt-2">Uploading...</div>
+                                                        @if ($image)
+                                                            <div class="mt-3">
+                                                                <p>Preview:</p>
+                                                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-thumbnail" style="max-width: 120px;">
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-3" hidden>
+                                                    <label class="form-label" for="ctitle">Old Image</label>
+                                                    <div class="col-lg-12 col-xl-12">
+                                                        <input class="form-control" type="text"  wire:model="photo" placeholder="Old Logo">
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-3 row">
@@ -192,7 +175,7 @@
                                                             <option value='0'>Not Active</option>
                                                             <option value='1'>Actived</option>
                                                         </select>
-                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-lg-12 col-xl-12">
@@ -205,7 +188,12 @@
                                 </div>
                                 </form>
                             </div>
-                        </div> <!-- end education -->
+                        </div><!-- end Experience -->
+                        <!--<div class="tab-pane pt-4" id="profile_setting" role="tabpanel">
+                            <div class="row">
+
+                            </div>
+                        </div>  end education -->
                     </div> <!-- Tab panes -->
                 </div>
             </div>
@@ -215,21 +203,30 @@
 <!-- container-fluid -->
 </div>
 
-@section('scripts')
-<script type="text/javascript">
-$(function () {
-	$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function() {
-            document.getElementById('mAlert').classList.add('hide');
-        }, 2000); // 5000 ms = 5 seconds
-    });
-});
+@section('script-bottom')
+<script>
+console.log('start');
+document.addEventListener('DOMContentLoaded', function () {
+    handleAlert();
 
-function toUCword(str){
-	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-		return $1.toUpperCase();
-	});
-}
+    if (window.Livewire) {
+        Livewire.hook('message.processed', (message, component) => {
+            handleAlert();
+        });
+    } else {
+        console.warn('⚠️ Livewire is not loaded.');
+    }
+
+    function handleAlert() {
+        console.log('Close Alert');
+        const alertElement = document.getElementById('mAlert');
+        if (alertElement && alertElement.classList.contains('show')) {
+            setTimeout(function () {
+                const alertInstance = bootstrap.Alert.getOrCreateInstance(alertElement);
+                alertInstance.close();
+            }, 2000);
+        }
+    }
+});
 </script>
 @endsection

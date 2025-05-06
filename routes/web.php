@@ -15,8 +15,20 @@ use App\Http\Controllers\RoutingController;
 */
 
 require __DIR__ . '/auth.php';
-
-Route::get('/profile', App\Livewire\Mprofile\Index::class)->name('profile.index');
+/*
+|--------------------------------------------------------------------------
+| Master Data
+|--------------------------------------------------------------------------
+*/
+Route::get('/profiles', App\Livewire\Mprofile\Index::class)->name('profiles.index');
+/* Companies */
+Route::get('/companies', App\Livewire\Mcompanie\Index::class)->name('companies.index');
+Route::get('/companies/add', App\Livewire\Mcompanie\Formadd::class)->name('companies.add');
+Route::get('/companies/edit/{id}', App\Livewire\Mcompanie\FormEdit::class)->name('companies.edit');
+/* Companies */
+Route::get('/regions', App\Livewire\Mregion\Index::class)->name('regions.index');
+Route::get('/regions/add', App\Livewire\Mregion\FormAdd::class)->name('regions.add');
+Route::get('/regions/edit/{id}', App\Livewire\Mregion\FormEdit::class)->name('regions.edit');
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('', [RoutingController::class, 'index'])->name('root');

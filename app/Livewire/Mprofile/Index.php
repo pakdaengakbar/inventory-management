@@ -15,7 +15,7 @@ use App\Helpers\MyHelper as h_;
 class Index extends Component
 {
     use WithFileUploads;
-    public $page, $photo;
+    public $page, $photo, $image;
     public $id, $cnama, $cstatus, $ccity, $cphone, $cfax, $cemail, $clogo, $ctitle, $ccreate_by, $cupdate_by,
            $cimage, $cmotto, $updatePost = false, $addPost = false;
 
@@ -26,10 +26,10 @@ class Index extends Component
     public $caddress;
 
      //image
-     #[validate('required', message: 'Masukkan Gambar Logo')]
-     #[validate('image', message: 'File Harus Gambar')]
-     #[validate('max:1024', message: 'Ukuran File Maksimal 1MB')]
-     public $image;
+    //  #[validate('required', message: 'Masukkan Gambar Logo')]
+    //  #[validate('image', message: 'File Harus Gambar')]
+    //  #[validate('max:1024', message: 'Ukuran File Maksimal 1MB')]
+    //  public $image;
 
     public function __construct() {
         $this->page = array(
@@ -51,7 +51,6 @@ class Index extends Component
         $this->cfax    = $data->cfax;
         $this->cemail  = $data->cemail;
         $this->photo   = $data->clogo;
-        $this->clogo   = $data->clogo;
         $this->ctitle  = $data->ctitle;
         $this->ccreate_by= $data->ccreate_by;
         $this->cupdate_by= $data->cupdate_by;
@@ -109,36 +108,29 @@ class Index extends Component
         try {
             $setting = profile::find($this->id);
             $row = array(
-                'cname'     => $this->cname,
-                'cmotto'    => $this->cmotto,
-                'caddress'  => $this->caddress,
-                'ccity'     => $this->ccity,
-                'cphone'    => $this->cphone,
-                'cemail'    => $this->cemail,
-                'cfax'      => $this->cfax,
-                'ctitle'    => $this->ctitle,
-                'cupdate_by'=> $this->cupdate_by,
-                'cstatus'  => $this->cstatus,
-                'cupdate_by'=> $uauth['id'],
+            'cname'     => $this->cname,
+            'cmotto'    => $this->cmotto,
+            'caddress'  => $this->caddress,
+            'ccity'     => $this->ccity,
+            'cphone'    => $this->cphone,
+            'cemail'    => $this->cemail,
+            'cfax'      => $this->cfax,
+            'ctitle'    => $this->ctitle,
+            'cupdate_by'=> $uauth['id'],
+            'cstatus'   => $this->cstatus,
             );
 
-            //storage::deleteDirectory($p_, $this->photo);
             if ($this->image) {
-                $p_ = s_::PATH_. 'profile/';
-                $delete =Storage::delete($p_.$this->clogo);
-                $this->image->storeAs($p_, $this->image->hashName());
-                //update post
-                $row['clogo'] = $this->image->hashName();
-
-                $setting->update($row);
-            } else {
-                //update post
-                $setting->update($row);
+            $p_ = s_::PATH_. 'profile/';
+            Storage::delete($p_.$this->photo);
+            $this->image->storeAs($p_, $this->image->hashName());
+            $row['clogo'] = $this->image->hashName();
             }
-            //flash message
+            $setting->update($row);
+
             session()->flash('message', 'Profile Updated Successfully!!');
-            //redirect
             return redirect()->route('profile.index');
+
         } catch (\Exception $ex) {
             session()->flash('error', 'Something goes wrong!!');
         }
