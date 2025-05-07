@@ -21,7 +21,7 @@ class memployee extends Model
         'nuser_id',
         'cstatus',
         'cpost_code',
-        'cposition',
+        'nposition_id',
         'cbank_account',
         'cbank_name',
         'dhire_date',
@@ -40,6 +40,6 @@ class memployee extends Model
         'created_at',
         'updated_at',
         'ncompanie_id',
-        'nregion_id',
+
     ];
 }

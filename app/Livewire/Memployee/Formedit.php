@@ -18,20 +18,32 @@ class Formedit extends Component
     use WithFileUploads;
     //field
     public $page, $photo, $image;
-    public  $id, $ndept_id, $cemployee_num, $caccount_num,  $caddress2, $ccity,
-            $csex, $cphone, $cmobile, $cemail, $nuser_id, $cstatus, $cpost_code, $cposition,
+    public  $id, $caddress2, $ccity, $csex, $cphone, $cmobile, $cemail, $nuser_id, $cstatus, $cpost_code,
             $cbank_account, $cbank_name, $dhire_date, $dborn_date, $cplace_of_date, $cnpwp,
-            $cmarital, $ndependants, $PTKP, $creligion, $ceducation, $dentry_date,
-            $ncompanie_id, $nregion_id;
+            $cmarital, $ndependants, $PTKP, $creligion, $ceducation, $dentry_date;
 
+    #[Rule('required', message: 'Perusahaan Harus Dipilih')]
+    public $ncompanie_id;
+
+    #[Rule('required', message: 'Departemen Harus Dipilih')]
+    public $ndept_id;
+
+    #[Rule('required', message: 'Jabatan Harus Dipilih')]
+    public $nposition_id;
     //name
-     #[Rule('required', message: 'Nama Karyawan Harus Diisi')]
-     public $cname;
+    #[Rule('required', message: 'Nama Karyawan Harus Diisi')]
+    public $cname;
 
-     //address
-     #[Rule('required', message: 'Alamat Karyawan Harus Diisi')]
-     #[Rule('min:3', message: 'Isi Post Minimal 3 Karakter')]
-     public $caddress1;
+    //address
+    #[Rule('required', message: 'Alamat Karyawan Harus Diisi')]
+    #[Rule('min:3', message: 'Isi Post Minimal 3 Karakter')]
+    public $caddress1;
+
+    #[Rule('required', message: 'NIP Karyawan Harus Diisi')]
+    public $cemployee_num;
+
+    #[Rule('required', message: 'Absen Karyawan Harus Diisi')]
+    public $caccount_num;
 
     public function __construct() {
         $this->page = array(
@@ -57,16 +69,15 @@ class Formedit extends Component
         $this->cmobile       = $data->cmobile;
         $this->cemail        = $data->cemail;
         $this->nuser_id      = $data->nuser_id;
-        $this->cstatus       = $data->cstatus;
         $this->cpost_code    = $data->cpost_code;
-        $this->cposition     = $data->cposition;
+        $this->nposition_id     = $data->nposition_id;
         $this->cbank_account = $data->cbank_account;
         $this->cbank_name    = $data->cbank_name;
         $this->dhire_date    = $data->dhire_date;
         $this->dborn_date    = $data->dborn_date;
         $this->cplace_of_date = $data->cplace_of_date;
         $this->cnpwp         = $data->cnpwp;
-        $this->photo        = $data->iphoto;
+        $this->photo         = $data->iphoto;
         $this->cmarital      = $data->cmarital;
         $this->ndependants   = $data->ndependants;
         $this->PTKP          = $data->PTKP;
@@ -74,7 +85,7 @@ class Formedit extends Component
         $this->ceducation    = $data->ceducation;
         $this->dentry_date   = $data->dentry_date;
         $this->ncompanie_id  = $data->ncompanie_id;
-        $this->nregion_id    = $data->nregion_id;
+        $this->cstatus       = $data->cstatus;
     }
 
     /**
@@ -87,7 +98,7 @@ class Formedit extends Component
         $uauth = v_::getUser_Auth();
         $this->validate();
         //get data
-        $data = employee::find($this->ID);
+        $data = employee::find($this->id);
         //check if image
         $row = array(
             'ndept_id'      => $this->ndept_id,
@@ -104,14 +115,13 @@ class Formedit extends Component
             'nuser_id'      => $this->nuser_id,
             'cstatus'       => $this->cstatus,
             'cpost_code'    => $this->cpost_code,
-            'cposition'     => $this->cposition,
+            'nposition_id'     => $this->nposition_id,
             'cbank_account' => $this->cbank_account,
             'cbank_name'    => $this->cbank_name,
             'dhire_date'    => $this->dhire_date,
             'dborn_date'    => $this->dborn_date,
             'cplace_of_date'=> $this->cplace_of_date,
             'cnpwp'         => $this->cnpwp,
-            'iphoto'        => $this->iphoto,
             'cmarital'      => $this->cmarital,
             'ndependants'   => $this->ndependants,
             'PTKP'          => $this->PTKP,
@@ -120,7 +130,6 @@ class Formedit extends Component
             'dentry_date'   => $this->dentry_date,
             'cupdate_by'    => $uauth['id'],
             'ncompanie_id'  => $this->ncompanie_id,
-            'nregion_id'    => $this->nregion_id,
         );
         if ($this->image) {
             $p_ = s_::PATH_. $this->page['path'];
@@ -151,16 +160,17 @@ class Formedit extends Component
             $cities = v_::getCities();
             $depart = v_::getDepart();
             $position = v_::getPosition();
-
+            $company= v_::getCompany();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.memployee.formedit', [
                 'url'            => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
+                'company' => $company,
                 'cities'  => $cities,
                 'depart'  => $depart,
-                'position'=> $position
+                'position'=> $position,
             ]);
         }catch(\Exception $e)
         {

@@ -40,6 +40,6 @@ class Index extends Component
         //destroy
         employee::destroy($id);
         session()->flash('message', 'Delete Success.');
-        return redirect()->route('companies.index');
+        return redirect()->route('employees.index');
     }
 }

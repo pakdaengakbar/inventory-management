@@ -25,7 +25,7 @@ class Formedit extends Component
         );
     }
     //name
-    #[validate('required', message: 'Cabang Perusahaan Harus Dipilih')]
+    #[validate('required', message: 'Perusahaan Harus Dipilih')]
     public $ncompanie_id;
 
     //name

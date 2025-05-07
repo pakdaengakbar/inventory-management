@@ -26,7 +26,7 @@
                         <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
                     <div class="float-end">
-                        <a href="{{ route('companies.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                        <a href="{{ route('employees.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                             <i class="mdi mdi-plus"></i> New Data
                         </a>
                         <a href="javascript:;" type="button" class="btn btn-warning btn-sm" onclick="window.location.reload();">
@@ -52,14 +52,18 @@
                         @forelse ($data as $row)
                         <tr>
                             <td class="text-center">
-                                <img src="{{ asset($path.$row->clogo) }}" alt="logo" class="rounded-circle img-fluid avatar-sm img-thumbnail" width='20%' id='file_image'>
+                                @if ($row->iphoto)
+                                <img src="{{ asset($path.$row->iphoto) }}" alt="photo" class="rounded-circle img-fluid avatar-sm img-thumbnail">
+                                @else
+                                <img src="{{ asset('storage/NoImage.jpg') }}" alt="photo" class="rounded-circle img-fluid avatar-sm img-thumbnail">
+                                @endif
                             </td>
                             <td>{{ $row->cname }}</td>
                             <td>{!! $row->caddress1 !!}</td>
                             <td>{{ $row->cemail }}</td>
-                            <td>{{ $row->cphone1 }}</td>
+                            <td>{{ $row->cphone }}</td>
                             <td class="text-center">
-                                <a href="/companies/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="/master/employees/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy({{ $row->id }})" class="btn btn-sm btn-danger" title='Delete'><i class="mdi mdi-trash-can-outline"></i></button>
                             </td>
                         </tr>

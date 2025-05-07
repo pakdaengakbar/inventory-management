@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::group(['prefix' => 'master'], function () {
         Route::get('/employees', App\Livewire\Memployee\Index::class)->name('employees.index');
-        Route::get('/employees/add', App\Livewire\Memployee\FormAdd::class)->name('employees.add');
-        Route::get('/employees/edit/{id}', App\Livewire\Memployee\FormEdit::class)->name('employees.edit');
+        Route::get('/employees/add', App\Livewire\Memployee\Formadd::class)->name('employees.add');
+        Route::get('/employees/edit/{id}', App\Livewire\Memployee\Formedit::class)->name('employees.edit');
     });
 });
 
