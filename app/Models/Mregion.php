@@ -10,7 +10,6 @@ class Mregion extends Model
     //protected $table = 'mcompanies';
 	protected $fillable   =
 	[
-		'id',
         'ncompanie_id',
         'nprovinces_id',
         'ccode',

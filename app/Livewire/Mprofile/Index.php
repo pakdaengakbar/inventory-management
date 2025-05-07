@@ -3,7 +3,7 @@ namespace App\Livewire\mprofile;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Mprofile as profile;
-use App\Models\indcities as cities;
+
 use Livewire\WithFileUploads;
 use Livewire\Component;
 use Livewire\Attributes\validate;
@@ -61,7 +61,7 @@ class Index extends Component
     {
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            $cities = cities::all();
+            $cities = v_::getCities();
             return view('livewire.mprofile.index', [
                 'url'            => s_::URL_. 'profile/',
                 'cities'         => $cities,

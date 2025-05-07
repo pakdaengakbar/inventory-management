@@ -10,7 +10,6 @@ class Mprofile extends Model
     //protected $table = 'Mprofiles';
 	protected $fillable   =
 	[
-	    'id',
         'cname',
         'cmotto',
         'caddress',

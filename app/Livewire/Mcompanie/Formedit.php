@@ -11,7 +11,6 @@ use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
 use App\Models\mcompanie as companie;
-use App\Models\indcities as cities;
 
 class Formedit extends Component
 {
@@ -106,7 +105,7 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $cities = cities::all();
+            $cities = v_::getCities();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.formedit', [
                 'url'            => s_::URL_. 'companies/',

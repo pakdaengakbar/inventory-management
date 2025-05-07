@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Mcompanie;
+use App\Models\Mdepart;
+use App\Models\Mposition;
+use App\Models\indcities as cities;
 use App\Models\Mregion;
 
 use App\Models\Mlog_activity as activitylog;
@@ -39,9 +42,22 @@ class MyService {
     }
     /* Get Master */
     public static function getCompany(){
-        $result = mcompanie::get();
+        $result = Mcompanie::get();
         return $result;
     }
+    public static function getDepart(){
+        $result = Mdepart::get();
+        return $result;
+    }
+    public static function getPosition(){
+        $result = Mposition::get();
+        return $result;
+    }
+    public static function getCities(){
+        $result = cities::all();
+        return $result;
+    }
+
     public static function getBranchId($where){
         $result = Mregion::where($where)->first();
         return $result;

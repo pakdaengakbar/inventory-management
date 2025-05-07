@@ -23,7 +23,7 @@ class Index extends Component
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.memployee.index', [
-                'path'           => s_::URL_. 'employee/',
+                'path'           => s_::URL_. 'employees/',
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

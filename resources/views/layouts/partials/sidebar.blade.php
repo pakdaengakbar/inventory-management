@@ -57,10 +57,10 @@
                     </a>
                     <div class="collapse" id="sidebarProfile">
                       <ul class="nav-second-level">
-                        <li><a  href="{{ route('profiles.index') }}" class="tp-link" wire:current>Information</a></li>
-                        <li><a  href="{{ route('companies.index') }}" class="tp-link" wire:current>Companies</a></li>
-                        <li><a  href="{{ route('regions.index') }}" class="tp-link" wire:current>Regions</a></li>
-                        <li><a  href="{{ route('departs.index') }}" class="tp-link" wire:current>Departs</a></li>
+                        <li><a  href="{{ route('any', 'setting/profiles')}}" class="tp-link" wire:current>Information</a></li>
+                        <li><a  href="{{ route('any', 'profile/companies')}}" class="tp-link" wire:current>Companies</a></li>
+                        <li><a  href="{{ route('any', 'profile/regions') }}" class="tp-link" wire:current>Regions</a></li>
+                        <li><a  href="{{ route('any', 'profile/departs') }}" class="tp-link" wire:current>Departs</a></li>
                       </ul>
                     </div>
                 </li>
@@ -72,7 +72,7 @@
                     </a>
                     <div class="collapse" id="sidebarMaster">
                       <ul class="nav-second-level">
-                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Employee</a></li>
+                        <li><a href="{{ route('any', 'master/employees')}}" class="tp-link" wire:current>Employee</a></li>
                       </ul>
                     </div>
                 </li>
@@ -86,7 +86,7 @@
                       <ul class="nav-second-level">
                         <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Brand</a></li>
                         <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Category</a></li>
-                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Product</a></li>
+                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current></a></li>
                       </ul>
                     </div>
                 </li>

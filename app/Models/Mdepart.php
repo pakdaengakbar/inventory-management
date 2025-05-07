@@ -9,7 +9,6 @@ class Mdepart extends Model
 {
    protected $fillable   =
 	[
-		'id',
 		'ncompanie_id',
 		'ccode',
 		'cname',

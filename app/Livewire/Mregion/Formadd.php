@@ -10,7 +10,6 @@ use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as s_;
 
 use App\Models\Mregion as region;
-use App\Models\indcities as cities;
 
 class Formadd extends Component
 {
@@ -86,7 +85,7 @@ class Formadd extends Component
     public function render()
     {
         $company= s_::getCompany();
-        $cities = cities::all();
+        $cities = s_::getCities();
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mregion.formadd', [
