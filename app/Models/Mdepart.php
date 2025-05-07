@@ -11,7 +11,6 @@ class Mdepart extends Model
 	[
 		'id',
 		'ncompanie_id',
-		'ccompanie_name',
 		'ccode',
 		'cname',
 		'cstatus',

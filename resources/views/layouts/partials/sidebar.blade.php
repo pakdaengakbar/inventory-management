@@ -48,13 +48,14 @@
                         </ul>
                     </div>
                 </li>
+                <li class="menu-title">Profile</li>
                 <li>
-                    <a href="#sidebarMaster" data-bs-toggle="collapse">
+                    <a href="#sidebarProfile" data-bs-toggle="collapse">
                         <i data-feather="database"></i>
-                        <span> Master Data </span>
+                        <span> Profile </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarMaster">
+                    <div class="collapse" id="sidebarProfile">
                       <ul class="nav-second-level">
                         <li><a  href="{{ route('profiles.index') }}" class="tp-link" wire:current>Information</a></li>
                         <li><a  href="{{ route('companies.index') }}" class="tp-link" wire:current>Companies</a></li>
@@ -63,8 +64,19 @@
                       </ul>
                     </div>
                 </li>
+                <li>
+                    <a href="#sidebarMaster" data-bs-toggle="collapse">
+                        <i data-feather="database"></i>
+                        <span> Master Data </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarMaster">
+                      <ul class="nav-second-level">
+                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Employee</a></li>
+                      </ul>
+                    </div>
+                </li>
                 <li class="menu-title">Pages</li>
-
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
