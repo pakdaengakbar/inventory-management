@@ -66,13 +66,27 @@
                 </li>
                 <li>
                     <a href="#sidebarMaster" data-bs-toggle="collapse">
-                        <i data-feather="database"></i>
-                        <span> Master Data </span>
+                        <i data-feather="archive"></i>
+                        <span> Master </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="sidebarMaster">
                       <ul class="nav-second-level">
                         <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Employee</a></li>
+                      </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarProduct" data-bs-toggle="collapse">
+                        <i data-feather="server"></i>
+                        <span> Product </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarProduct">
+                      <ul class="nav-second-level">
+                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Brand</a></li>
+                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Category</a></li>
+                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Product</a></li>
                       </ul>
                     </div>
                 </li>

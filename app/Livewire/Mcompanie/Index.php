@@ -12,7 +12,7 @@ class Index extends Component
     public $page;
     public function __construct() {
         $this->page  = array(
-            'title' => 'Master',
+            'title' => 'Profile',
             'description'=> 'Data Companies',
         );
     }

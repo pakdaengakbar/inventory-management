@@ -18,7 +18,7 @@ class Index extends Component
 
     public function __construct() {
         $this->page  = array(
-            'title' => 'Master',
+            'title' => 'Profile',
             'description'=> 'Data Departs',
         );
     }
