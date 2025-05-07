@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mdepart extends Model
 {
-    protected $table = 'Mdepart';
-	protected $fillable   =
+   protected $fillable   =
 	[
 		'id',
 		'ncompanie_id',

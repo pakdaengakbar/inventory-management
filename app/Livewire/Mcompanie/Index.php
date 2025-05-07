@@ -21,7 +21,6 @@ class Index extends Component
     {
         $data = companie::all();
         try {
-            $message = session()->pull('message'); // pull() gets & deletes it
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.index', [
                 'path'           => s_::URL_. 'companies/',
@@ -29,7 +28,6 @@ class Index extends Component
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
                 'data' => $data,
-                'message' => $message
             ]);
         }catch(\Exception $e)
         {

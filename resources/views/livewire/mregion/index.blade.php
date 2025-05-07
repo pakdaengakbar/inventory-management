@@ -37,7 +37,7 @@
                         <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
                     <div class="float-end">
-                        <a href="{{ route('branchs.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                        <a href="{{ route('regions.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                             <i class="mdi mdi-plus"></i> New Data
                         </a>
                         <a href="javascript:;" type="button" class="btn btn-warning btn-sm" onclick="window.location.reload();">
@@ -62,11 +62,11 @@
                         @forelse ($data as $row)
                         <tr>
                             <td>{{ $row->ccode.' - '.$row->cname }}</td>
-                            <td>{!! $row->caddress !!}</td>
+                            <td>{!! $row->caddress1 !!}</td>
                             <td>{{ $row->cphone }}</td>
                             <td>{{ $row->cstatus==1 ? 'Active' : 'No Active' }}</td>
                             <td class="text-center">
-                                <a href="/branchs/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="/regions/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy({{ $row->id }})" class="btn btn-sm btn-danger" title='Delete'><i class="mdi mdi-trash-can-outline"></i></button>
                             </td>
                         </tr>
@@ -89,16 +89,30 @@
 <div id="forms"><div id="form"></div></div>
 </div>
 
-@section('scripts')
-<script type="text/javascript">
-$(function () {
-	$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function() {
-            document.getElementById('mAlert').classList.add('hide');
-        }, 2000); // 5000 ms = 5 seconds
-    });
-});
 
+@section('script')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    handleAlert();
+    if (window.Livewire) {
+        Livewire.hook('message.processed', (message, component) => {
+            handleAlert();
+        });
+    } else {
+        console.warn('⚠️ Livewire is not loaded.');
+    }
+
+    function handleAlert() {
+        console.log('Close Alert');
+        const alertElement = document.getElementById('mAlert');
+        if (alertElement) {
+            setTimeout(function () {
+                const alertInstance = bootstrap.Alert.getOrCreateInstance(alertElement);
+                alertInstance.close();
+            }, 2000);
+        }
+    }
+});
 </script>
 @endsection
+

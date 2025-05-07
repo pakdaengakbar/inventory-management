@@ -8,7 +8,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
-    @include('layouts.partials/head-css')
+    @yield('css')
+    @vite(['resources/scss/app.scss', 'resources/scss/icons.scss'])
     @vite(['node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css'])
 </head>
 
@@ -26,8 +27,11 @@
     </div>
     @livewireScripts
 
-    @include('layouts.partials/vendor')
+    @yield('script')
+    @vite(['resources/js/app.js'])
     @vite(['resources/js/pages/datatable.init.js'])
+
+    @yield('script-bottom')
 
 </body>
 </html>

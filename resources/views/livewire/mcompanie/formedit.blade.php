@@ -58,7 +58,7 @@
                                     <input class="form-control" list="rowdata" id="ccity"  wire:model="ccity" placeholder="Type to search...">
                                     <datalist id="rowdata">
                                         @foreach ($cities as $c)
-                                            <option value="{{ $c->name }}">{{ ucfirst($c->name) }}</option>
+                                            <option value="{{ ucfirst(strtolower($c->name)) }}">{{ ucwords(strtolower($c->name)) }}</option>
                                         @endforeach
                                     </datalist>
                                 </div>
@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div class="card-footer float-end">
-                    <button type="submit" id="btn_save" data-bs-dismiss="modal" class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
+                    <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
                     <a href="/companies" type="button" class="btn btn-warning btn-sm">
                         <i class="mdi mdi-redo-variant"></i> Back
                     </a>
@@ -155,18 +155,17 @@
 </div> <!-- container-fluid -->
 </div>
 
-@section('scripts')
-<script src="{{ asset('build/assets/jquery.min.js') }}"></script>
-<script type="text/javascript">
-document.getElementById("file-upload").addEventListener("change", function(event) {
-    var input = event.target;
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById("file_image").src = e.target.result;
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-});
+@section('script')
+<script>
+    // document.getElementById("file-upload").addEventListener("change", function(event) {
+    //     var input = event.target;
+    //     if (input.files && input.files[0]) {
+    //         var reader = new FileReader();
+    //         reader.onload = function(e) {
+    //             document.getElementById("file_image").src = e.target.result;
+    //         }
+    //         reader.readAsDataURL(input.files[0]);
+    //     }
+    // });
 </script>
 @endsection

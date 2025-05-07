@@ -51,12 +51,6 @@
                                 <span class="d-none d-sm-block">Informasi</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2" id="setting_tab" data-bs-toggle="tab" href="#profile_setting" role="tab">
-                                <span class="d-block d-sm-none"><i class="mdi mdi-information"></i></span>
-
-                            </a>
-                        </li>
                     </ul>
                     <div class="tab-content text-muted bg-white">
                         <div class="tab-pane active show pt-4" id="profile_about" role="tabpanel">
@@ -109,9 +103,9 @@
                                                     <div class="col-lg-12 col-xl-12">
                                                         <input class="form-control" list="rowdata" id="ccity"  wire:model="ccity" placeholder="Type to search...">
                                                         <datalist id="rowdata">
-                                                            @foreach ($cities as $c)
-                                                                <option value="{{ $c->name }}">{{ ucfirst($c->name) }}</option>
-                                                            @endforeach
+                                                        @foreach ($cities as $c)
+                                                            <option value="{{ ucfirst(strtolower($c->name)) }}">{{ ucwords(strtolower($c->name)) }}</option>
+                                                        @endforeach
                                                         </datalist>
                                                     </div>
                                                  </div>
@@ -188,12 +182,7 @@
                                 </div>
                                 </form>
                             </div>
-                        </div><!-- end Experience -->
-                        <!--<div class="tab-pane pt-4" id="profile_setting" role="tabpanel">
-                            <div class="row">
-
-                            </div>
-                        </div>  end education -->
+                        </div>
                     </div> <!-- Tab panes -->
                 </div>
             </div>

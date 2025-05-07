@@ -4,18 +4,20 @@ namespace App\Livewire\Mcompanie;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\validate;
+use Livewire\Attributes\Rule;
+
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
 use App\Models\mcompanie as companie;
+use App\Models\indcities as cities;
 
 class Formadd extends Component
 {
     use WithFileUploads;
     public $page, $photo;
-    public $caddress1, $caddress2, $ccity, $ccontact, $cphone1, $cphone2, $cdefault, $cfax1, $cfax2, $cemail, $clogo;
+    public $caddress2, $ccity, $ccontact, $cphone1, $cphone2, $cdefault, $cfax1, $cfax2, $cemail, $clogo;
 
     public function __construct() {
         $this->page = array(
@@ -26,19 +28,19 @@ class Formadd extends Component
     }
 
     //image
-    #[validate('required', message: 'Masukkan Gambar Logo')]
-    #[validate('image', message: 'File Harus Gambar')]
-    #[validate('max:1024', message: 'Ukuran File Maksimal 1MB')]
+    #[Rule('required', message: 'Masukkan Gambar Logo')]
+    #[Rule('image', message: 'File Harus Gambar')]
+    #[Rule('max:1024', message: 'Ukuran File Maksimal 1MB')]
     public $image;
 
     //name
-    #[validate('required', message: 'Nama perusahaan Harus Diisi')]
+    #[Rule('required', message: 'Nama perusahaan Harus Diisi')]
     public $cname;
 
     //address
-    #[validate('required', message: 'Alamat Perusahaan Harus Diisi')]
-    #[validate('min:3', message: 'Isi Post Minimal 3 Karakter')]
-    public $caddress;
+    #[Rule('required', message: 'Alamat Perusahaan Harus Diisi')]
+    #[Rule('min:3', message: 'Isi Post Minimal 3 Karakter')]
+    public $caddress1;
 
     /**
      * store
@@ -47,6 +49,7 @@ class Formadd extends Component
      */
     public function store()
     {
+
         $p_ = s_::PATH_. 'companies/';
         $uauth = v_::getUser_Auth();
 
@@ -66,7 +69,7 @@ class Formadd extends Component
             'cfax2'    => $this->cfax2,
             'cemail'   => $this->cemail,
             'cdefault' => $this->cdefault,
-            'cimage'   => $this->image->hashName(),
+            'clogo'    => $this->image->hashName(),
             'ccreate_by'=> $uauth['id'],
         );
         companie::create($data);
@@ -84,11 +87,14 @@ class Formadd extends Component
     public function render()
     {
         try {
+            $cities = cities::all();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.formadd', [
+                'url'            => s_::URL_. 'companies/',
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb
+                'pageBreadcrumb' => $pageBreadcrumb,
+                'cities'         => $cities
             ]);
         }catch(\Exception $e)
         {

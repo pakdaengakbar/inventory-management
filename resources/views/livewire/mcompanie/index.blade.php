@@ -24,7 +24,7 @@
 <!-- Button Datatable -->
 <div class="row">
     <div class="col-12">
-        @if($message)
+        @if (session()->has('message'))
             <div class="alert alert-primary alert-dismissible fade show" id="mAlert" role="alert">
                 {{ $message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -97,7 +97,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     handleAlert();
-
     if (window.Livewire) {
         Livewire.hook('message.processed', (message, component) => {
             handleAlert();

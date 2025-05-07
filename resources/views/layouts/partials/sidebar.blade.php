@@ -59,6 +59,7 @@
                         <li><a  href="{{ route('profiles.index') }}" class="tp-link" wire:current>Information</a></li>
                         <li><a  href="{{ route('companies.index') }}" class="tp-link" wire:current>Companies</a></li>
                         <li><a  href="{{ route('regions.index') }}" class="tp-link" wire:current>Regions</a></li>
+                        <li><a  href="{{ route('departs.index') }}" class="tp-link" wire:current>Departs</a></li>
                       </ul>
                     </div>
                 </li>

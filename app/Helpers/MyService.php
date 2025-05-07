@@ -4,13 +4,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\mcompanie;
-use App\Models\mbranch;
-use App\Models\mclient;
-use App\Models\mproject;
+use App\Models\Mcompanie;
+use App\Models\Mregion;
 
-use App\Models\tactivity_log as activitylog;
-use App\Models\muser_log as userLog;
+use App\Models\Mlog_activity as activitylog;
+use App\Models\Mlog_user as userLog;
 
 
 class MyService {
@@ -30,13 +28,12 @@ class MyService {
         );
         return $result;
     }
-    public static function generateNum($table,$id){
-        $where = array('id' => $id);
+    public static function generateNum($table,$field,$id){
+        $where = array($field => $id);
         $count = MyService::getCountWhere($table,$where);
+        $numcode =$count+1;
         if (strlen($count) == 1) {
-            $numcode = '0' . $count;
-        }else{
-            $numcode = '01';
+            $numcode = '0' .$numcode ;
         }
         return $id.$numcode;
     }
@@ -46,21 +43,10 @@ class MyService {
         return $result;
     }
     public static function getBranchId($where){
-        $result = mbranch::where($where)->first();
+        $result = Mregion::where($where)->first();
         return $result;
     }
-    public static function getClient(){
-        $result = mclient::all();
-        return $result;
-    }
-    public static function getClientId($where){
-        $result = mclient::where($where)->first();
-        return $result;
-    }
-    public static function getProjectId($where){
-        $result = mproject::where($where)->first();
-        return $result;
-    }
+
     public static function getRowData($table,$id)
     {
         return DB::table($table)->where('id',$id)->first();
@@ -345,7 +331,7 @@ class MyService {
 		}
 		return $returns;
 	}
-	
+
 	public static  function makeArrayFormQueryIndex($arrays, $index, $noduplicate = false)
 	{
 		$result = array();

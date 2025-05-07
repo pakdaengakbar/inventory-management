@@ -22,7 +22,7 @@ class Index extends Component
         try {
             $data = region::all();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.mbranch.index', [
+            return view('livewire.mregion.index', [
                 'url'            => s_::URL_. 'companies/',
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
@@ -42,7 +42,7 @@ class Index extends Component
         //flash message
         session()->flash('message', 'Delete Success.');
         //redirect
-        return redirect()->route('branchs.index');
+        return redirect()->route('regions.index');
     }
 }
 

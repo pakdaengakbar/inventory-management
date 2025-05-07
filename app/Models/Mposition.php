@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mposition extends Model
 {
-    protected $table = 'Mposition';
     protected $primaryKey = 'ccode';
 	protected $fillable   =
 	[

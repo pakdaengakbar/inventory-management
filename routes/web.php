@@ -30,6 +30,8 @@ Route::get('/regions', App\Livewire\Mregion\Index::class)->name('regions.index')
 Route::get('/regions/add', App\Livewire\Mregion\FormAdd::class)->name('regions.add');
 Route::get('/regions/edit/{id}', App\Livewire\Mregion\FormEdit::class)->name('regions.edit');
 
+Route::get('/departs', App\Livewire\Mdepart\Index::class)->name('departs.index');
+
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('', [RoutingController::class, 'index'])->name('root');
     Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
