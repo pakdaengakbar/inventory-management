@@ -39,9 +39,7 @@ class Index extends Component
     {
         //destroy
         region::destroy($id);
-        //flash message
         session()->flash('message', 'Delete Success.');
-        //redirect
         return redirect()->route('regions.index');
     }
 }
