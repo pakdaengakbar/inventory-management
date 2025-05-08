@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class mcustomer extends Model
 {
     protected $fillable = [
-        'id',
         'cstatus',
         'ccode',
         'cname',
@@ -15,6 +14,7 @@ class mcustomer extends Model
         'caddress2',
         'cphone',
         'cmobile',
+        'cemail',
         'cfax',
         'nlimit_received',
         'nmax_invoice',

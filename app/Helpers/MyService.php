@@ -31,6 +31,17 @@ class MyService {
         );
         return $result;
     }
+    public static function generateCode($table){
+        $count = MyService::getCountTable($table);
+        $numcode =$count+1;
+        if (strlen($count) == 1) {
+            $numcode = '0' .$numcode ;
+        }
+        if (strlen($count) == 2) {
+            $numcode = '00' .$numcode ;
+        }
+        return $numcode;
+    }
     public static function generateNum($table,$field,$id){
         $where = array($field => $id);
         $count = MyService::getCountWhere($table,$where);
@@ -42,22 +53,25 @@ class MyService {
     }
     /* Get Master */
     public static function getCompany(){
-        $result = Mcompanie::get();
+        $result = Mcompanie::all();
+        return $result;
+    }
+    public static function getRegion(){
+        $result = Mregion::where('cstatus',1)->get();
         return $result;
     }
     public static function getDepart(){
-        $result = Mdepart::get();
+        $result = Mdepart::all();
         return $result;
     }
     public static function getPosition(){
-        $result = Mposition::get();
+        $result = Mposition::all();
         return $result;
     }
     public static function getCities(){
         $result = cities::all();
         return $result;
     }
-
     public static function getBranchId($where){
         $result = Mregion::where($where)->first();
         return $result;

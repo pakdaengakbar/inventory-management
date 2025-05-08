@@ -33,6 +33,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/employees', App\Livewire\Memployee\Index::class)->name('employees.index');
         Route::get('/employees/add', App\Livewire\Memployee\Formadd::class)->name('employees.add');
         Route::get('/employees/edit/{id}', App\Livewire\Memployee\Formedit::class)->name('employees.edit');
+
+        Route::get('/suppliers', App\Livewire\Msupplier\Index::class)->name('suppliers.index');
+        Route::get('/suppliers/add', App\Livewire\Msupplier\Formadd::class)->name('suppliers.add');
+        Route::get('/suppliers/edit/{id}', App\Livewire\Msupplier\Formedit::class)->name('suppliers.edit');
+
+        Route::get('/customers', App\Livewire\Mcustomer\Index::class)->name('customers.index');
+        Route::get('/customers/add', App\Livewire\Mcustomer\Formadd::class)->name('customers.add');
+        Route::get('/customers/edit/{id}', App\Livewire\Mcustomer\Formedit::class)->name('customers.edit');
+
     });
 });
 

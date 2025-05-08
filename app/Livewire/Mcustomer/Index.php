@@ -4,7 +4,7 @@ namespace App\Livewire\Mcustomer;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Models\memployee as employee;
+use App\Models\Mcustomer as customer;
 
 class Index extends Component
 {
@@ -12,13 +12,13 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             'title' => 'Master',
-            'description'=> 'Data Employee',
+            'description'=> 'Data Customers',
         );
     }
 
     public function render()
     {
-        $data = employee::all();
+        $data = customer::all();
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcustomer.index', [
@@ -36,8 +36,8 @@ class Index extends Component
     public function destroy($id)
     {
         //destroy
-        employee::destroy($id);
+        customer::destroy($id);
         session()->flash('message', 'Delete Success.');
-        return redirect()->route('companies.index');
+        return redirect()->route('customers.index');
     }
 }

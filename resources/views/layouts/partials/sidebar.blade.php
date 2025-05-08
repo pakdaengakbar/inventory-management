@@ -72,7 +72,10 @@
                     </a>
                     <div class="collapse" id="sidebarMaster">
                       <ul class="nav-second-level">
-                        <li><a href="{{ route('any', 'master/employees')}}" class="tp-link" wire:current>Employee</a></li>
+                        <li><a href="{{ route('any', 'master/employees')}}" class="tp-link" wire:current>Employees</a></li>
+                        <li><a href="{{ route('any', 'master/suppliers')}}" class="tp-link" wire:current>Suppliers</a></li>
+                        <li><a href="{{ route('any', 'master/customers')}}" class="tp-link" wire:current>Customers</a></li>
+
                       </ul>
                     </div>
                 </li>

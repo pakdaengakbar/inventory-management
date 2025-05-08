@@ -8,13 +8,14 @@ class msupplier extends Model
 {
     protected $fillable   =
 	[
-		'cstatus',
-        'ccode',
+	    'ccode',
         'cname',
         'caddress',
         'ccity',
         'cphone',
+        'cemail',
         'caccount',
+        'cstatus',
         'ccreate_by',
         'cupdate_by',
 	];

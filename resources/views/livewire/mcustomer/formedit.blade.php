@@ -22,11 +22,14 @@
                         </a>
                     </div>
                 </div><!-- end card header -->
-                <form wire:submit="store" enctype="multipart/form-data">
+                <form wire:submit="update" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <!-- Left column -->
                         <div class="col-lg-6">
+                            <div class="mb-1" hidden>
+                                <label class="form-label">ID</label>
+                                <input class="form-control" type="text"  wire:model="id" placeholder="AutoSystem" readonly>
+                            </div>
                             <div class="mb-1">
                                 <label for="ncompanie_id" class="form-label">Company</label>
                                 <select class="form-select" wire:model="ncompanie_id">
@@ -75,7 +78,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <!-- Right column -->
                         <div class="col-lg-6">
@@ -132,7 +134,7 @@
                             </div>
                         </div>
                     </div>
-                </div>>
+                </div>
                 <div class="card-footer float-end">
                     <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
                     <a href="/master/customers" type="button" class="btn btn-warning btn-sm">
