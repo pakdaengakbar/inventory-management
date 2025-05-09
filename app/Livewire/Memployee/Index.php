@@ -12,6 +12,7 @@ class Index extends Component
     public $page;
     public function __construct() {
         $this->page  = array(
+            'path'  => 'employees/',
             'title' => 'Master',
             'description'=> 'Data Employee',
         );
@@ -23,7 +24,7 @@ class Index extends Component
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.memployee.index', [
-                'path'           => s_::URL_. 'employees/',
+                'path'           => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

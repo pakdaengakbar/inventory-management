@@ -14,7 +14,7 @@ class mproduct extends Model
         'cuom_code',
         'nuom_value',
         'citem_code',
-        'cpart_name',
+        'citem_name',
         'ccurr_code',
         'cwsale_unit',
         'cretail_unit',
