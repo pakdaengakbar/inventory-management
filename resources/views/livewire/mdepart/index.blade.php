@@ -146,22 +146,26 @@
                     </div>
                     <div class="mb-3">
                         <label>Title</label>
-                        <input type="text" class="form-control" wire:model="deptcode" maxlength="3">
-                        @error('title')
-                            <span class="text-danger">{{ $message }}</span>
+                        <input type="text" class="form-control  @error('deptcode') is-invalid @enderror" wire:model="deptcode" maxlength="3">
+                        @error('deptcode')
+                        <div class="alert alert-danger mt-2">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Content</label>
-                        <textarea class="form-control" wire:model="deptname"></textarea>
-                        @error('content')
-                            <span class="text-danger">{{ $message }}</span>
+                        <label>Name</label>
+                        <textarea class="form-control @error('deptname') is-invalid @enderror" wire:model="deptname"></textarea>
+                        @error('deptname')
+                        <div class="alert alert-danger mt-2">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click.prevent="store()" data-bs-dismiss="modal" class="btn btn-primary ">Save changes</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" id='closeModal'>Close</button>
+                    <button type="button" wire:click.prevent="store()" class="btn btn-primary ">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -178,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Livewire.on('showAlert', (data) => {
     initDataTable()
+    $("#closeModal").click();
 
     const alertElement = document.getElementById('mAlert');
     const messageElement = document.getElementById('mAlertMessage');

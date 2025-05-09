@@ -3,6 +3,7 @@
 namespace App\Livewire\Mdepart;
 
 use Livewire\Component;
+use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 use App\Constants\Status as s_;
 use App\Helpers\MyService as v_;
@@ -13,8 +14,20 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $ncompanie_id, $id,  $deptid, $deptcode, $deptname;
+    use WithPagination;
+
+    public $id, $deptid;
     public $page, $isOpen = 0;
+
+    #[Rule('required', message: 'Perusahaan Harus Diisi')]
+    public $ncompanie_id;
+
+    #[Rule('required', message: 'Kode Depart Harus Diisi')]
+    public $deptcode;
+
+    #[Rule('required', message: 'Nama Depart Harus Diisi')]
+    public $deptname;
+
 
     public function __construct() {
         $this->page  = array(
@@ -22,7 +35,10 @@ class Index extends Component
             'description'=> 'Data Departs',
         );
     }
-
+    public function paginationView()
+    {
+        return 'vendor.pagination.bootstrap-5';
+    }
     public function render()
     {
         $departs   = departs::latest()->paginate(5);
@@ -46,6 +62,7 @@ class Index extends Component
 
     }
 
+
     public function createDepart()
     {
         $this->resetFields();
@@ -62,17 +79,14 @@ class Index extends Component
     public function store()
     {
 
-        $this->validate([
-            'deptcode' => 'required',
-            'deptname' => 'required',
-            'ncompanie_id' => 'required',
-        ]);
-
+        $this->validate();
         departs::updateOrCreate(['id' => $this->id], [
-            'ccode' => $this->deptcode,
-            'cname' => $this->deptname,
+            'ccode' => strtoupper($this->deptcode),
+            'cname' => strtoupper($this->deptname),
+            'ncompanie_id' => $this->ncompanie_id,
         ]);
 
+        $this->resetPage();
         $this->dispatch('showAlert', ['message' => $this->id ? 'Depart updated successfully.' : 'Depart created successfully.']);
         $this->resetFields();
     }

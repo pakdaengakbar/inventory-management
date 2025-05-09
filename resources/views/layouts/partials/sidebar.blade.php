@@ -75,7 +75,7 @@
                         <li><a href="{{ route('any', 'master/employees')}}" class="tp-link" wire:current>Employees</a></li>
                         <li><a href="{{ route('any', 'master/suppliers')}}" class="tp-link" wire:current>Suppliers</a></li>
                         <li><a href="{{ route('any', 'master/customers')}}" class="tp-link" wire:current>Customers</a></li>
-
+                        <li><a href="{{ route('any', 'master/expeditons')}}" class="tp-link" wire:current>Expeditions</a></li>
                       </ul>
                     </div>
                 </li>
@@ -87,9 +87,9 @@
                     </a>
                     <div class="collapse" id="sidebarProduct">
                       <ul class="nav-second-level">
-                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Brand</a></li>
-                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Category</a></li>
-                        <li><a  href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current></a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Brand</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Category</a></li>
+                        <li><a href="{{ route('any', 'master/products')}}" class="tp-link" wire:current>Products</a></li>
                       </ul>
                     </div>
                 </li>

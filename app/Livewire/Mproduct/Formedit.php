@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Mexpedition;
+namespace App\Livewire\Mproduct;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class Formedit extends Component
 {
     public function render()
     {
-        return view('livewire.mexpedition.formedit');
+        return view('livewire.mproduct.formedit');
     }
 }

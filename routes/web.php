@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
 
+use App\Http\Controllers\DtexpController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/customers', App\Livewire\Mcustomer\Index::class)->name('customers.index');
         Route::get('/customers/add', App\Livewire\Mcustomer\Formadd::class)->name('customers.add');
         Route::get('/customers/edit/{id}', App\Livewire\Mcustomer\Formedit::class)->name('customers.edit');
+
+        Route::get('/expeditons', App\Livewire\Mexpedition\Index::class)->name('expeditons.index');
+        Route::get('/rwdata/expeditons', [DtexpController::class, 'datatable']);
+
+        Route::get('/products', App\Livewire\Mproduct\Index::class)->name('products.index');
+        Route::get('/products/add', App\Livewire\Mproduct\Formadd::class)->name('products.add');
+        Route::get('/products/edit/{id}', App\Livewire\Mproduct\Formedit::class)->name('products.edit');
 
     });
 });
