@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\msupplier as supplier ;
 
 class mproduct extends Model
 {
@@ -39,13 +40,18 @@ class mproduct extends Model
         'created_at',
         'cupdate_by',
         'updated_at',
-        'csupplier_code',
+        'csupplier_id',
         'cGroupStock',
         'cflag_pusat',
         'iPhoto',
         'cstatus',
         'ctimer',
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(supplier::class, 'csupplier_id');
+    }
 }
 
 

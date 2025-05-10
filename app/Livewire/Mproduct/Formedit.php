@@ -3,7 +3,9 @@
 namespace App\Livewire\Mproduct;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
+use Illuminate\Support\Facades\Storage;
 
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
@@ -12,29 +14,42 @@ use App\Models\mproduct as product;
 
 class Formedit extends Component
 {
-    public $page, $id, $nbarcode, $cbrand_code, $cgroup_code, $ctype_code, $cuom_code, $nuom_value,
-            $citem_code, $cpart_name, $ccurr_code, $cwsale_unit, $cretail_unit,
+    use WithFileUploads;
+    public  $page, $image;
+    public  $id, $ctype_code, $cuom_code, $nuom_value,
+            $citem_code, $ccurr_code, $cwsale_unit, $cretail_unit,
             $nwsale_po_price, $nretail_po_price, $nwsale_sell_price, $nretail_sell_price,
             $dexpire_date, $clocation, $nstock_min, $nstock_max, $nopname_G1, $nopname_G2,
-            $nopname_G3, $clocation1, $clocation2, $clocation3, $cdescription, $cmade_in,
-            $COGS, $ccreate_by, $created_at, $cupdate_by, $updated_at, $csupplier_code,
+            $nopname_G3, $clocation1, $clocation2, $clocation3, $cmade_in,
+            $COGS, $ccreate_by, $created_at, $cupdate_by, $updated_at, $csupplier_id,
             $cGroupStock, $cflag_pusat, $iPhoto, $cstatus, $ctimer;
 
     public function __construct() {
         $this->page = array(
-            'path'  => 'product/',
+            'path'  => 'products/',
             'title' => 'Products',
-            'description'=> 'Update Data'
+            'description'=> 'Add Data'
         );
     }
-     //name
-    #[Rule('required', message: 'Nama Cabang Harus Diisi')]
-    public $cname;
+
+    #[Rule('required', message: 'Brand Item Harus Diisi')]
+    public $cbrand_code;
+
+    #[Rule('required', message: 'Group Item Harus Diisi')]
+    public $cgroup_code;
+
+    #[Rule('required', message: 'Barcode Harus Diisi')]
+    public $nbarcode;
+
+    //name
+    #[Rule('required', message: 'Nama Product Harus Diisi')]
+    public $citem_name;
 
     //address
     #[Rule('required', message: 'Alamat Cabang Harus Diisi')]
     #[Rule('min:3', message: 'Isi Post Minimal 3 Karakter')]
-    public $caddress1;
+    public $cdescription;
+
 
     public function mount($id)
     {
@@ -48,7 +63,7 @@ class Formedit extends Component
         $this->cuom_code          = $data->cuom_code;
         $this->nuom_value         = $data->nuom_value;
         $this->citem_code         = $data->citem_code;
-        $this->cpart_name         = $data->cpart_name;
+        $this->citem_name         = $data->citem_name;
         $this->ccurr_code         = $data->ccurr_code;
         $this->cwsale_unit        = $data->cwsale_unit;
         $this->cretail_unit       = $data->cretail_unit;
@@ -73,14 +88,10 @@ class Formedit extends Component
         $this->created_at         = $data->created_at;
         $this->cupdate_by         = $data->cupdate_by;
         $this->updated_at         = $data->updated_at;
-        $this->csupplier_code     = $data->csupplier_code;
-        $this->cGroupStock        = $data->cGroupStock;
-        $this->cflag_pusat        = $data->cflag_pusat;
+        $this->csupplier_id     = $data->csupplier_id;
         $this->iPhoto             = $data->iPhoto;
         $this->cstatus            = $data->cstatus;
         $this->ctimer             = $data->ctimer;
-
-
     }
 
     /**
@@ -103,7 +114,7 @@ class Formedit extends Component
             'cuom_code'          => $this->cuom_code,
             'nuom_value'         => $this->nuom_value,
             'citem_code'         => $this->citem_code,
-            'cpart_name'         => $this->cpart_name,
+            'citem_name'         => $this->citem_name,
             'ccurr_code'         => $this->ccurr_code,
             'cwsale_unit'        => $this->cwsale_unit,
             'cretail_unit'       => $this->cretail_unit,
@@ -123,23 +134,31 @@ class Formedit extends Component
             'clocation3'         => $this->clocation3,
             'cdescription'       => $this->cdescription,
             'cmade_in'           => $this->cmade_in,
-            'COGS'               => $this->COGS,
             'ccreate_by'         => $this->ccreate_by,
             'created_at'         => $this->created_at,
             'updated_at'         => $this->updated_at,
-            'csupplier_code'     => $this->csupplier_code,
-            'cGroupStock'        => $this->cGroupStock,
-            'cflag_pusat'        => $this->cflag_pusat,
+            'csupplier_id'     => $this->csupplier_id,
             'iPhoto'             => $this->iPhoto,
             'cstatus'            => $this->cstatus,
             'ctimer'             => $this->ctimer,
             'cupdate_by'         => $uauth['id'],
         );
-        $data->update($row);
+        if ($this->image) {
+            $p_ = s_::PATH_. $this->page['path'];
+            Storage::delete($p_.$this->iPhoto);
+            //store image in storage/app/public/posts
+            $this->image->storeAs($p_, $this->image->hashName());
+            //update post
+            $row['iPhoto'] = $this->image->hashName();
+            $data->update($row);
+        } else {
+            //update post
+            $data->update($row);
+        }
         //flash message
         session()->flash('message', 'Update Successfuly.');
         //redirect
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -150,18 +169,23 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $cities = v_::getCities();
-            $company= v_::getCompany();
-            $region = v_::getRegion();
+            $supplier= v_::getSuplier();
+            $brdgroup= v_::getProdgroup();
+            $brdtyoe = v_::getProdtype();
+            $brdproduct = v_::getProdbrand();
+            $uoms = v_::getUom();
+
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mproduct.formedit', [
-                'path'           => s_::URL_. $this->page['path'],
+                'url'            => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'company'=> $company,
-                'region' => $region,
-                'cities' => $cities
+                'supplier'  => $supplier,
+                'brdproduct'=> $brdproduct,
+                'brdgroup'  => $brdgroup,
+                'brdtype'   => $brdtyoe,
+                'uoms'   => $uoms,
             ]);
         }catch(\Exception $e)
         {

@@ -31,6 +31,7 @@ class Formedit extends Component
 
     public function __construct() {
         $this->page = array(
+            'path'  => 'companies/',
             'title' => 'Companies',
             'description'=> 'Update Data'
         );
@@ -80,7 +81,7 @@ class Formedit extends Component
             'cupdate_by'=> $uauth['id'],
         );
         if ($this->image) {
-            $p_ = s_::PATH_. 'companies/';
+            $p_ = s_::PATH_. $this->page['path'];
             Storage::delete($p_.$this->photo);
             //store image in storage/app/public/posts
             $this->image->storeAs($p_, $this->image->hashName());
@@ -108,7 +109,7 @@ class Formedit extends Component
             $cities = v_::getCities();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.formedit', [
-                'url'            => s_::URL_. 'companies/',
+                'url'            => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

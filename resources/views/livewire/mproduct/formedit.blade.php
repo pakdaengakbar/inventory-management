@@ -17,7 +17,7 @@
                         <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
                     <div class="float-end">
-                        <a href="/master/customers" type="button" class="btn btn-warning btn-sm">
+                        <a href="/master/products" type="button" class="btn btn-warning btn-sm">
                             <i class="mdi mdi-redo-variant"></i> Back
                         </a>
                     </div>
@@ -25,119 +25,277 @@
                 <form wire:submit="update" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-1" hidden>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2" hidden>
                                 <label class="form-label">ID</label>
                                 <input class="form-control" type="text"  wire:model="id" placeholder="AutoSystem" readonly>
                             </div>
-                            <div class="mb-1">
-                                <label for="ncompanie_id" class="form-label">Company</label>
-                                <select class="form-select" wire:model="ncompanie_id">
-                                    <option value="">Select Company</option>
-                                    @foreach ($company as $c)
-                                        <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-1">
-                                <label for="cregion_id" class="form-label">Region</label>
-                                <select class="form-select" wire:model="cregion_id">
-                                    <option value="">Select Region</option>
-                                    @foreach ($region as $c)
-                                        <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
-                                    @endforeach
-                                </select>
-                         	</div>
-                            <div class="mb-1">
-                                <label class="form-label">Code</label>
-                                <input type="text" class="form-control" wire:model="ccode" placeholder="Automatic" readonly>
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control" wire:model="cname" onkeyup="this.value=toUCword(this.value);" placeholder="Enter name">
+                            <div class="mb-2">
+                                <label class="form-label">Barcode</label>
+                                <input class="form-control" type="text" wire:model="nbarcode" placeholder="Enter barcode">
                             </div>
                             <div class="mb-2">
-                                <label for="caddress1" class="form-label">Address 1 <span class='text-danger'>*</span></label>
-                                <textarea class="form-control @error('caddress1') is-invalid @enderror" wire:model="caddress1" onkeyup="this.value=toUCword(this.value);" spellcheck="false" ></textarea>
-                                @error('caddress1')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <label class="form-label">Item Code</label>
+                                <input type="text" class="form-control" wire:model="citem_code" placeholder="Enter item code">
                             </div>
-                            <div class="mb-1">
-                                <label class="form-label">Address 2</label>
-                                <textarea class="form-control" rows="2" wire:model="caddress2" placeholder="Enter address 2"></textarea>
+                            <div class="mb-2">
+                                <label class="form-label">Item Name</label>
+                                <input type="text" class="form-control" wire:model="citem_name" placeholder="Enter item name">
                             </div>
-                            <div class="mb-1">
-                                <label for="cphone" class="form-label">Phone</label>
-                                <div class="col-lg-12 col-xl-12">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="mdi mdi-phone-outline"></i></span>
-                                        <input class="form-control" type="text"  name='cphone' placeholder="Phone"  wire:model="cphone"  aria-describedby="basic-addon1">
+                            <div class="mb-2">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" wire:model="cdescription" placeholder="Enter description"></textarea>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label">UOM Code</label>
+                                <select class="form-select" wire:model="cuom_code" >
+                                    <option value="">Select Status</option>
+                                    @foreach ($uoms as $c)
+                                        <option value="{{ $c->ccode }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">UOM Value</label>
+                                <input type="number" class="form-control" wire:model="nuom_value" placeholder="Enter UOM value">
+                            </div>
+
+                        </div>
+                        <!-- Right column -->
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-3">
+                                <label for="cbrand_code" class="form-label">Brand Product</label>
+                                <select class="form-select" wire:model="cbrand_code" >
+                                    <option value="" disabled>Select Brand</option>
+                                    @foreach ($brdproduct as $c)
+                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cgroup_code" class="form-label">Group Product</label>
+                                <select class="form-select" wire:model="cgroup_code" >
+                                    <option value="" disabled>Select Group</option>
+                                    @foreach ($brdgroup as $c)
+                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="csupplier_id" class="form-label">Type Product</label>
+                                <select class="form-select" wire:model="ctype_code" >
+                                    <option value="" disabled>Select Type</option>
+                                    @foreach ($brdtype as $c)
+                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Currency</label>
+                                <select class="form-select" wire:model="ccurr_code" >
+                                    <option value="" disabled>Select Currency</option>
+                                    <option value='IDR'>IDR</option>
+                                    <option value='DOLLAR'>DOLLAR</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Made In</label>
+                                <input type="text" class="form-control" wire:model="cmade_in" placeholder="Enter made in">
+                            </div>
+                            <div class="mb-3">
+                                <label for="csupplier_id" class="form-label">Supplier</label>
+                                <select class="form-select" wire:model="csupplier_id" >
+                                    <option value="">Select Status</option>
+                                    @foreach ($supplier as $c)
+                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <div class="silva-main-sections">
+                                    <div class="silva-profile-main">
+                                        @if ($iPhoto)
+                                        <img src="{{ asset($url.$iPhoto) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        @else
+                                        <img src="{{ asset('storage/NoImage.jpg') }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        @endif
+                                    </div>
+                                    <div class="overflow-hidden ms-md-4 ms-0">
+                                        <p class="my-1 text-muted fs-16">Image Item</p>
+                                        <span class="fs-15"><i class="mdi mdi-message me-2 align-middle"></i>{{ $citem_name }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Right column -->
                         <div class="col-lg-6">
-                            <div class="mb-1">
-                                <label for="cmobile" class="form-label">Mobile</label>
-                                <div class="col-lg-12 col-xl-12">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="mdi mdi-phone-outline"></i></span>
-                                        <input class="form-control" type="text"  name='cmobile' placeholder="Phone"  wire:model="cmobile"  aria-describedby="basic-addon1">
+                            <div class="mb-3">
+                                <label for="ccontact" class="form-label">File Image</label>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="file-upload" wire:model="image">
+                                <!-- error message untuk title -->
+                                @if ($image)
+                                    <div class="mt-3">
+                                        <div class="silva-main-sections">
+                                            <div class="silva-profile-main">
+                                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start">
+                                            </div>
+                                            <div class="overflow-hidden ms-md-4 ms-0">
+                                                <p class="my-1 text-muted fs-16">Preview Image</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
-                            <div class="mb-1">
-                                <label for="cemail" class="form-label">Email Address</label>
-                                <div class="col-lg-12 col-xl-12">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="mdi mdi-email"></i></span>
-                                        <input type="email" class="form-control" wire:model="cemail"  placeholder="Email" aria-describedby="basic-addon1">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">Fax</label>
-                                <input type="text" class="form-control" wire:model="cfax" placeholder="Enter fax number">
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">Limit Received</label>
-                                <input type="number" class="form-control" wire:model="nlimit_received" placeholder="Enter limit received" oninput="this.value = this.value.slice(0, 9);" maxlength="9">
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">Max Invoice</label>
-                                <input type="number" class="form-control" wire:model="nmax_invoice" placeholder="Enter max invoice" oninput="this.value = this.value.slice(0, 2);" maxlength="2">
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">Block Due Date</label>
-                                <input type="number" class="form-control" maxlength="1" wire:model="nblock_duedate" placeholder="Enter block due date" oninput="this.value = this.value.slice(0, 1);" maxlength="1">
-                            </div>
-                            <div class="mb-1">
-                                <label class="form-label">City / Regency</label>
-                                <input class="form-control" list="cityList" wire:model="ccity" placeholder="Type to search...">
-                                <datalist id="cityList">
-                                    @foreach ($cities as $c)
-                                        <option value="{{ ucfirst(strtolower($c->name)) }}">{{ ucwords(strtolower($c->name)) }}</option>
+                        </div>
+
+                        <h5 class="card-title mb-3">Unit Of Material</h5>
+                        <!-- Item Price -->
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Wholesale Unit</label>
+                                <select class="form-select" wire:model="cwsale_unit" >
+                                    <option value="">Select Unit</option>
+                                    @foreach ($uoms as $c)
+                                        <option value="{{ $c->ccode }}">{{ ucwords(strtolower($c->cname)) }}</option>
                                     @endforeach
-                                </datalist>
+                                </select>
+
                             </div>
-                            <div class="mb-1">
+                            <div class="mb-2">
+                                <label class="form-label">Retail Unit</label>
+                                <select class="form-select" wire:model="cretail_unit" >
+                                    <option value="">Select Unit</option>
+                                    @foreach ($uoms as $c)
+                                        <option value="{{ $c->ccode }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Expire Date</label>
+                                <input type="date" class="form-control" wire:model="dexpire_date">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" wire:model="clocation" placeholder="Enter location">
+                            </div>
+                        </div>
+
+                        <h5 class="card-title mb-3">Price</h5>
+                        <!-- Item Price -->
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Wholesale PO Price</label>
+                                <input type="number" class="form-control" wire:model="nwsale_po_price" placeholder="Enter wholesale PO price">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Retail PO Price</label>
+                                <input type="number" class="form-control" wire:model="nretail_po_price" placeholder="Enter retail PO price">
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Wholesale Sell Price</label>
+                                <input type="number" class="form-control" wire:model="nwsale_sell_price" placeholder="Enter wholesale sell price">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Retail Sell Price</label>
+                                <input type="number" class="form-control" wire:model="nretail_sell_price" placeholder="Enter retail sell price">
+                            </div>
+                        </div>
+                        <!-- Opname Location -->
+                        <h5 class="card-title mb-3">Location</h5>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Location 1</label>
+                                <input type="text" class="form-control" wire:model="clocation1" placeholder="Enter location 1">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Location 2</label>
+                                <input type="text" class="form-control" wire:model="clocation2" placeholder="Enter location 2">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Location 3</label>
+                                <input type="text" class="form-control" wire:model="clocation3" placeholder="Enter location 3">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2">
+                                <label class="form-label">Opname G1</label>
+                                <input type="number" class="form-control" wire:model="nopname_G1" placeholder="Enter opname G1">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Opname G2</label>
+                                <input type="number" class="form-control" wire:model="nopname_G2" placeholder="Enter opname G2">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Opname G3</label>
+                                <input type="number" class="form-control" wire:model="nopname_G3" placeholder="Enter opname G3">
+                            </div>
+                        </div>
+                        <!-- user update -->
+                        <h5 class="card-title mb-3">Create / Update By</h5>
+                        <div class="col-lg-6">
+                             <div class="mb-2">
+                                <label class="form-label">Created By</label>
+                                <input type="text" class="form-control" wire:model="ccreate_by" placeholder="Creator">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Created At</label>
+                                <input type="datetime-local" class="form-control" wire:model="created_at">
+                            </div>
+                        </div>
+                        <!-- Opname Location -->
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label">Updated By</label>
+                                <input type="text" class="form-control" wire:model="cupdate_by" placeholder="Updater">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Updated At</label>
+                                <input type="datetime-local" class="form-control" wire:model="updated_at">
+                            </div>
+                        </div>
+                        <h5 class="card-title mb-3">Stock</h5>
+                        <!-- Item Price -->
+                        <div class="col-lg-6 mb-2">
+                             <div class="mb-2">
+                                <label class="form-label">Stock Min</label>
+                                <input type="number" class="form-control" wire:model="nstock_min" placeholder="Enter stock min">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                             <div class="mb-2">
+                                <label class="form-label">Stock Max</label>
+                                <input type="number" class="form-control" wire:model="nstock_max" placeholder="Enter stock max">
+                            </div>
+                        </div>
+                        <h5 class="card-title mb-3">Other</h5>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
                                 <label class="form-label">Status</label>
                                 <select class="form-select" wire:model="cstatus" >
                                     <option value="">Select Status</option>
-                                    <option value='Customer'>Customer</option>
-                                    <option value='Mitra'>Mitra</option>
+                                    <option value='1'>Actived</option>
+                                    <option value='0'>Not Active</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label">Timer</label>
+                                <input type="text" class="form-control" wire:model="ctimer" placeholder="Enter timer">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer float-end">
                     <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
-                    <a href="/master/customers" type="button" class="btn btn-warning btn-sm">
+                    <a href="/master/products" type="button" class="btn btn-warning btn-sm">
                         <i class="mdi mdi-redo-variant"></i> Back
                     </a>
                 </div>

@@ -50,7 +50,7 @@ class Formadd extends Component
     public function store()
     {
 
-        $p_ = s_::PATH_. 'companies/';
+        $p_ = s_::PATH_. $this->page['path'];
         $uauth = v_::getUser_Auth();
 
         $this->validate();
@@ -90,7 +90,7 @@ class Formadd extends Component
             $cities = v_::getCities();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.formadd', [
-                'url'            => s_::URL_. 'companies/',
+                'url'            => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

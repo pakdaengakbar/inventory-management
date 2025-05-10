@@ -42,7 +42,7 @@ class Index extends Component
     {
         //destroy
         product::destroy($id);
-        session()->flash('message', 'Delete Success.');
-        return redirect()->route('product.index');
+        $this->dispatch('delDataTable');
+        session()->flash('message', 'Delete Successfuly.');
     }
 }
