@@ -38,7 +38,8 @@
                                         <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                                     </div>
                                     <div class="float-end">
-                                        <button  wire:click.stop="createDepart()" data-bs-toggle="modal" data-bs-target="#departModal" class="btn btn-primary mb-3">Add Data</button>
+                                        <button  wire:click.stop="createDepart()" data-bs-toggle="modal" data-bs-target="#departModal" class="btn btn-sm btn-primary mb-3">
+                                            <i class="mdi mdi-plus"></i> Add Data</button>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +113,7 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $('#rowDatatable').DataTable({
         processing : true,
         paginationType : 'full_numbers',

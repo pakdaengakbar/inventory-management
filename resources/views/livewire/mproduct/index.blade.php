@@ -128,7 +128,7 @@ function handleData() {
         paginationType : 'full_numbers',
         StateSave : true,
         ajax: {
-            "url"	 : '/master/rwdata/products',
+            "url"	 : '/product/rwdata/products',
             "type"   : "POST",
             "data" : {
                     "group"  : group,

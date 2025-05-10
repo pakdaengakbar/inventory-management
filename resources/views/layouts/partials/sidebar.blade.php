@@ -81,9 +81,8 @@
                     </a>
                     <div class="collapse" id="sidebarProduct">
                       <ul class="nav-second-level">
-                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Brand</a></li>
-                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Category</a></li>
-                        <li><a href="{{ route('any', 'master/products')}}" class="tp-link" wire:current>Products</a></li>
+                        <li><a href="{{ route('any', 'product/prodsetting')}}" class="tp-link" wire:current>Setting</a></li>
+                        <li><a href="{{ route('any', 'product/products')}}" class="tp-link" wire:current>Products</a></li>
                       </ul>
                     </div>
                 </li>

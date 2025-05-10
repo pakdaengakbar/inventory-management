@@ -6,22 +6,21 @@ use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use Livewire\Attributes\Rule;
 
-use App\Models\mbrandproduct as expedition;
+use App\Models\mbrand_prod as brands;
+use App\Models\mbrand_group as groups;
+use App\Models\mbrand_type as types;
 
 class Index extends Component
 {
 
     public $page;
-    public $id, $cflag;
+    public $id, $flag=1;
 
     #[Rule('required', message: 'Kode Espedisi Harus Diisi')]
     public $ccode;
 
     #[Rule('required', message: 'Nama Espedisi Harus Diisi')]
     public $cname;
-
-    #[Rule('required', message: 'Keterangan Espedisi Harus Diisi')]
-    public $cnote;
 
     public function __construct() {
         $this->page  = array(
@@ -32,10 +31,10 @@ class Index extends Component
 
     public function render()
     {
-        $exp = expedition::latest()->paginate(5);
+        $exp = brands::latest()->paginate(5);
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.mprodsetting.index', [
+            return view('livewire.mbrandproduct.index', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
@@ -48,49 +47,64 @@ class Index extends Component
 
     }
 
-    public function createDepart()
+    public function createBrand()
     {
-        $this->resetFields();
+        $this->resetBrand();
     }
 
-    public function resetFields()
+    public function resetBrand()
     {
         $this->id = null;
         $this->ccode = '';
         $this->cname = '';
-        $this->cnote = '';
-        $this->cflag = '';
     }
 
-    public function store()
+    public function storeBrand()
     {
-
         $this->validate();
-        expedition::updateOrCreate(['id' => $this->id], [
+        brands::updateOrCreate(['id' => $this->id], [
             'ccode' => $this->ccode,
             'cname' => $this->cname,
-            'cnote' => $this->cnote,
-            'cflag' => 0,
         ]);
 
-        $this->dispatch('editDataTable', ['message' => $this->id ? 'Expedition updated successfully.' : 'Expedition created successfully.']);
-        $this->resetFields();
+        $this->dispatch('editDataBrand', ['message' => $this->id ? 'Expedition updated successfully.' : 'Expedition created successfully.']);
+        $this->resetBRand();
     }
 
-    public function editExp($id)
+    public function editBrand($id)
     {
-        $data = expedition::findOrFail($id);
+        $data = brands::findOrFail($id);
         $this->id = $data->id;
         $this->ccode = $data->ccode;
         $this->cname = $data->cname;
-        $this->cnote = $data->cnote;
-        $this->cflag = $data->cflag;
     }
-
-    public function delExp($id)
+    public function editGroup($id)
     {
-        expedition::find($id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Expedition Delete successfully.']);
+        $data = groups::findOrFail($id);
+        $this->id = $data->id;
+        $this->ccode = $data->ccode;
+        $this->cname = $data->cname;
     }
-
+    public function editType($id)
+    {
+        $data = types::findOrFail($id);
+        $this->id = $data->id;
+        $this->ccode = $data->ccode;
+        $this->cname = $data->cname;
+    }
+    public function delBrand($id)
+    {
+        brands::find($id)->delete();
+        $this->dispatch('delDataBrand', ['message' => 'Expedition Delete successfully.']);
+    }
+    public function delGroup($id)
+    {
+        groups::find($id)->delete();
+        $this->dispatch('delDataGroup', ['message' => 'Expedition Delete successfully.']);
+    }
+    public function delType($id)
+    {
+        types::find($id)->delete();
+        $this->dispatch('delDataType', ['message' => 'Expedition Delete successfully.']);
+    }
 }

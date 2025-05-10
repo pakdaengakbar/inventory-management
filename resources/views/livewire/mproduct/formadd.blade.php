@@ -17,7 +17,7 @@
                         <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
                     <div class="float-end">
-                        <a href="/master/products" type="button" class="btn btn-warning btn-sm">
+                        <a href="/product/products" type="button" class="btn btn-warning btn-sm">
                             <i class="mdi mdi-redo-variant"></i> Back
                         </a>
                     </div>
@@ -315,7 +315,7 @@
                 </div>
                 <div class="card-footer float-end">
                     <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
-                    <a href="/master/products" type="button" class="btn btn-warning btn-sm">
+                    <a href="/product/products" type="button" class="btn btn-warning btn-sm">
                         <i class="mdi mdi-redo-variant"></i> Back
                     </a>
                 </div>

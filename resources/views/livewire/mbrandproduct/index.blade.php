@@ -16,45 +16,59 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="clearfix">
+                        <div class="float-start d-flex justify-content-center">
+                            <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
+                        </div>
+                        <div class="float-end">
+                            <button wire:click.stop="createBrand()" data-bs-toggle="modal" data-bs-target="#departModal" class="btn btn-sm btn-primary mb-3">
+                                <i class="mdi mdi-plus"></i> Add Data</button>
+                        </div>
+                    </div>
+                </div><!-- end card header -->
                 <div class="card-body">
                     <ul class="nav nav-underline border-bottom pt-2" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active p-2" id="profile_about_tab" data-bs-toggle="tab" href="#form_depart" role="tab">
+                            <a class="nav-link active p-2" data-bs-toggle="tab" id="brand_tab" href="#form_brand" role="tab" onclick="document.getElementById('flag').value = 1;">
                                 <span class="d-block d-sm-none"><i class="mdi mdi-information"></i></span>
-                                <span class="d-none d-sm-block">Departement</span>
+                                <span class="d-none d-sm-block">Brand</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link p-2" id="setting_tab" data-bs-toggle="tab" href="#form_position" role="tab">
+                            <a class="nav-link p-2" data-bs-toggle="tab" id="model_tab" href="#form_model" role="tab" onclick="document.getElementById('flag').value = 2; handleGroupData();">
                                 <span class="d-block d-sm-none"><i class="mdi mdi-information"></i></span>
+                                <span class="d-none d-sm-block">Model</span>
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content text-muted bg-white">
-                        <div class="tab-pane active show pt-4" id="form_depart" role="tabpanel">
-                            <div class="row">
-                                <div class="clearfix">
-                                    <div class="float-start d-flex justify-content-center">
-                                        <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
-                                    </div>
-                                    <div class="float-end">
-                                        <button  wire:click.stop="createDepart()" data-bs-toggle="modal" data-bs-target="#departModal" class="btn btn-primary mb-3">Add Data</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div wire:ignore>
-                                    <table id="rowDatatable" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Code</th>
-                                                <th>Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                        <div class="tab-pane active show pt-4" id="form_brand" role="tabpanel">
+                          <div wire:ignore>
+                            <table id="brandDatatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">No</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th class="col-1">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="tab-pane show pt-4" id="form_model" role="tabpanel">
+                            <div wire:ignore>
+                            <table id="groupDatatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">No</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th class="col-1">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
                             </div>
                         </div>
                     </div>
@@ -62,6 +76,7 @@
             </div>
         </div>
     </div>
+
     <!--  Large modal example -->
     <div class="modal fade" wire:ignore.self id="departModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -73,6 +88,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
+                        <label>Status Flag</label>
+                        <input type="text" class="form-control" wire:model="flag" id='flag' readonly>
+                    </div>
+                    <div class="mb-3" hidden>
                         <label>ID</label>
                         <input type="text" class="form-control" wire:model="id" readonly>
                     </div>
@@ -90,17 +109,10 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label>Notes</label>
-                        <textarea class="form-control" wire:model="cnote"></textarea>
-                        @error('cnote')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click.prevent="store()" data-bs-dismiss="modal" class="btn btn-primary ">Save changes</button>
+                    <button type="button" wire:click.prevent="storeBrand()" data-bs-dismiss="modal" class="btn btn-primary ">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -111,11 +123,15 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    $('#rowDatatable').DataTable({
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    $('#brandDatatable').DataTable({
         processing : true,
         paginationType : 'full_numbers',
         StateSave : true,
-        ajax: '/master/rwdata/brands',
+        ajax: {
+            "url"	 : '/product/rwdata/brands',
+            "type"   : "POST",
+        },
         columns: [
             { data: 'no' },
             { data: 'code' },
@@ -125,12 +141,58 @@ document.addEventListener('DOMContentLoaded', function () {
         responsive: true
     });
 });
-Livewire.on('editDataTable', (data) => {
-    $('#rowDatatable').DataTable().ajax.reload(false, false);
-});
 
-Livewire.on('delDataTable', (data) => {
-    $('#rowDatatable').DataTable().ajax.reload(false, false);
+function handleGroupData() {
+    console.warn('Group loaded');
+    if ($.fn.DataTable.isDataTable('#groupDatatable')) {
+        $('#groupDatatable').DataTable().destroy();
+    }
+    $('#groupDatatable').DataTable({
+        processing : true,
+        paginationType : 'full_numbers',
+        StateSave : true,
+        ajax: {
+            "url"	 : '/product/rwdata/groups',
+            "type"   : "POST",
+        },
+        columns: [
+            { data: 'no' },
+            { data: 'code' },
+            { data: 'name' },
+            { data: 'action' }
+        ],
+        responsive: true
+    });
+}
+
+function handleTypeData() {
+    console.warn('Type loaded');
+    if ($.fn.DataTable.isDataTable('#typeDatatable')) {
+        $('#typeDatatable').DataTable().destroy();
+    }
+    $('#typeDatatable').DataTable({
+        processing : true,
+        paginationType : 'full_numbers',
+        StateSave : true,
+        ajax: {
+            "url"	 : '/product/rwdata/types',
+            "type"   : "POST",
+        },
+        columns: [
+            { data: 'no' },
+            { data: 'code' },
+            { data: 'name' },
+            { data: 'action' }
+        ],
+        responsive: true
+    });
+}
+
+Livewire.on('editDataBrand', (data) => {
+    $('#brandDatatable').DataTable().ajax.reload(false, false);
+});
+Livewire.on('delDataBrand', (data) => {
+    $('#brandDatatable').DataTable().ajax.reload(false, false);
 });
 </script>
 @endsection

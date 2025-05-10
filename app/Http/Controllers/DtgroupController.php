@@ -8,15 +8,15 @@ class DtgroupController extends Controller
 {
     public function datatable(Request $request)
     {
-        $expeditions = group::all();
-        $data = $expeditions->map(function ($item, $index) {
+        $groups = group::all();
+        $data = $groups->map(function ($item, $index) {
             return [
                 'no' => $index + 1,
                 'code' => $item->ccode,
                 'name' => $item->cname,
                 'action' => '<div class="text-center">
-                                <button wire:click="editExp('.$item->id.')" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#departModal" title="Update"><i class="mdi mdi-square-edit-outline"></i></button>
-                                <button wire:click="delExp('.$item->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
+                                <button wire:click="editGroup('.$item->id.')" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#departModal" title="Update"><i class="mdi mdi-square-edit-outline"></i></button>
+                                <button wire:click="delGroup('.$item->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                             </div>'
             ];
         });
