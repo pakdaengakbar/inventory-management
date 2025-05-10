@@ -99,6 +99,82 @@
                       </ul>
                     </div>
                 </li>
+                <li class="menu-title">Sales</li>
+                <li>
+                    <a href="#sidebarcoffee" data-bs-toggle="collapse">
+                        <i data-feather="coffee"></i>
+                        <span> Cafe / Resto</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarcoffee">
+                      <ul class="nav-second-level">
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Dashboard</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Table</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Product</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Cashier</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Waiters</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Kitchen</a></li>
+                    </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarSales" data-bs-toggle="collapse">
+                        <i data-feather="shopping-cart"></i>
+                        <span> Sales Retail</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSales">
+                      <ul class="nav-second-level">
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Price List</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Retail</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Service</a></li>
+                    </ul>
+                    </div>
+                </li>
+                 <li>
+                    <a href="#sidebarDelivery" data-bs-toggle="collapse">
+                        <i data-feather="truck"></i>
+                        <span> Delivery</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarDelivery">
+                      <ul class="nav-second-level">
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Delivery</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Return </a></li>
+                    </ul>
+                    </div>
+                </li>
+                <li class="menu-title">Finance</li>
+                <li>
+                    <a href="#sidebartrello" data-bs-toggle="collapse">
+                        <i data-feather="trello"></i>
+                        <span> Accounting</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebartrello">
+                      <ul class="nav-second-level">
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Chart Of Account</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Initial Balance</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cash / Bank In</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cash / Bank Out</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Jurnal Transaction</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Jurnal Adjusment</a></li>
+                      </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarRepfinance" data-bs-toggle="collapse">
+                        <i data-feather="clipboard"></i>
+                        <span> Reporting</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarRepfinance">
+                      <ul class="nav-second-level">
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Ledger</a></li>
+                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Expend</a></li>
+                     </ul>
+                    </div>
+                </li>
                 <li class="menu-title">Pages</li>
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">
