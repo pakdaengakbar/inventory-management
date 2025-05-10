@@ -15,10 +15,10 @@ class DtexpController extends Controller
                 'code' => $item->ccode,
                 'name' => $item->cname,
                 'note' => $item->cnote,
-                'action' => '<td class="text-center">
+                'action' => '<div class="text-center">
                                 <button wire:click="editExp('.$item->id.')" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#departModal" title="Update"><i class="mdi mdi-square-edit-outline"></i></button>
                                 <button wire:click="delExp('.$item->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
-                            </td>'
+                            </div>'
             ];
         });
         return response()->json(['data' => $data]);

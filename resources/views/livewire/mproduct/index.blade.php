@@ -25,51 +25,53 @@
                     <div class="float-start d-flex justify-content-center">
                         <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
-                    <div class="float-end">
-                        <a href="{{ route('customers.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
-                            <i class="mdi mdi-plus"></i> New Data
-                        </a>
-                        <a href="javascript:;" type="button" class="btn btn-warning btn-sm" onclick="window.location.reload();">
-                            <i class="mdi mdi-reload"></i> Reload
-                        </a>
 
-                    </div>
                 </div>
             </div><!-- end card header -->
             <div class="card-body">
-                <table id="responsive-datatable" class="table table-bordered table-bordered">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <label for="ncompanie_id" class="col-sm-2 col-form-label">Company</label>
+                            <div class="col-sm-5">
+                                <select class="form-select" id="cgroup">
+                                    <option value="">All Data</option>
+                                    <option disabled>Select Group</option>
+                                    @foreach ($group as $c)
+                                        <option value="{{ $c->ccode }}">{{ $c->ccode.' - '.ucwords(strtolower($c->cname)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="float-end">
+                            <a href="{{ route('customers.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                                <i class="mdi mdi-plus"></i> New Data
+                            </a>
+                            <a href="javascript:;" type="button" class="btn btn-warning btn-sm" onclick="handleData();">
+                                <i class="mdi mdi-reload"></i> Reload
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-1">
+                <table id="rowDatatable" class="table table-bordered table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th width="13%">Phone</th>
-                            <th width="20%">Email</th>
-                            <th width="10%">Action</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Barcode</th>
+                            <th class="col-1">UoM</th>
+                            <th class="col-1">Price</th>
+                            <th class="col-1">Sell</th>
+                            <th class="col-1">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse ($data as $row)
-                        <tr>
-                            <td>{{ $row->id }}</td>
-                            <td>{{ $row->ccode }}</td>
-                            <td>{{ $row->cname }}</td>
-                            <td>{!! $row->caddress1 !!}</td>
-                            <td>{{ $row->cphone }}</td>
-                            <td>{{ $row->cemail }}</td>
-                            <td class="text-center">
-                                <a href="/master/customers/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
-                                <button wire:click="destroy({{ $row->id }})" class="btn btn-sm btn-danger" title='Delete'><i class="mdi mdi-trash-can-outline"></i></button>
-                            </td>
-                        </tr>
-                        @empty
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                Empty Row Data
-                            </div>
-                        @endforelse
-                    </tbody>
                 </table>
+                 </div>
             </div>
 
         </div>
@@ -85,6 +87,8 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+
     handleAlert();
     if (window.Livewire) {
         Livewire.hook('message.processed', (message, component) => {
@@ -104,6 +108,42 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000);
         }
     }
+
+    handleData();
 });
+
+function handleData() {
+    var group = $("#cgroup").val();
+    console.warn('Ajax loaded : '+group);
+
+    if ($.fn.DataTable.isDataTable('#rowDatatable')) {
+        $('#rowDatatable').DataTable().destroy();
+    }
+
+    $('#rowDatatable').DataTable({
+        processing : true,
+        paginationType : 'full_numbers',
+        StateSave : true,
+        ajax: {
+            "url"	 : '/master/rwdata/products',
+            "type"   : "POST",
+            "data" : {
+                    "group"  : group,
+            }
+        },
+        columns: [
+            { data: 'no' },
+            { data: 'item_code' },
+            { data: 'item_name' },
+            { data: 'barcode' },
+            { data: 'uom_code' },
+            { data: 'price' },
+            { data: 'sell' },
+            { data: 'action' }
+        ],
+        responsive: true
+    });
+
+}
 </script>
 @endsection

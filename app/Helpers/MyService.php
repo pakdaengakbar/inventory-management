@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Mcompanie;
 use App\Models\Mdepart;
 use App\Models\Mposition;
-use App\Models\indcities as cities;
 use App\Models\Mregion;
 
-use App\Models\Mlog_activity as activitylog;
+use App\Models\mbrand_group as prodgroup;
+use App\Models\mbrand_prod as prodbrand;
+use App\Models\indcities as cities;
 use App\Models\Mlog_user as userLog;
-
+use App\Models\Mlog_activity as activitylog;
 
 class MyService {
     /* Log Query */
@@ -72,6 +73,15 @@ class MyService {
         $result = cities::all();
         return $result;
     }
+    public static function getProdgroup(){
+        $result = prodgroup::all();
+        return $result;
+    }
+    public static function getProdbrand(){
+        $result = prodbrand::all();
+        return $result;
+    }
+
     public static function getBranchId($where){
         $result = Mregion::where($where)->first();
         return $result;
