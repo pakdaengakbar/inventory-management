@@ -86,6 +86,19 @@
                       </ul>
                     </div>
                 </li>
+                <li class="menu-title">Inventory</li>
+                <li>
+                    <a href="#sidebarInventory" data-bs-toggle="collapse">
+                        <i data-feather="bookmark"></i>
+                        <span> Purchase </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarInventory">
+                      <ul class="nav-second-level">
+                        <li><a  href="{{ route('any', 'setting/profiles')}}" class="tp-link" wire:current>Internal Order</a></li>
+                      </ul>
+                    </div>
+                </li>
                 <li class="menu-title">Pages</li>
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">
@@ -105,7 +118,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li>
                     <a href="#sidebarError" data-bs-toggle="collapse">
                         <i data-feather="alert-octagon"></i>
@@ -122,7 +134,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li>
                     <a href="#sidebarExpages" data-bs-toggle="collapse">
                         <i data-feather="file-text"></i>
@@ -143,32 +154,26 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="menu-title mt-2">Apps</li>
-
                 <li>
                     <a href="{{ route('any', 'todolist')}}" class="tp-link">
                         <i data-feather="columns"></i>
                         <span> Todo List </span>
                     </a>
                 </li>
-
                 <li>
                     <a href="{{ route('any', 'contacts')}}" class="tp-link">
                         <i data-feather="map-pin"></i>
                         <span> Contacts </span>
                     </a>
                 </li>
-
                 <li>
                     <a href="{{ route('any', 'calendar')}}" class="tp-link">
                         <i data-feather="calendar"></i>
                         <span> Calendar </span>
                     </a>
                 </li>
-
                 <li class="menu-title mt-2">General</li>
-
                 <li>
                     <a href="#sidebarBaseui" data-bs-toggle="collapse">
                         <i data-feather="package"></i>
