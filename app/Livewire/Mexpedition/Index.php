@@ -8,12 +8,10 @@ use App\Constants\Status as s_;
 use Livewire\Attributes\Rule;
 
 use App\Models\mexpedition as expedition;
-use Livewire\WithPagination;
 
 class Index extends Component
 {
 
-    use WithPagination;
     public $page;
     public $id, $cflag;
 
@@ -35,11 +33,11 @@ class Index extends Component
 
     public function render()
     {
-        $exp = expedition::latest()->paginate(5);
+        $exp = expedition::all();
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mexpedition.index', [
-                'path'           => s_::URL_. 'companies/',
+                'path'           => s_::URL_. 'expeditions/',
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

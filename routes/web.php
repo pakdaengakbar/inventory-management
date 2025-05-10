@@ -5,6 +5,9 @@ use App\Http\Controllers\RoutingController;
 
 use App\Http\Controllers\DtexpController;
 use App\Http\Controllers\DtprodController;
+use App\Http\Controllers\DtbrandController;
+use App\Http\Controllers\DtgroupController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,14 +48,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/customers/add', App\Livewire\Mcustomer\Formadd::class)->name('customers.add');
         Route::get('/customers/edit/{id}', App\Livewire\Mcustomer\Formedit::class)->name('customers.edit');
 
-        Route::get('/expeditons', App\Livewire\Mexpedition\Index::class)->name('expeditons.index');
-        Route::get('/rwdata/expeditons', [DtexpController::class, 'datatable']);
-
         Route::get('/products', App\Livewire\Mproduct\Index::class)->name('products.index');
-        Route::post('/rwdata/products', [DtprodController::class, 'datatable']);
         Route::get('/products/add', App\Livewire\Mproduct\Formadd::class)->name('products.add');
         Route::get('/products/edit/{id}', App\Livewire\Mproduct\Formedit::class)->name('products.edit');
 
+        Route::get('/expeditons', App\Livewire\Mexpedition\Index::class)->name('expeditons.index');
+
+        Route::post('/rwdata/expeditons', [DtexpController::class, 'datatable']);
+        Route::post('/rwdata/products', [DtprodController::class, 'datatable']);
+        Route::post('/rwdata/brands', [DtbrandController::class, 'datatable']);
+        Route::post('/rwdata/groups', [DtgroupController::class, 'datatable']);
     });
 });
 

@@ -112,11 +112,15 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $('#rowDatatable').DataTable({
         processing : true,
         paginationType : 'full_numbers',
         StateSave : true,
-        ajax: '/master/rwdata/expeditons',
+        ajax: {
+            "url"	 : '/master/rwdata/expeditons',
+            "type"   : "POST",
+        },
         columns: [
             { data: 'no' },
             { data: 'code' },
