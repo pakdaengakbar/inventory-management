@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Livewire\WebCategory;
+namespace App\Livewire\Webclient;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\web_category as category;
+use App\Models\web_client as clients;
 
 class Index extends Component
 {
     public $page;
-    public $id, $corder, $ctype;
+    public $id, $cleader, $ctype, $caddress, $cphone, $cemail, $ctestimonials;
+
 
     #[Rule('required', message: 'Nama Kategori Harus Diisi')]
     public $cname;
@@ -19,7 +20,7 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             'title' => 'Website',
-            'description'=> 'Category',
+            'description'=> 'Client',
         );
     }
 
@@ -27,7 +28,7 @@ class Index extends Component
     {
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.webcategory.index', [
+            return view('livewire.webclient.index', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
@@ -48,19 +49,25 @@ class Index extends Component
     {
         $this->id = null;
         $this->cname = '';
+        $this->cleader = '';
         $this->ctype = '';
-        $this->corder = '';
+        $this->caddress = '';
+        $this->cphone = '';
+        $this->cemail = '';
+        $this->ctestimonials = '';
     }
 
     public function store()
     {
         $this->validate();
-        category::updateOrCreate(['id' => $this->id], [
-            'cname' => $this->cname,
-            'cslug' => Str::slug($this->cname),
-            'corder' => $this->corder,
-            'ctype' => $this->ctype,
-            'chits' => 0,
+        clients::updateOrCreate(['id' => $this->id], [
+            'cname'  => $this->cname,
+            'cleader'=> $this->cleader,
+            'ctype'  => $this->ctype,
+            'caddress' => $this->caddress,
+            'cphone' => $this->cphone,
+            'cemail' => $this->cemail,
+            'ctestimonials' => $this->ctestimonials,
         ]);
 
         $this->dispatch('editDataTable', ['message' => $this->id ? 'Data updated successfully.' : 'Data created successfully.']);
@@ -69,16 +76,20 @@ class Index extends Component
 
     public function editData($id)
     {
-        $data = category::findOrFail($id);
+        $data = clients::findOrFail($id);
         $this->id = $data->id;
         $this->cname = $data->cname;
-        $this->corder = $data->corder;
+        $this->cleader = $data->cleader;
         $this->ctype = $data->ctype;
+        $this->caddress = $data->caddress;
+        $this->cphone = $data->cphone;
+        $this->cemail = $data->cemail;
+        $this->ctestimonials = $data->ctestimonials;
     }
 
     public function delData($id)
     {
-        category::find($id)->delete();
+        clients::find($id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data Delete successfully.']);
     }
 
