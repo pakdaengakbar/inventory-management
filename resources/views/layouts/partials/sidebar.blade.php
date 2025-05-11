@@ -175,6 +175,19 @@
                      </ul>
                     </div>
                 </li>
+                <li class="menu-title">Website</li>
+                <li>
+                    <a href="#sidebarWebsite" data-bs-toggle="collapse">
+                        <i data-feather="globe"></i>
+                        <span> Website</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarWebsite">
+                      <ul class="nav-second-level">
+                         <li><a href="{{ route('any', 'website/category')}}" class="tp-link" wire:current>Category</a></li>
+                     </ul>
+                    </div>
+                </li>
                 <li class="menu-title">Pages</li>
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">

@@ -9,6 +9,8 @@ use App\Http\Controllers\DtbrandController;
 use App\Http\Controllers\DtgroupController;
 use App\Http\Controllers\DttypeController;
 
+use App\Http\Controllers\WebCategory;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,6 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/brands', [DtbrandController::class, 'datatable']);
         Route::post('/rwdata/groups', [DtgroupController::class, 'datatable']);
         Route::post('/rwdata/types', [DttypeController::class, 'datatable']);
+    });
+
+     Route::group(['prefix' => 'website'], function () {
+        Route::get('/category', App\Livewire\WebCategory\Index::class)->name('webcategory.index');
+        Route::post('/rwdata/category', [WebCategory::class, 'datatable']);
      });
 });
 
