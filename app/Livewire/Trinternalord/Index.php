@@ -22,14 +22,14 @@ class Index extends Component
     public function render()
     {
         try {
-            $group= v_::getProdgroup();
+            $region= v_::getRegion();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.trinternalord.index', [
                 'path'           => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'group'=> $group,
+                'region'=> $region,
             ]);
         }catch(\Exception $e)
         {

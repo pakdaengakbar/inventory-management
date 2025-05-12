@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'inventory'], function () {
         Route::get('/intorder', App\Livewire\Trinternalord\Index::class)->name('intorder.index');
+        Route::get('/intorder/add', App\Livewire\Trinternalord\Formadd::class)->name('intorder.add');
+        Route::get('/intorder/edit/{id}', App\Livewire\Trinternalord\Formedit::class)->name('intorder.edit');
         Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
     });
 

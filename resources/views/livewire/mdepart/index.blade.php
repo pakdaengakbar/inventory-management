@@ -184,7 +184,7 @@ Livewire.on('showAlert', (data) => {
     initDataTable()
     $("#closeModal").click();
 
-    const alertElement = document.getElementById('mAlert');
+    const alertElement   = document.getElementById('mAlert');
     const messageElement = document.getElementById('mAlertMessage');
 
     if (alertElement && messageElement) {

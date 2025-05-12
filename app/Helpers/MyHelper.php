@@ -1,5 +1,8 @@
-<?php 
+<?php
 namespace App\Helpers;
+
+use DateTime;
+use App\Helpers\MyService;
 
 class MyHelper {
     function key_google()
@@ -28,13 +31,71 @@ class MyHelper {
                 </div>";
     }
 
+    public static function setStatusMaster(){
+        return '<label class="form-label">Status</label>
+                <select class="form-select" wire:model="cstatus" >
+                    <option value="">Select Status</option>
+                    <option value="1">Actived</option>
+                    <option value="0">Not Active</option>
+                </select>';
+    }
+
+    public static function setStatusTrans(){
+        return '<label class="form-label">Status</label>
+                <select class="form-select" wire:model="cstatus" >
+                    <option value="">Select Status</option>
+                    <option value="O">Open</option>
+                    <option value="P">On Process</option>
+                    <option value="C">Close</option>
+                    <option value="R">Reject</option>
+                </select>';
+    }
+
+    public static function getSearchByDate(){
+        $today = date('Y-m-d');
+        return '<div class="col-12">
+                        <label for="sdate" class="form-label">Start Date</label>
+                        <input type="date" id="sdate" class="form-control" value="'.$today.'">
+                    </div>
+                    <div class="col-12">
+                        <label for="edate" class="form-label">End Date</label>
+                        <input type="date" id="edate" class="form-control" value="'.$today.'">
+                    </div>';
+    }
+
+    public static function blur_text()
+    {
+        return "************";
+    }
+
+    function blur_data($data)
+    {
+        echo '<span class="blur_data" style="color:black" data-show="' . $data . '">';
+        echo self::blur_text();
+        echo '</span>';
+    }
+
+    function blur_data_script()
+    {
+        echo '<script>';
+        echo '$(document).ready(function() {';
+        echo '$(".blur_data").click(function() {';
+        echo '$(".blur_data").each(function(){';
+        echo '$(this).html("' . self::blur_text() . '")';
+        echo '});';
+        echo '$(this).html($(this).attr("data-show"))';
+        echo '});';
+        echo '});';
+        echo '</script>';
+    }
+
     function format_td($td,$col,$blur_phone=false){
         $excludecols=['outlet','from','to','srcoutlet','dstoutlet','phone','nowa','nowabutik','wa','id'];
         $phonecols=['phone','nowabutik'];
         if(in_array($col,$phonecols)){
             return "<a class='text-danger' target='_blank' href='https://wa.me/+62".$td."'>
                         <img class='image' width='20px' src='".base_url('assets/images/wa.ico')."'/>
-                    </a>".($blur_phone?blur_data($td):$td);
+                    </a>".($blur_phone?$this->blur_data($td):$td);
         }
         elseif(is_float($td) && !in_array($col,$excludecols)){
             return number_format($td,2);
@@ -195,7 +256,7 @@ class MyHelper {
         } else {
             $coded = $code;
         }
-        return (($key * 12) + translateHex($coded));
+        return (($key * 12) + $this->translateHex($coded));
     }
 
     function translateHex($text, $isHex = true)
@@ -898,7 +959,7 @@ class MyHelper {
         return true;
     }
 
-    function day_of_week_convertion() 
+    function day_of_week_convertion()
     {
         return [
             'Monday' => 'Senin',
@@ -953,7 +1014,7 @@ class MyHelper {
     }
     function showschedule($scheduleid, $shifts)
     {
-        $shifts = mapdbresult($shifts, "id"); 
+        $shifts = mapdbresult($shifts, "id");
         if (isset($shifts[$scheduleid])) {
             return $shifts[$scheduleid]->name;
         } else {

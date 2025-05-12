@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -124,6 +127,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'providers' => ServiceProvider::defaultProviders()->merge([
+        App\Providers\MyHelperProvider::class,
+        App\Providers\MyServiceProvider::class,
+        App\Providers\MyFormatProvider::class,
+        App\Providers\MyLibraryProvider::class
+    ])->toArray(),
 
-
+    'aliases' => Facade::defaultAliases()->merge([
+        'MyHelper' => App\Helpers\MyHelper::class,
+        'MyLibrary'=> App\Helpers\MyLibrary::class,
+        'MyService'=> App\Helpers\MyService::class,
+        'MyFormat' => App\Helpers\MyFormat::class,
+    ])->toArray(),
 ];

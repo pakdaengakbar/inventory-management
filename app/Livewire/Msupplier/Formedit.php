@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Livewire\Msupplier;
-
 use Livewire\Component;
 use Livewire\Attributes\Rule;
-use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
 
+use App\Helpers\MyHelper as h_;
+use App\Helpers\MyService as s_;
 use App\Models\msupplier as supplier;
 
 class Formedit extends Component
@@ -51,7 +50,7 @@ class Formedit extends Component
      */
     public function update()
     {
-        $uauth = v_::getUser_Auth();
+        $uauth = s_::getUser_Auth();
         $this->validate();
         //get data
         $data = supplier::find($this->id);
@@ -60,7 +59,7 @@ class Formedit extends Component
             'ccode'     => $this->ccode,
             'cname'     => $this->cname,
             'caddress'  => $this->caddress,
-            'ccity'     => $this->ccity,
+            'ccity'     => ucwords(strtolower($this->ccity)),
             'cphone'    => $this->cphone,
             'cemail'    => $this->cemail,
             'caccount'  => $this->caccount,
@@ -82,13 +81,13 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $cities = v_::getCities();
+            $cities = s_::getCities();
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.msupplier.formedit', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'cities'         => $cities
+                'cities'         => $cities,
             ]);
         }catch(\Exception $e)
         {

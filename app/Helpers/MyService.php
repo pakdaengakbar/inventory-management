@@ -40,11 +40,11 @@ class MyService {
     public static function generateCode($table){
         $count = MyService::getCountTable($table);
         $numcode =$count+1;
-        if (strlen($count) == 1) {
-            $numcode = '0' .$numcode ;
+        if (strlen($numcode) == 1) {
+            $numcode = '00' . $numcode;
         }
-        if (strlen($count) == 2) {
-            $numcode = '00' .$numcode ;
+        if (strlen($numcode) == 2) {
+            $numcode = '0' . $numcode;
         }
         return $numcode;
     }

@@ -39,18 +39,19 @@
                                 <input type="text" class="form-control" wire:model="cname" onkeyup="this.value=toUCword(this.value);"  placeholder="Enter name">
                             </div>
                             <div class="mb-2">
-                                <label for="caddress" class="form-label">Address</label>
-                                <textarea class="form-control" rows="3" wire:model="caddress" onkeyup="this.value=toUCword(this.value);" placeholder="Enter address"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-2">
                                 <label for="cphone" class="form-label">Phone</label>
                                 <input type="text" class="form-control" wire:model="cphone" placeholder="Enter phone number">
                             </div>
-                            <div class="mb-2">
+                             <div class="mb-2">
                                     <label for="cemail" class="form-label">Email</label>
                                     <input type="email" class="form-control" wire:model="cemail" placeholder="Enter email">
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label for="caddress" class="form-label">Address</label>
+                                <textarea class="form-control" rows="3" wire:model="caddress" onkeyup="this.value=toUCword(this.value);" placeholder="Enter address"></textarea>
                             </div>
                             <div class="mb-2">
                                 <label for="ccity" class="form-label">City / Regency</label>
@@ -58,12 +59,12 @@
                                     <input class="form-control" list="rowdata" id="ccity"  wire:model="ccity" placeholder="Type to search...">
                                     <datalist id="rowdata">
                                         @foreach ($cities as $c)
-                                            <option value="{{ ucfirst(strtolower($c->name)) }}">{{ ucwords(strtolower($c->name)) }}</option>
+                                            <option value="{{ ucwords(strtolower($c->name)) }}">{{ ucwords(strtolower($c->name)) }}</option>
                                         @endforeach
                                     </datalist>
                                 </div>
                             </div>
-
+                            {!! MyHelper::setStatusMaster() !!}
                         </div>
                     </div>
                 </div>

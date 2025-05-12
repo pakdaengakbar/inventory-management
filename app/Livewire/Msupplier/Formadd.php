@@ -39,6 +39,9 @@ class Formadd extends Component
         $this->validate();
         //create post
         $code = v_::generateCode('msuppliers');
+        if ($this->cstatus == null) {
+            $this->cstatus =1;
+        }
         $data = array(
             'ccode'     => $code,
             'cname'     => $this->cname,

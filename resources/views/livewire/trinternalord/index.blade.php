@@ -10,45 +10,29 @@
 <!-- Start Content-->
 <div class="container-fluid">
 {!! $pageBreadcrumb !!}
+
 <!-- Button Datatable -->
 <div class="row">
-    <div class="col-12">
-        @if (session()->has('message'))
-        <div wire:ignore>
-            <div class="alert alert-primary alert-dismissible fade show" id="mAlert" role="alert">
-                {{ session('message') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="col-12">
+            <div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
+            <span id="mAlertMessage"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        @endif
         <div class="card">
             <div class="card-header">
                 <div class="clearfix">
                     <div class="float-start d-flex justify-content-center">
                         <h5 class="mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
                     </div>
-
                 </div>
             </div><!-- end card header -->
             <div class="card-body">
                 <form class="row row-cols-lg-auto g-3 align-items-center mb-3">
+                    {!! MyHelper::getSearchByDate() !!}
+
                     <div class="col-12">
-                        <span>Date :</span>
-                    </div>
-                    <div class="col-12">
-                        <label for="sdate" class="visually-hidden">Start Date</label>
-                        <input type="date" id="sdate" class="form-control" value="{{ date('Y-m-d') }}">
-                    </div>
-                    <div class="col-12">
-                        <span>To :</span>
-                    </div>
-                    <div class="col-12">
-                        <label for="edate" class="visually-hidden">End Date</label>
-                        <input type="date" id="edate" class="form-control" value="{{ date('Y-m-d') }}">
-                    </div>
-                    <div class="col-12">
-                        <div class="float-end">
-                            <a href="{{ route('products.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                        <div class="float-end mt-4">
+                            <a href="{{ route('intorder.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                                 <i class="mdi mdi-plus"></i> New Data
                             </a>
                             <a href="javascript:;" type="button" class="btn btn-warning btn-sm" id="btn_reload" onclick="handleData();">
@@ -92,6 +76,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     handleAlert();
+
     if (window.Livewire) {
         console.warn('Livewire actived.');
         Livewire.hook('message.processed', (message, component) => {
@@ -118,7 +103,6 @@ function handleData() {
     if ($.fn.DataTable.isDataTable('#rowDatatable')) {
         $('#rowDatatable').DataTable().destroy();
     }
-
     $('#rowDatatable').DataTable({
         processing : true,
         paginationType : 'full_numbers',
@@ -154,10 +138,26 @@ function handleData() {
 }
 
 Livewire.on('delDataTable', (data) => {
+    viewAlert(data);
     $('#rowDatatable').DataTable().ajax.reload(null, true);
-    setTimeout(function () {
-        $("#mAlert").hide();
-    }, 3000);
 });
+
+function viewAlert(data) {
+    const alertElement   = document.getElementById('mAlert');
+    const messageElement = document.getElementById('mAlertMessage');
+
+    if (alertElement && messageElement) {
+        const message = data[0].message;  // <- get the string
+
+        messageElement.textContent = message;
+        alertElement.classList.remove('d-none');
+        alertElement.classList.add('show');
+
+        setTimeout(() => {
+            bootstrap.Alert.getOrCreateInstance(alertElement).close();
+        }, 2000);
+    }
+}
+
 </script>
 @endsection

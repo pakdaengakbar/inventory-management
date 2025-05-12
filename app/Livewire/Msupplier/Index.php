@@ -38,6 +38,6 @@ class Index extends Component
         //destroy
         supplier::destroy($id);
         session()->flash('message', 'Delete Success.');
-        return redirect()->route('companies.index');
+        return redirect()->route('suppliers.index');
     }
 }
