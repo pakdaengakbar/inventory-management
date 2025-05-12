@@ -60,7 +60,7 @@
                                     <th>No Int.Order</th>
                                     <th>Supplier</th>
                                     <th>Notes</th>
-                                    <th>Total</th>
+                                    <th class="col-1">Total</th>
                                     <th class="col-1">Status</th>
                                     <th class="col-1">Action</th>
                                 </tr>

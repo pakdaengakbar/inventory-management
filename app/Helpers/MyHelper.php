@@ -52,10 +52,11 @@ class MyHelper {
     }
 
     public static function getSearchByDate(){
-        $today = date('Y-m-d');
+        $first = MyHelper::thismonthfirstdate();
+        $today = MyHelper::datenow();
         return '<div class="col-12">
                     <label for="sdate" class="form-label">Start Date</label>
-                    <input type="date" id="sdate" class="form-control" value="'.$today.'">
+                    <input type="date" id="sdate" class="form-control" value="'.$first.'">
                 </div>
                 <div class="col-12">
                     <label for="edate" class="form-label">End Date</label>
@@ -114,6 +115,7 @@ class MyHelper {
         }
         return $td;
     }
+
     function format_tdaction($action,$arr){
         $action=str_replace('$pk', $arr['pk'], $action);
         if(isset($arr['pk']))
@@ -126,6 +128,7 @@ class MyHelper {
             $action=str_replace('$purchaseid', $arr['purchaseid'], $action);
         return $action;
     }
+
     function changespercent_colour($data){
         if($data>0)
             $colour="success";
@@ -135,6 +138,7 @@ class MyHelper {
             $colour="danger";
         return $colour;
     }
+
     function badge_($data,$colour,$default=''){
         if($data=='' or $data==null or $data==false){
             $colour='danger';
@@ -142,6 +146,7 @@ class MyHelper {
         }
         return '<span class="badge badge-light-'.$colour.' fs-base">'.$data.'</span>';
     }
+
     function changesarrow($data){
         if($data>0){
             return '<i class="ki-outline ki-arrow-up text-success ms-n1"></i>';
@@ -153,6 +158,7 @@ class MyHelper {
             return '<i class="ki-outline ki-arrow-down text-danger ms-n1"></i>';
         }
     }
+
     function portionpercent_colour($data){
         if($data>=90)
             $colour="success";
@@ -166,6 +172,7 @@ class MyHelper {
             $colour="danger";
         return $colour;
     }
+
     function amount_rupiah($data,$withPrepend=true){
         if($data>=0){
             if($data>=1000000000)
@@ -303,8 +310,6 @@ class MyHelper {
         return (strcmp($cek, '') == 0 ? $default : $cek);
     }
 
-
-
     function durationdays($assigned_time = '', $completed_time = '')
     {
         $date1 = new DateTime($assigned_time);
@@ -347,17 +352,17 @@ class MyHelper {
         }
     }
 
-    function datenow()
+    static function datenow()
     {
         return date('Y-m-d');
     }
 
-    function datetimenow()
+    static function datetimenow()
     {
         return date('Y-m-d H:i:s');
     }
 
-    function thismonthfirstdate()
+    static function thismonthfirstdate()
     {
         return date("Y-m-01");
     }
@@ -367,12 +372,12 @@ class MyHelper {
         return date("Y-m-d", strtotime(date("Y-m-d", strtotime(date("Y-m-d"))) . "-1 month"));
     }
 
-    function lastyear()
+    static function lastyear()
     {
         return date("Y-m-d", strtotime(date("Y-m-d", strtotime(date("Y-m-d"))) . "-1 year"));
     }
 
-    function divideint($amount, $num)
+    static function divideint($amount, $num)
     {
         $res = intval($amount / $num);
         $result = array();
