@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="row mb-3 justify-content-end">
+                                <div class="row mb-3">
                                     <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="cno_inorder" wire:model="cno_inorder" value="{{ $no_inorder }}"
@@ -54,7 +54,11 @@
                                         <input type="text" class="form-control text-center" wire:model="cstatus"  placeholder="Status" readonly>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    {!! MyHelper::setRegionlivewire('cregion_id', true, 'cregion_id') !!}
+                                </div>
                             </div>
+
                         </div><hr>
 
                          <div class="row">

@@ -29,15 +29,8 @@
             <div class="card-body">
                 <form class="row row-cols-lg-auto g-3 align-items-center mb-3">
                     {!! MyHelper::getSearchByDate() !!}
-
                     <div class="col-12">
-                        <label for="cbr" class="form-label">Region</label>
-                        <select class="form-select" id="region" >
-                            <option value="">-- Select Region --</option>
-                            @foreach ($region as $c)
-                                <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
-                            @endforeach
-                        </select>
+                         {!! MyHelper::setSearchRegion('region') !!}
                     </div>
                     <div class="col-12">
                         <div class="float-end mt-4">

@@ -64,6 +64,31 @@ class MyHelper {
                 </div>';
     }
 
+    public static function setSearchRegion($field){
+        $region = MyService::getRegion();
+        $html = '<label for="cbr" class="form-label">Region</label>
+                 <select class="form-select" id="'.$field.'" >
+                    <option value="">-- Select Region --</option>';
+        foreach ($region as $c) {
+            $html .= '<option value="'.$c->id.'">'.ucwords(strtolower($c->cname)).'</option>';
+        }
+        $html .= '</select>';
+        return $html;
+    }
+
+    public static function setRegionlivewire($field, $lifewire = false, $name=''){
+        $region = MyService::getRegion();
+        $html = '<label for="cbr" class="col-sm-2 col-form-label text-end">Region</label>
+                 <div class="col-sm-5">
+                 <select class="form-select" id="'.$field.'" '.($lifewire == true ? 'wire:model="'.$name.'"' : '').' >
+                    <option value="">-- Select Region --</option>';
+        foreach ($region as $c) {
+            $html .= '<option value="'.$c->id.'">'.ucwords(strtolower($c->cname)).'</option>';
+        }
+        $html .= '</select></div>';
+        return $html;
+    }
+
     public static function blur_text()
     {
         return "************";
@@ -780,8 +805,6 @@ class MyHelper {
 
         return array_change_key_case($headers);
     }
-
-
 
     function removeForbidenCharacter($string)
     {
