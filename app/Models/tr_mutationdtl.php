@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_mutationdtl extends Model
 {
-   protected $fillable = [
+    protected $table = 'tr_mutationdtl';
+    protected $fillable = [
         'nheader_id',
         'dtrans_date',
         'cno_mutation',

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_inorderdtl extends Model
 {
+    protected $table = 'tr_inorderdtl';
     protected $fillable = [
         'nheader_id',
         'dtrans_date',

@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\msupplier as Supplier;
 
 class tr_inorderhdr extends Model
 {
+    use HasFactory;
+    protected $table = 'tr_inorderhdr';
     protected $fillable = [
         'cno_inorder',
         'csupplier_id',
@@ -31,4 +37,8 @@ class tr_inorderhdr extends Model
         'nregion_id'
     ];
 
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class, 'csupplier_id');
+    }
 }

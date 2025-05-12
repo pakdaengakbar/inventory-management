@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_dorderdtl extends Model
 {
+    protected $table = 'tr_dorderdtl';
     protected $fillable = [
         'id',
         'nheader_id',

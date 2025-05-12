@@ -12,6 +12,10 @@ use App\Http\Controllers\DttypeController;
 use App\Http\Controllers\WebCategory;
 use App\Http\Controllers\WebClient;
 
+use App\Http\Controllers\RowInternalorder;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,15 +71,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/types', [DttypeController::class, 'datatable']);
     });
 
-     Route::group(['prefix' => 'website'], function () {
+    Route::group(['prefix' => 'inventory'], function () {
+        Route::get('/intorder', App\Livewire\Trinternalord\Index::class)->name('intorder.index');
+        Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
+    });
+
+    Route::group(['prefix' => 'website'], function () {
         Route::get('/category', App\Livewire\Webcategory\Index::class)->name('webcategory.index');
         Route::post('/rwdata/category', [WebCategory::class, 'datatable']);
 
         Route::get('/clients', App\Livewire\Webclient\Index::class)->name('clients.index');
         Route::post('/rwdata/clients', [WebClient::class, 'datatable']);
-
-
-     });
+    });
 });
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {

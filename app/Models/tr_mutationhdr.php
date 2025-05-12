@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_mutationhdr extends Model
 {
+    protected $table = 'tr_mutationhdr';
     protected $fillable = [
         'cno_mutation',
         'cno_order',

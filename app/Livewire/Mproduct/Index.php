@@ -21,7 +21,6 @@ class Index extends Component
 
     public function render()
     {
-        $data = product::all();
         try {
             $group= v_::getProdgroup();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));

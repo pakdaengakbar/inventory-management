@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_salesdtl extends Model
 {
+    protected $table = 'tr_salesdtl';
     protected $fillable = [
         'nheader_id',
         'cno_faktur',

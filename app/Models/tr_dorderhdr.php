@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_dorderhdr extends Model
 {
+     protected $table = 'tr_dorderhdr';
     protected $fillable = [
         'cno_delivery',
         'cno_faktur',

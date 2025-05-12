@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tr_qorderhdr extends Model
 {
+    protected $table = 'tr_qorderhdr';
     protected $fillable = [
         'id',
         'cno_quorder',
