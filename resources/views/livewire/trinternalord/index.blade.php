@@ -31,6 +31,15 @@
                     {!! MyHelper::getSearchByDate() !!}
 
                     <div class="col-12">
+                        <label for="cbr" class="form-label">Region</label>
+                        <select class="form-select" id="region" >
+                            <option value="">-- Select Region --</option>
+                            @foreach ($region as $c)
+                                <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12">
                         <div class="float-end mt-4">
                             <a href="{{ route('intorder.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                                 <i class="mdi mdi-plus"></i> New Data

@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
-use App\Models\mproduct as product;
 
 class Index extends Component
 {

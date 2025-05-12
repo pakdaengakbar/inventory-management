@@ -54,13 +54,13 @@ class MyHelper {
     public static function getSearchByDate(){
         $today = date('Y-m-d');
         return '<div class="col-12">
-                        <label for="sdate" class="form-label">Start Date</label>
-                        <input type="date" id="sdate" class="form-control" value="'.$today.'">
-                    </div>
-                    <div class="col-12">
-                        <label for="edate" class="form-label">End Date</label>
-                        <input type="date" id="edate" class="form-control" value="'.$today.'">
-                    </div>';
+                    <label for="sdate" class="form-label">Start Date</label>
+                    <input type="date" id="sdate" class="form-control" value="'.$today.'">
+                </div>
+                <div class="col-12">
+                    <label for="edate" class="form-label">End Date</label>
+                    <input type="date" id="edate" class="form-control" value="'.$today.'">
+                </div>';
     }
 
     public static function blur_text()
@@ -94,7 +94,7 @@ class MyHelper {
         $phonecols=['phone','nowabutik'];
         if(in_array($col,$phonecols)){
             return "<a class='text-danger' target='_blank' href='https://wa.me/+62".$td."'>
-                        <img class='image' width='20px' src='".base_url('assets/images/wa.ico')."'/>
+                        <img class='image' width='20px' src='".url('assets/images/wa.ico')."'/>
                     </a>".($blur_phone?$this->blur_data($td):$td);
         }
         elseif(is_float($td) && !in_array($col,$excludecols)){
@@ -303,29 +303,7 @@ class MyHelper {
         return (strcmp($cek, '') == 0 ? $default : $cek);
     }
 
-    function show_error_message($menu, $error, $url = "")
-    {
-        $msg1 = strtoupper(str_replace(" ", "_", $menu) . '_');
-        $msg2 = strtoupper(str_replace(" ", "_", $error));
-        $CI = get_instance();
-        $CI->load->model('User_model', 'user_model');
-        if ($CI->user_model->is_ajax_request()) $CI->user_model->response_ok([], $msg1 . $msg2);
 
-        echo
-        "<script>
-            alert('ERROR : ERR_" . $msg1 . $msg2 . "');
-            window.location.href='" . base_url($url) . "';
-        </script>";
-    }
-
-    function show_error_message_harga($menu, $error, $url = "")
-    {
-        $CI = get_instance();
-        $CI->load->model('Log_model');
-        $CI->load->library('session');
-        $user = $CI->session->userdata('employeeid');
-        $CI->Log_model->insert_log($menu, $error, $user);
-    }
 
     function durationdays($assigned_time = '', $completed_time = '')
     {
@@ -425,19 +403,7 @@ class MyHelper {
         return number_format($x, $dec, ",", ".");
     }
 
-    function popredirect($url)
-    {
-        $CI = get_instance();
-        $CI->load->library('session');
-        $CI->load->helper('url');
 
-        $redirurl = $CI->session->userdata('redirectstack');
-        $CI->session->unset_userdata('redirectstack');
-        if ($redirurl == null) {
-            $redirurl = $url;
-        }
-        redirect($redirurl);
-    }
     function is_hooutlet($outlet)
     {
 
@@ -508,12 +474,6 @@ class MyHelper {
             return true;
         } else return false;
     }
-    function is_hrdoutlet($outlet, $accessid = "")
-    {
-        if ($outlet == '999' || in_array($outlet, _HRDOUTLETS) || $accessid == '1') {
-            return true;
-        } else return false;
-    }
 
     function is_companycode($outlet)
     {
@@ -580,29 +540,8 @@ class MyHelper {
 
         return $randomString;
     }
-    function redirectPost($url, $postdata)
-    {
-        echo form_open($url, ["id" => "autosubmit-form"]);
-        foreach ($postdata as $name => $val) {
-            echo form_hidden($name, $val);
-        }
-        echo form_submit("autosubmit", "autosubmit", ['style' => "display:none;"]);
-        echo form_close();
-        echo "<script>
-        document.getElementById('autosubmit-form').submit();
-        </script>";
-    }
-    function isDocumentFile($filename)
-    {
-        $file = explode(".", $filename);
-        if (like_match('%?sign%', $filename)) {
-            $file = explode("?sign", $filename);
-            $file = explode(".", $file[0]);
-        }
-        if (in_array(strtolower($file[count($file) - 1]), ['xlsx', 'xls', 'doc', 'docx', 'pdf'])) {
-            return true;
-        } else return false;
-    }
+
+
 
     function mapdbresult($arrobj, $key, $is_unique = true)
     {
@@ -629,10 +568,10 @@ class MyHelper {
         if (count($keyarr) == $idx + 1) {
             $unique = $is_unique;
         }
-        $res = mapdbresult($arrobj, $keyarr[$idx], $unique);
+        $res = $this->mapdbresult($arrobj, $keyarr[$idx], $unique);
         if (count($keyarr) > $idx + 1) {
             foreach ($res as $key => $val) {
-                $res[$key] = maprdbresult($val, $keyarr, $is_unique, $idx + 1);
+                $res[$key] = $this->maprdbresult($val, $keyarr, $is_unique, $idx + 1);
             }
         }
         return $res;
@@ -788,7 +727,7 @@ class MyHelper {
         $result = array();
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $result = array_merge($result, array_flatten($value));
+                $result = array_merge($result, $this->array_flatten($value));
             } else {
                 $result[$key] = $value;
             }
@@ -837,15 +776,7 @@ class MyHelper {
         return array_change_key_case($headers);
     }
 
-    function hastutorial()
-    {
-        $CI = get_instance();
-        $uri_string = $CI->uri->uri_string();
-        $tutorial = $CI->db->where("'$uri_string' like concat(slug,'%')")->order_by("slug desc")->get("tutorial")->row();
-        if ($tutorial == null)
-            return false;
-        return $tutorial;
-    }
+
 
     function removeForbidenCharacter($string)
     {
@@ -932,32 +863,6 @@ class MyHelper {
         }
         return $status;
     }
-    function getsavedsearch($asarray=true){
-        $CI = get_instance();
-        $uri=$CI->uri->uri_string();
-        $userid=$CI->session->employeeid;
-        $savedsearch=$CI->db->where('uri',$uri)->where('userid',$userid)->get('savedsearch')->row();
-        if($savedsearch==null)
-            return false;
-        if($asarray){
-            return get_object_vars(json_decode($savedsearch->savedget));
-        }
-        else{
-            return json_decode($savedsearch->savedget);
-        }
-    }
-    function setsavedsearch($get){
-        $CI = get_instance();
-        $uri=$CI->uri->uri_string();
-        $userid=$CI->session->employeeid;
-        $savedget=json_encode($get);
-        $savedsearch=$CI->db->replace('savedsearch',[
-            'userid'=>$userid,
-            'uri'=>$uri,
-            'savedget'=>$savedget
-        ]);
-        return true;
-    }
 
     function day_of_week_convertion()
     {
@@ -972,17 +877,7 @@ class MyHelper {
         ];
     }
 
-    function can_select_new_template()
-    {
-        $CI = get_instance();
-        $eligibleid = [87, 1231];
-        $userid = $CI->session->employeeid;
-        if (in_array($userid, $eligibleid)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     function calcchanges($a,$b){
         if(is_object($a)){
@@ -1007,20 +902,7 @@ class MyHelper {
         }
         return $changes;
     }
-    function getRecentSearches($employeeid){
-        $ci=&get_instance();
-        $recentSearches=$ci->search_model->recentSearches($employeeid);
-        return $recentSearches;
-    }
-    function showschedule($scheduleid, $shifts)
-    {
-        $shifts = mapdbresult($shifts, "id");
-        if (isset($shifts[$scheduleid])) {
-            return $shifts[$scheduleid]->name;
-        } else {
-            return "NO SCHEDULE";
-        }
-    }
+
 
     function validateImageLink($url) {
         $headers = get_headers($url);
