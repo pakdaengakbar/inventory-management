@@ -14,7 +14,6 @@ class RowInternalorder extends Controller
         $result = intorder::where(DB::raw('dtrans_date'), '>=', $sdate)
 						  ->where(DB::raw('dtrans_date'), '<=', $edate)
 						  ->orderBy('dtrans_date','desc')->limit(1000)->get();
-        dd($result);
         $data = $result->map(function ($row, $index) {
             return [
                 'no' => $index + 1,
