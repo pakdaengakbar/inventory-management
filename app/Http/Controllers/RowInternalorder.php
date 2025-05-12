@@ -18,7 +18,7 @@ class RowInternalorder extends Controller
             return [
                 'no' => $index + 1,
                 'trnsdate'=> $row->dtrans_date,
-                'nofaktur'=> $row->cno_faktur,
+                'nofaktur'=> $row->cno_inorder,
                 'supplier'=> $row->csupplier_name,
                 'notes'   => $row->cnotes,
                 'status'  => $row->cstatus,

@@ -32,8 +32,10 @@ class MyService {
     /* User Auth */
     public static function getUser_Auth(){
         $result = array(
-            'id'   => Auth::user()->id,
-            'name' => Auth::user()->name,
+            'id'        => Auth::user()->id,
+            'name'      => Auth::user()->name,
+            'region_id'  => Auth::user()->nregion_id,
+            'companie_id'=> Auth::user()->ncompanie_id,
         );
         return $result;
     }
@@ -57,57 +59,24 @@ class MyService {
         }
         return $id.$numcode;
     }
-    /* Get Master */
-    public static function getCompany(){
-        $result = Mcompanie::all();
-        return $result;
-    }
-    public static function getRegion(){
-        $result = Mregion::where('cstatus',1)->get();
-        return $result;
-    }
-    public static function getDepart(){
-        $result = Mdepart::all();
-        return $result;
-    }
-    public static function getPosition(){
-        $result = Mposition::all();
-        return $result;
-    }
-    public static function getCities(){
-        $result = cities::all();
-        return $result;
-    }
-    public static function getProdgroup(){
-        $result = prodgroup::all();
-        return $result;
-    }
-    public static function getProdbrand(){
-        $result = prodbrand::all();
-        return $result;
-    }
-    public static function getProdtype(){
-        $result = prodtype::all();
-        return $result;
-    }
-    public static function getUom(){
-        $result = uom::all();
-        return $result;
-    }
-    public static function getSuplier(){
-        $result = supplier::all();
-        return $result;
-    }
-    public static function getCustomer(){
-        $result = customer::all();
-        return $result;
-    }
-
-    public static function getBranchId($where){
-        $result = Mregion::where($where)->first();
-        return $result;
-    }
-
+    public static function MaxNumber($table, $region, $companie){
+		$month = date('m').date('Y');
+        $data = DB::table($table)
+                    ->select(DB::raw('MAX(nnum_log) as no'))
+                    ->where('cmonth', $month)
+                    ->where('nregion_id', $region)
+                    ->where('ncompanie_id', $companie)
+                    ->first();
+		if($data){
+			$no = $data->no;
+			if ($no==''){$no=0;}
+			$tmp = ((int) substr($no,0,5)+1);
+			$hasil =sprintf("%05s", $tmp);
+		}else{
+			$hasil = $month.'00001';
+		}
+		return $hasil;
+	}
     public static function getRowData($table,$id)
     {
         return DB::table($table)->where('id',$id)->first();
@@ -155,51 +124,12 @@ class MyService {
         $count = DB::table($table)->count();
         return $count;
     }
-    /* use function */
-    public static function genRandomChr($num) {
-        $randomStr = substr(str_shuffle(str_repeat($x='ABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($num/strlen($x)) )),1,$num);
-        return $randomStr;
-    }
-    public static function genRandomNum($num) {
-        $randomStr = substr(str_shuffle(str_repeat($x='01234567890987654321', ceil($num/strlen($x)) )),1,$num);
-        return $randomStr;
-    }
-
-    public static function hari() {
-        $hari2=date("w");
-        Switch ($hari2){
-            case 0 	: $hari="Minggu"; Break;
-            case 1 	: $hari="Senin"; Break;
-            case 2	: $hari="Selasa"; Break;
-            case 3 	: $hari="Rabu"; Break;
-            case 4 	: $hari="Kamis"; Break;
-            case 5 	: $hari="Jumat"; Break;
-            case 6 	: $hari="Sabtu"; Break;
-        }
-        return $hari;
-    }
-    public static function Server_thn($date){
-        $exp = explode('-',$date);
-        $tgl = $date;
-        $date= substr($date, 0, 4);
-        return $date;
-    }
-    public static function Server_date($date){
-        $exp = explode('-',$date);
-        $tgl = $date;
-        $date= $exp[0].'-'.$exp[1].'-'.$exp[2];
-        return $date;
-    }
-    public static function Server_date_str($date){
-        $exp = explode('-',$date);
-        $tgl = $date;
-        $date= $exp[2].'-'.$exp[1].'-'.$exp[0];
-        return $date;
-    }
+    //select all table
     public static function getAllData($table,$where,$order)
     {
         return DB::table($table)->where($where)->orderBy($order,'asc')->get();
     }
+    //select all limited table
     public static function getAllDataLimited($table,$order,$limit)
     {
         return DB::table($table)->orderBy($order,'asc')->limit($limit)->get();
@@ -208,6 +138,7 @@ class MyService {
     {
         return DB::table($table)->where($where)->orderBy($order,'asc')->limit($limit)->get();
     }
+    //select field
     public static function get_firsttable($table,$where,$key,$field) {
         $response = DB::table($table)->where($where, $key)->first();
         return (isset($response->$field) ? $response->$field : '');
@@ -215,7 +146,7 @@ class MyService {
     //select table
     public static function getSelectedData($table,$where)
     {
-        $response = DB::table($table)->select(\DB::raw('*'))->where($where)->get();
+        $response = DB::table($table)->select(DB::raw('*'))->where($where)->get();
         return $response;
     }
     //update table
@@ -227,185 +158,53 @@ class MyService {
     {
         return DB::table($table)->insert([$data]);
     }
-    //other function
-    public static function tgl_sql($date){
-        $exp = explode('-',$date);
-        if(count($exp) == 3) {
-            $date = $exp[2].'-'.$exp[1].'-'.$exp[0];
-        }
-        return $date;
+    /* Get Data Master */
+    public static function getCompany(){
+        $result = Mcompanie::all();
+        return $result;
     }
-    public static function tgl_str($date){
-        $exp = explode('-',$date);
-        if(count($exp) == 3) {
-            $date = $exp[2].'-'.$exp[1].'-'.$exp[0];
-        }
-        return $date;
+    public static function getRegion(){
+        $result = Mregion::where('cstatus',1)->get();
+        return $result;
     }
-    public static function ambilTgl($tgl){
-        $exp = explode('-',$tgl);
-        $tgl = $exp[2];
-        return $tgl;
+    public static function getDepart(){
+        $result = Mdepart::all();
+        return $result;
     }
-    public static function ambilBln($tgl){
-        $exp = explode('-',$tgl);
-        $tgl = $exp[1];
-        $bln = MyService::getBulan($tgl);
-        $hasil = substr($bln,0,3);
-        return $hasil;
+    public static function getPosition(){
+        $result = Mposition::all();
+        return $result;
     }
-    public static function tgl_indo($tgl){
-        $jam = substr($tgl,11,10);
-        $tgl = substr($tgl,0,10);
-        $tanggal = substr($tgl,8,2);
-        $bulan = MyService::getBulan(substr($tgl,5,2));
-        $tahun = substr($tgl,0,4);
-        return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
+    public static function getCities(){
+        $result = cities::all();
+        return $result;
     }
-    public static function combothn($awal, $akhir, $var, $select){
-        echo "<select name=$var id=$var class='form-control' >
-			  <option value=''>-Pilih-</option>";
-        for ($t=$awal; $t<=$akhir; $t++){
-            if ($t==$select)
-                echo "<option value=$t selected>$t</option>";
-            else
-                echo "<option value=$t>$t</option>";
-        }
-        echo "</select> ";
+    public static function getProdgroup(){
+        $result = prodgroup::all();
+        return $result;
     }
-    public static function combobln($awal, $akhir, $var, $select){
-        echo "<select name=$var id=$var class='form-control' >
-			  <option value='All'>-Pilih-</option>";
-        for ($bln=$awal; $bln<=$akhir; $bln++){
-            $lebar=strlen($bln);
-            $bulan = MyService::getBulan($bln);
-            switch($lebar){
-                case 1:
-                {
-                    $b="0".$bln;
-                    break;
-                }
-                case 2:
-                {
-                    $b=$bln;
-                    break;
-                }
-            }
-            if ($bln==$select)
-                echo "<option value=$b selected>$bulan</option>";
-            else
-                echo "<option value=$b>$bulan</option>";
-        }
-        echo "</select> ";
+    public static function getProdbrand(){
+        $result = prodbrand::all();
+        return $result;
     }
-    public static function getBulan($bln){
-        switch ($bln){
-            case 1:
-                return "Januari";
-                break;
-            case 2:
-                return "Februari";
-                break;
-            case 3:
-                return "Maret";
-                break;
-            case 4:
-                return "April";
-                break;
-            case 5:
-                return "Mei";
-                break;
-            case 6:
-                return "Juni";
-                break;
-            case 7:
-                return "Juli";
-                break;
-            case 8:
-                return "Agustus";
-                break;
-            case 9:
-                return "September";
-                break;
-            case 10:
-                return "Oktober";
-                break;
-            case 11:
-                return "November";
-                break;
-            case 12:
-                return "Desember";
-                break;
-        }
+    public static function getProdtype(){
+        $result = prodtype::all();
+        return $result;
     }
-    public static function hari_ini($hari){
-        date_default_timezone_set('Asia/Jakarta'); // PHP 6 mengharuskan penyebutan timezone.
-        $seminggu = array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
-        //$hari = date("w");
-        $hari_ini = $seminggu[$hari];
-        return $hari_ini;
+    public static function getUom(){
+        $result = uom::all();
+        return $result;
     }
-    public static function callSProcedure($name, $array) {
-        $q = DB::statement(DB::raw('CALL '.$name.'(?, ?, ?, ?, ?)'), $array);
-        return $q;
+    public static function getSupplier(){
+        $result = supplier::where('cstatus', 1)->get();
+        return $result;
     }
-    function hp($nohp) {
-        // 0811 239 345
-        $nohp = str_replace(" ","",$nohp);
-        // (0274) 778787
-        $nohp = str_replace("(","",$nohp);
-        // (0274) 778787
-        $nohp = str_replace(")","",$nohp);
-        // 0811.239.345
-        $nohp = str_replace(".","",$nohp);
-
-        $nohp = str_replace("-","",$nohp);
-
-        // cek apakah no hp mengandung karakter + dan 0-9
-        if(!preg_match('/[^+0-9]/',trim($nohp))){
-            // cek apakah no hp karakter 1-3 adalah +62
-            if(substr(trim($nohp), 0, 2)=='62'){
-                $hp = trim($nohp);
-            }
-            // cek apakah no hp karakter 1 adalah 0
-            elseif(substr(trim($nohp), 0, 1)=='0'){
-                $hp = '62'.substr(trim($nohp), 1);
-            }
-        }
-        return $hp;
+    public static function getCustomer($status){
+        $result = customer::where('cstatus', $status)->where('cflag', 1)->get();
+        return $result;
     }
-    public static  function mapdbresult($arrobj, $key, $is_unique = true)
-	{
-		$returns = [];
-		foreach ($arrobj as $row) {
-			$row = (object) $row;
-			if ($is_unique) {
-				$returns[$row->$key] = $row;
-			} else {
-				if (!isset($return[$row->key]))
-					$returns[$row->key] = [];
-				$returns[$row->$key][] = $row;
-			}
-		}
-		if (empty($returns[''])) {
-			unset($returns['']);
-		}
-		return $returns;
-	}
-
-	public static  function makeArrayFormQueryIndex($arrays, $index, $noduplicate = false)
-	{
-		$result = array();
-		foreach ($arrays as $key => $value) {
-			$tempobject = (object) $value;
-			if ($noduplicate) {
-				if (!in_array($tempobject->$index, $result)) {
-					array_push($result, $tempobject->$index);
-				}
-			} else {
-				array_push($result, $tempobject->$index);
-			}
-		}
-		return array_filter($result);
-	}
+    public static function getBranchId($where){
+        $result = Mregion::where($where)->first();
+        return $result;
+    }
 }

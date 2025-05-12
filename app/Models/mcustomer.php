@@ -24,5 +24,6 @@ class mcustomer extends Model
         'cupdate_by',
         'ncompanie_id',
         'cregion_id',
+        'cflag'
     ];
 }

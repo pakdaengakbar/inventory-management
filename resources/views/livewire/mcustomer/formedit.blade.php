@@ -78,6 +78,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-1">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" wire:model="cstatus" >
+                                    <option value="">Select Status</option>
+                                    <option value='Customer'>Customer</option>
+                                    <option value='Mitra'>Mitra</option>
+                                </select>
+                            </div>
                         </div>
                         <!-- Right column -->
                         <div class="col-lg-6">
@@ -125,11 +133,11 @@
                                 </datalist>
                             </div>
                             <div class="mb-1">
-                                <label class="form-label">Status</label>
-                                <select class="form-select" wire:model="cstatus" >
-                                    <option value="">Select Status</option>
-                                    <option value='Customer'>Customer</option>
-                                    <option value='Mitra'>Mitra</option>
+                                <label class="form-label">Flag</label>
+                                <select class="form-select" wire:model="cflag" >
+                                    <option value="">Select Flag</option>
+                                    <option value='1'>Activated</option>
+                                    <option value='0'>Not Activated</option>
                                 </select>
                             </div>
                         </div>
@@ -150,10 +158,36 @@
 
 @section('script')
 <script>
+
 function toUCword(str){
 	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
 		return $1.toUpperCase();
 	});
+}
+
+function calculateAdd(){
+var q = $("#nQty").val();
+var p = Number($("#nPrice").val().replace(/[^0-9\.]+/g,""));
+var s = Number($("#nTotal").val().replace(/[^0-9\.]+/g,""));
+var o = Number($("#oPrice").val().replace(/[^0-9\.]+/g,""));
+	if(q.length > 0 || q > 0){
+		s = s-o;
+		var subtotal = s+(p*q);
+		$('#nTotal').val(convertToRupiah(subtotal));
+	}
+}
+
+function calculateDel(a){
+	var s = Number($("#nTotal").val().replace(/[^0-9\.]+/g,""));
+	var temp = s-a;
+	$('#nTotal').val(convertToRupiah(temp));
+}
+
+function convertToRupiah(angka){
+    var rupiah = '';
+    var angkarev = angka.toString().split('').reverse().join('');
+    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
+    return rupiah.split('',rupiah.length-1).reverse().join('');
 }
 </script>
 @endsection

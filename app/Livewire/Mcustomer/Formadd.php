@@ -62,6 +62,7 @@ class Formadd extends Component
             'cstatus'          => $this->cstatus,
             'cemail'           => $this->cemail,
             'ccreate_by'=> $uauth['id'],
+            'cflag'            => 1,
         );
 
         customer::create($data);

@@ -14,7 +14,7 @@ class Formedit extends Component
     public $page, $id, $ccode, $caddress2, $cphone, $cmobile,
            $cfax, $nlimit_received, $nmax_invoice, $nblock_duedate, $ccity,
            $ccreate_by, $cupdate_by, $ncompanie_id, $cregion_id, $caccount,
-           $cstatus, $cemail;
+           $cstatus, $cemail, $cflag;
 
     public function __construct() {
         $this->page = array(
@@ -86,6 +86,7 @@ class Formedit extends Component
             'caccount'         => $this->caccount,
             'cstatus'          => $this->cstatus,
             'cemail'           => $this->cemail,
+            'cflag'            => $this->cflag,
         );
 
         $data->update($row);

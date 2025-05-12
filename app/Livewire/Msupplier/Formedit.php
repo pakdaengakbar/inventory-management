@@ -50,8 +50,9 @@ class Formedit extends Component
      */
     public function update()
     {
-        $uauth = s_::getUser_Auth();
         $this->validate();
+
+        $uauth = s_::getUser_Auth();
         //get data
         $data = supplier::find($this->id);
         //check if image
