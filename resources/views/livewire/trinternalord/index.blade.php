@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function handleData() {
     var sdate = $("#sdate").val(), edate = $("#edate").val();
+    var region = $("#region").val();
     if ($.fn.DataTable.isDataTable('#rowDatatable')) {
         $('#rowDatatable').DataTable().destroy();
     }
@@ -103,7 +104,8 @@ function handleData() {
             "type" : "POST",
             "data" : {
                 "sdate" : sdate,
-                "edate" : edate
+                "edate" : edate,
+                "region" : region
             },
             "dataSrc": function (json) {
                 if (!json || typeof json !== 'object') {
@@ -129,7 +131,7 @@ function handleData() {
 }
 
 Livewire.on('delDataTable', (data) => {
-    $('#rowDatatable').DataTable().ajax.reload(null, true);
+    $('#rowDatatable').DataTable().ajax.reload(false, true);
     viewAlert(data[0].message);
 });
 

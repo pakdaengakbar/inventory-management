@@ -8,6 +8,8 @@ use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
 use App\Models\tr_inorderhdr as ioheader;
+use App\Models\tr_inorderdtl as iodetail;
+
 
 class Index extends Component
 {
@@ -42,6 +44,7 @@ class Index extends Component
     {
         //destroy
         ioheader::destroy($id);
+        iodetail::where('nheader_id', $id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }

@@ -62,7 +62,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/products', App\Livewire\Mproduct\Index::class)->name('products.index');
         Route::get('/products/add', App\Livewire\Mproduct\Formadd::class)->name('products.add');
         Route::get('/products/edit/{id}', App\Livewire\Mproduct\Formedit::class)->name('products.edit');
-
         Route::get('/prodsetting', App\Livewire\Mbrandproduct\Index::class)->name('prodsetting.index');
 
         Route::post('/rwdata/products', [DtprodController::class, 'datatable']);
@@ -77,7 +76,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/intorder', App\Livewire\Trinternalord\Index::class)->name('intorder.index');
         Route::get('/intorder/add', App\Livewire\Trinternalord\Formadd::class)->name('intorder.add');
         Route::get('/intorder/edit/{id}', App\Livewire\Trinternalord\Formedit::class)->name('intorder.edit');
+
         Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
+        Route::post('/rwdata/save', [RowInternalorder::class, 'simpan']);
+
     });
 
     Route::group(['prefix' => 'website'], function () {
