@@ -13,12 +13,18 @@ use App\Models\tr_inorderdtl as iodetail;
 class Formadd extends Component
 {
     public $page, $cstatus = 'O';
-    public $code, $dtrans_date, $ntotal, $cregion_id;
+    public $code, $cregion_id;
+    //public $icode = [];
+    public $dtrans_date;
+    public $ntotal = 0;
+
+
     public function __construct() {
         $this->page = array(
             'title' => 'Internal Order',
             'description'=> 'Add Data'
         );
+        $this->dtrans_date = now()->format('Y-m-d');
     }
 
     //supplier
@@ -44,21 +50,23 @@ class Formadd extends Component
         $supplier = v_::getRowData('msuppliers', $this->csupplier_id);
         //create post
         $code = v_::MaxNumber('tr_inorderhdr', 1, 1);
+
         $code = 'IO-'.date('ymd').'-'.$code;
         $data = array(
-            'cno_inorder'  => $code,
-            'dtrans_date'  => $this->dtrans_date ?? now()->format('Y-m-d'),
-            'csupplier_id' => $this->csupplier_id,
+            'cno_inorder' => $code,
+            'dtrans_date' => $this->dtrans_date,
+            'csupplier_id'=> $this->csupplier_id,
             'csupplier_name' => $supplier->cname,
             'cnotes'    => $this->cnotes,
             'cstatus'   => 'O',
             'ccashier'  => $uauth['name'],
             'ccreate_by'=> $uauth['id'],
             'cmonth'    => $month,
-            'ntotal'    => str_replace(",","",$this->ntotal),
-            'cregion_id'   => $this->cregion_id,
+            'ntotal'    => $this->ntotal ?? 0,
+            'cregion_id'=> $this->cregion_id,
             'ncompanie_id' => $uauth['companie_id'],
         );
+
         ioheader::create($data);
         //flash message
         session()->flash('message', 'Save Successfuly');

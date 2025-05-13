@@ -77,7 +77,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    handleAlert();
 
     if (window.Livewire) {
         console.warn('Livewire actived.');
@@ -89,16 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     handleData();
 });
-
-function handleAlert() {
-    const alertElement = document.getElementById('mAlert');
-    if (alertElement) {
-        setTimeout(function () {
-            const alertInstance = bootstrap.Alert.getOrCreateInstance(alertElement);
-            alertInstance.close();
-        }, 2000);
-    }
-}
 
 function handleData() {
     var sdate = $("#sdate").val(), edate = $("#edate").val();
@@ -140,17 +129,15 @@ function handleData() {
 }
 
 Livewire.on('delDataTable', (data) => {
-    viewAlert(data);
     $('#rowDatatable').DataTable().ajax.reload(null, true);
+    viewAlert(data[0].message);
 });
 
-function viewAlert(data) {
+function viewAlert(message) {
     const alertElement   = document.getElementById('mAlert');
     const messageElement = document.getElementById('mAlertMessage');
 
     if (alertElement && messageElement) {
-        const message = data[0].message;  // <- get the string
-
         messageElement.textContent = message;
         alertElement.classList.remove('d-none');
         alertElement.classList.add('show');

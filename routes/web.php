@@ -66,6 +66,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/prodsetting', App\Livewire\Mbrandproduct\Index::class)->name('prodsetting.index');
 
         Route::post('/rwdata/products', [DtprodController::class, 'datatable']);
+        Route::post('/rwdata/getproduct', [DtprodController::class, 'getDetailProduct']);
+
         Route::post('/rwdata/brands', [DtbrandController::class, 'datatable']);
         Route::post('/rwdata/groups', [DtgroupController::class, 'datatable']);
         Route::post('/rwdata/types', [DttypeController::class, 'datatable']);

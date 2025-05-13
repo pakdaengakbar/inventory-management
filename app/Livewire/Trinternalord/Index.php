@@ -7,6 +7,8 @@ use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
+use App\Models\tr_inorderhdr as ioheader;
+
 class Index extends Component
 {
     public $page;
@@ -39,8 +41,7 @@ class Index extends Component
     public function destroy($id)
     {
         //destroy
-        product::destroy($id);
-        $this->dispatch('delDataTable');
-        session()->flash('message', 'Delete Successfuly.');
+        ioheader::destroy($id);
+        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }

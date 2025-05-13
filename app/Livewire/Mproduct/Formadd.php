@@ -16,7 +16,7 @@ class Formadd extends Component
 {
     use WithFileUploads;
     public  $page, $image;
-    public  $ctype_code, $cuom_code, $nuom_value,
+    public  $ctype_code, $cuom_code, $nretail_value, $nwsale_value,
             $citem_code, $ccurr_code, $cwsale_unit, $cretail_unit,
             $nwsale_po_price, $nretail_po_price, $nwsale_sell_price, $nretail_sell_price,
             $dexpire_date, $clocation, $nstock_min, $nstock_max, $nopname_G1, $nopname_G2,
@@ -65,7 +65,8 @@ class Formadd extends Component
             'cgroup_code'        => $this->cgroup_code,
             'ctype_code'         => $this->ctype_code,
             'cuom_code'          => $this->cuom_code,
-            'nuom_value'         => $this->nuom_value,
+            'nretail_value'      => $this->nretail_value,
+            'nwsale_value'       => $this->nwsale_value,
             'citem_code'         => $this->citem_code,
             'citem_name'         => $this->citem_name,
             'ccurr_code'         => $this->ccurr_code,
@@ -115,7 +116,7 @@ class Formadd extends Component
     public function render()
     {
         try {
-            $supplier= v_::getSuplier();
+            $supplier= v_::getSupplier();
             $brdgroup= v_::getProdgroup();
             $brdtyoe = v_::getProdtype();
             $brdproduct = v_::getProdbrand();

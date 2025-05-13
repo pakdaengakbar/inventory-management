@@ -23,6 +23,7 @@
                 <form wire:submit="store" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="row">
+                            <!-- start header -->
                             <div class="col-lg-6">
                                 <div class="row mb-3">
                                     <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
@@ -58,10 +59,42 @@
                                     {!! MyHelper::setRegionlivewire('cregion_id', true, 'cregion_id') !!}
                                 </div>
                             </div>
-
-                        </div><hr>
-
-                         <div class="row">
+                        </div>
+                        <!-- end header -->
+                        <hr>
+                        <div class="row mb-3">
+                            <label for="citem" class="form-label">Item Name</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Product Name" id="barcode" aria-describedby="ProductName">
+                                    <span class="input-group-text">
+                                        <a href="javascript:;" id="btn_item_search" class="text-primary">Search</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-success add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                            </div>
+                        </div>
+                        <div wire:ignore>
+                            <table id="itemDTatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">No</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th class="col-1">Qty</th>
+                                        <th class="col-2">Harga</th>
+                                        <th class="col-1 text-center">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="input_fields_wrap">
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <!-- start footer -->
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="row mb-3">
                                     <label for="cnotes" class="col-sm-2 col-form-label text-end">Notes </label>
@@ -74,11 +107,12 @@
                                 <div class="row mb-3 justify-content-end">
                                     <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control text-end" id="ntotal" wire:model="ntotal" placeholder="Enter Total">
+                                        <input type="text" class="form-control text-end" wire:model="ntotal" id="ntotal" readonly placeholder="Total">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- end footer -->
                     </div>
                     <div class="card-footer float-end">
                         <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
@@ -96,17 +130,65 @@
 
 @section('script')
 <script>
+// Use emit inside Livewire-ready event
 document.addEventListener('DOMContentLoaded', function () {
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    // Set default date for dtrans_date input to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('trans_date').value = today;
+    const ntotal = document.getElementById('ntotal');
+    const btn_additem = document.querySelector('.add_item');
+    const wrapper = document.querySelector('.input_fields_wrap');
+    let ctr = 1, no = 1, total = 0;
+
+    btn_additem.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const barcode = document.querySelector("#barcode").value;
+        console.log(barcode);
+        if (!barcode) return;
+
+        fetch("/product/rwdata/getproduct", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: "barcode=" + barcode
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            const row = `
+                <tr>
+                    <td><input readonly type="text" class="form-control bg-light form-control-sm" value="${no}"></td>
+                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}]" value="${data.icode}"></td>
+                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="iname[${ctr}]" value="${data.iname}"></td>
+                    <td><input type="text" class="form-control text-center form-control-sm" name="iqty[${ctr}]" value="1"></td>
+                    <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="iprice[${ctr}]" value="${data.rprice}"></td>
+                    <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
+                </tr>
+            `;
+            wrapper.insertAdjacentHTML('beforeend', row);
+            document.querySelector("#barcode").value = "";
+            document.querySelector("#barcode").focus();
+
+            const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
+            total += price;
+            ntotal.value = convertToRupiah(total);
+        });
+    });
 });
+
 
 function toUCword(str){
 	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
 		return $1.toUpperCase();
 	});
 }
+
+function convertToRupiah(angka){
+    var rupiah = '';
+    var angkarev = angka.toString().split('').reverse().join('');
+    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
+    return rupiah.split('',rupiah.length-1).reverse().join('');
+}
+
 </script>
 @endsection

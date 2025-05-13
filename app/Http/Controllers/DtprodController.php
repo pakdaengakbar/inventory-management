@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\mproduct as product;
 
-
 class DtprodController extends Controller
 {
     public function datatable(Request $request)
@@ -28,4 +27,23 @@ class DtprodController extends Controller
         });
         return response()->json(['data' => $data]);
     }
+
+    public function getDetailProduct(Request $request)
+	{
+		$code = $request->post('barcode');
+        $item = isset($code) ? product::where('nbarcode', $code)->orWhere('citem_code', $code)->first() : null;
+        if ($item) {
+            return response()->json([
+                'barcode'=> $item->nbarcode,
+                'icode'  => $item->citem_code,
+                'iname'  => $item->citem_name,
+                'wunit'  => $item->cwsale_unit,
+                'runit'  => $item->cretail_unit,
+                'wvalue' => $item->nwsale_value,
+                'wprice' => number_format($item->nwsale_po_price),
+                'rprice' => number_format($item->nretail_po_price),
+            ]);
+        }
+        return response()->json(['error' => 'Product not found'], 404);
+	}
 }

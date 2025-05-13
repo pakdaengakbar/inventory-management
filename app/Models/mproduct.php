@@ -8,17 +8,18 @@ use App\Models\msupplier as supplier ;
 class mproduct extends Model
 {
     protected $fillable = [
-        'nbarcode',
         'cbrand_code',
         'cgroup_code',
         'ctype_code',
+        'ccurr_code',
+        'nbarcode',
         'cuom_code',
-        'nuom_value',
         'citem_code',
         'citem_name',
-        'ccurr_code',
         'cwsale_unit',
         'cretail_unit',
+        'nwsale_value',
+        'nretail_value',
         'nwsale_po_price',
         'nretail_po_price',
         'nwsale_sell_price',

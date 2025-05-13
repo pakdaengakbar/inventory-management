@@ -57,8 +57,12 @@
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">UOM Value</label>
-                                <input type="number" class="form-control" wire:model="nuom_value" placeholder="Enter UOM value">
+                                <label class="form-label">Retail Unit Value</label>
+                                <input type="number" class="form-control" wire:model="nretail_value" placeholder="Enter Retail UOM value">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Wholesales Unit Value</label>
+                                <input type="number" class="form-control" wire:model="nwsale_value" placeholder="Enter Wholesales value">
                             </div>
 
                         </div>

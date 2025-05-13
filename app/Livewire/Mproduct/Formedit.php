@@ -16,7 +16,7 @@ class Formedit extends Component
 {
     use WithFileUploads;
     public  $page, $image;
-    public  $id, $ctype_code, $cuom_code, $nuom_value,
+    public  $id, $ctype_code, $cuom_code, $nretail_value, $nwsale_value,
             $citem_code, $ccurr_code, $cwsale_unit, $cretail_unit,
             $nwsale_po_price, $nretail_po_price, $nwsale_sell_price, $nretail_sell_price,
             $dexpire_date, $clocation, $nstock_min, $nstock_max, $nopname_G1, $nopname_G2,
@@ -61,7 +61,8 @@ class Formedit extends Component
         $this->cgroup_code        = $data->cgroup_code;
         $this->ctype_code         = $data->ctype_code;
         $this->cuom_code          = $data->cuom_code;
-        $this->nuom_value         = $data->nuom_value;
+        $this->nretail_value      = $data->nretail_value;
+        $this->nwsale_value       = $data->nwsale_value;
         $this->citem_code         = $data->citem_code;
         $this->citem_name         = $data->citem_name;
         $this->ccurr_code         = $data->ccurr_code;
@@ -112,7 +113,8 @@ class Formedit extends Component
             'cgroup_code'        => $this->cgroup_code,
             'ctype_code'         => $this->ctype_code,
             'cuom_code'          => $this->cuom_code,
-            'nuom_value'         => $this->nuom_value,
+            'nretail_value'      => $this->nretail_value,
+            'nwsale_value'       => $this->nwsale_value,
             'citem_code'         => $this->citem_code,
             'citem_name'         => $this->citem_name,
             'ccurr_code'         => $this->ccurr_code,
@@ -169,7 +171,7 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $supplier= v_::getSuplier();
+            $supplier= v_::getSupplier();
             $brdgroup= v_::getProdgroup();
             $brdtyoe = v_::getProdtype();
             $brdproduct = v_::getProdbrand();
