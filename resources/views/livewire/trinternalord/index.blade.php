@@ -13,11 +13,8 @@
 
 <!-- Button Datatable -->
 <div class="row">
-        <div class="col-12">
-            <div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
-            <span id="mAlertMessage"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="col-12">
+        {!! MyHelper::setAlert() !!}
         <div class="card">
             <div class="card-header">
                 <div class="clearfix">
@@ -135,20 +132,6 @@ Livewire.on('delDataTable', (data) => {
     viewAlert(data[0].message);
 });
 
-function viewAlert(message) {
-    const alertElement   = document.getElementById('mAlert');
-    const messageElement = document.getElementById('mAlertMessage');
-
-    if (alertElement && messageElement) {
-        messageElement.textContent = message;
-        alertElement.classList.remove('d-none');
-        alertElement.classList.add('show');
-
-        setTimeout(() => {
-            bootstrap.Alert.getOrCreateInstance(alertElement).close();
-        }, 2000);
-    }
-}
 
 </script>
 @endsection

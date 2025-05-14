@@ -78,7 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/intorder/edit/{id}', App\Livewire\Trinternalord\Formedit::class)->name('intorder.edit');
 
         Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
-        Route::post('/rwdata/save', [RowInternalorder::class, 'simpan']);
+        Route::post('/rwdata/save', [RowInternalorder::class, 'save']);
+        Route::post('/rwdata/update', [RowInternalorder::class, 'update']);
 
     });
 

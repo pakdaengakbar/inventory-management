@@ -17,6 +17,13 @@ class MyHelper {
             return ucwords(str_replace("_", " ", $th));
         }
     }
+    public static function setAlert(){
+        return '<div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
+                    <span id="mAlertMessage"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+    }
+
     public static function setBreadcrumb($setli1, $setli2, $urlli = '/home'){
         return "<div class='py-3 d-flex align-items-sm-center flex-sm-row flex-column'>
                 <div class='flex-grow-1'>

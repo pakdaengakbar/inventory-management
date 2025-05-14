@@ -26,7 +26,7 @@
         </div>
     </div>
     @livewireScripts
-
+    <script src="{{ URL::asset('build/assets/custom.js') }}"></script>
     @yield('script')
     @vite(['resources/js/app.js'])
     @vite(['resources/js/pages/datatable.init.js'])

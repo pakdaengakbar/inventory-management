@@ -32,8 +32,8 @@ class MyService {
     /* User Auth */
     public static function getUser_Auth(){
         $result = array(
-            'id'        => Auth::user()->id,
-            'name'      => Auth::user()->name,
+            'id'         => Auth::user()->id,
+            'name'       => Auth::user()->name,
             'region_id'  => Auth::user()->nregion_id,
             'companie_id'=> Auth::user()->ncompanie_id,
         );
@@ -60,22 +60,29 @@ class MyService {
         return $id.$numcode;
     }
     public static function MaxNumber($table, $region, $companie){
-		$month = date('m').date('Y');
+		$month= date('m').date('Y');
         $data = DB::table($table)
                     ->select(DB::raw('MAX(nnum_log) as no'))
                     ->where('cmonth', $month)
-                    ->where('nregion_id', $region)
+                    //->where('nregion_id', $region)
                     ->where('ncompanie_id', $companie)
                     ->first();
 		if($data){
 			$no = $data->no;
-			if ($no==''){$no=0;}
+			if ( $no=='' ){ $no=0; }
 			$tmp = ((int) substr($no,0,5)+1);
 			$hasil =sprintf("%05s", $tmp);
-		}else{
-			$hasil = $month.'00001';
-		}
-		return $hasil;
+            $result = array(
+                'maxnum' => $tmp,
+                'gennum' => $hasil,
+            );
+      	}else{
+			$result = array(
+                'maxnum' => 1,
+                'gennum' => '00001',
+            );
+     	}
+  		return $result;
 	}
     public static function getRowData($table,$id)
     {

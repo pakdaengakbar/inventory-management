@@ -22,7 +22,7 @@ class DtprodController extends Controller
                 'action'   => '<div class="text-center">
                                 <a href="/product/products/edit/'.$item->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy('.$item->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
-                               </div>'
+                            </div>'
             ];
         });
         return response()->json(['data' => $data]);

@@ -6,9 +6,6 @@ use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
-
 class Formadd extends Component
 {
     public $page;
@@ -32,8 +29,9 @@ class Formadd extends Component
      */
     public function render()
     {
-        $code = v_::MaxNumber('tr_inorderhdr', 1, 1);
-        $no_inorder = 'IO-'.date('ymd').'-'.$code;
+        $uauth = v_::getUser_Auth();
+        $code  = v_::MaxNumber('tr_inorderhdr', 1, $uauth['companie_id']);
+        $no_inorder = 'IO-'.date('ymd').'-'.$code['gennum'];
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.trinternalord.formadd', [
