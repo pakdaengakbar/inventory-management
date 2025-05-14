@@ -142,10 +142,6 @@
 
 @section('script')
 <script type="text/javascript">
-function toUCword(str){
-	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-		return $1.toUpperCase();
-	});
-}
+
 </script>
 @endsection

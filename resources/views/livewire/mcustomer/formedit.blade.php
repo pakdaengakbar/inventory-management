@@ -159,35 +159,5 @@
 @section('script')
 <script>
 
-function toUCword(str){
-	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-		return $1.toUpperCase();
-	});
-}
-
-function calculateAdd(){
-var q = $("#nQty").val();
-var p = Number($("#nPrice").val().replace(/[^0-9\.]+/g,""));
-var s = Number($("#nTotal").val().replace(/[^0-9\.]+/g,""));
-var o = Number($("#oPrice").val().replace(/[^0-9\.]+/g,""));
-	if(q.length > 0 || q > 0){
-		s = s-o;
-		var subtotal = s+(p*q);
-		$('#nTotal').val(convertToRupiah(subtotal));
-	}
-}
-
-function calculateDel(a){
-	var s = Number($("#nTotal").val().replace(/[^0-9\.]+/g,""));
-	var temp = s-a;
-	$('#nTotal').val(convertToRupiah(temp));
-}
-
-function convertToRupiah(angka){
-    var rupiah = '';
-    var angkarev = angka.toString().split('').reverse().join('');
-    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
-    return rupiah.split('',rupiah.length-1).reverse().join('');
-}
 </script>
 @endsection
