@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/rwdata/products', [DtprodController::class, 'datatable']);
         Route::post('/rwdata/getproduct', [DtprodController::class, 'getDetailProduct']);
+        Route::post('/rwdata/searchproduct', [DtprodController::class, 'getSearchProduct']);
 
         Route::post('/rwdata/brands', [DtbrandController::class, 'datatable']);
         Route::post('/rwdata/groups', [DtgroupController::class, 'datatable']);
