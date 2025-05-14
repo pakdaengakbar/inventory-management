@@ -31,7 +31,11 @@ class DtprodController extends Controller
     public function getDetailProduct(Request $request)
 	{
 		$code = $request->post('barcode');
-        $item = isset($code) ? product::where('nbarcode', $code)->orWhere('citem_code', $code)->first() : null;
+        $item = isset($code) ? product::select('nbarcode', 'citem_code', 'citem_name', 'cwsale_unit', 'cretail_unit',
+                                               'nwsale_value', 'nwsale_po_price', 'nretail_po_price')
+                               ->where('nbarcode', $code)
+                               ->orWhere('citem_code', $code)
+                               ->first() : null;
         if ($item) {
             return response()->json([
                 'barcode'=> $item->nbarcode,
