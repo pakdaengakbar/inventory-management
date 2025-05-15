@@ -12,8 +12,22 @@ use App\Http\Controllers\DttypeController;
 use App\Http\Controllers\RowInternalorder;
 use App\Http\Controllers\Rowquotationorder;
 /* Website */
-use App\Http\Controllers\WebCategory;
-use App\Http\Controllers\WebClient;
+use App\Http\Controllers\Webcategory;
+use App\Http\Controllers\Webclient;
+use App\Http\Controllers\Webconfig;
+use App\Http\Controllers\Webdownload;
+use App\Http\Controllers\Webgallery;
+use App\Http\Controllers\Weblog;
+use App\Http\Controllers\Webnews;
+use App\Http\Controllers\Webpromo;
+use App\Http\Controllers\Webservice;
+use App\Http\Controllers\Webstaff;
+use App\Http\Controllers\Webvideo;
+
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -104,10 +118,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'website'], function () {
         Route::get('/category', App\Livewire\Webcategory\Index::class)->name('webcategory.index');
-        Route::post('/rwdata/category', [WebCategory::class, 'datatable']);
-
         Route::get('/clients', App\Livewire\Webclient\Index::class)->name('clients.index');
-        Route::post('/rwdata/clients', [WebClient::class, 'datatable']);
+        Route::get('/configs', App\Livewire\Webconfig\Index::class)->name('configs.index');
+        /* Website Ajax */
+        Route::post('/rwdata/category', [Webcategory::class, 'datatable']);
+        Route::post('/rwdata/clients', [Webclient::class, 'datatable']);
+        Route::post('/rwdata/configs', [Webconfig::class, 'datatable']);
+        Route::post('/rwdata/download', [Webdownload::class, 'datatable']);
+        Route::post('/rwdata/gallery', [Webgallery::class, 'datatable']);
+        Route::post('/rwdata/log', [Weblog::class, 'datatable']);
+        Route::post('/rwdata/news', [Webnews::class, 'datatable']);
+        Route::post('/rwdata/promo', [Webpromo::class, 'datatable']);
+        Route::post('/rwdata/service', [Webservice::class, 'datatable']);
+        Route::post('/rwdata/staff', [Webstaff::class, 'datatable']);
+        Route::post('/rwdata/video', [Webvideo::class, 'datatable']);
     });
 });
 

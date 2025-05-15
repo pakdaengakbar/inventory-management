@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tr_orderdtl extends Model
+class tr_porderdtl extends Model
 {
     protected $table = 'tr_qorderdtl';
     protected $fillable = [

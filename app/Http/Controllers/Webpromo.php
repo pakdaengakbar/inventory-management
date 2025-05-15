@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\web_client as client;
+use App\Models\web_promo as promo;
 
-class WebClient extends Controller
+class Webpromo extends Controller
 {
     public function datatable(Request $request)
     {
-        $rows = client::all();
+        $rows = promo::all();
         $datas = $rows->map(function ($data, $index) {
             return [
                 'no'   => $index + 1,

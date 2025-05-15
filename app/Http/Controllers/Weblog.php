@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\web_client as client;
+use App\Models\web_logs as logs;
 
-class WebClient extends Controller
+class Weblog extends Controller
 {
     public function datatable(Request $request)
     {
-        $rows = client::all();
+        $rows = logs::all();
         $datas = $rows->map(function ($data, $index) {
             return [
                 'no'   => $index + 1,

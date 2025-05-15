@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\web_client as client;
+use App\Models\web_video as video;
 
-class WebClient extends Controller
+class Webvideo extends Controller
 {
     public function datatable(Request $request)
     {
-        $rows = client::all();
+        $rows = video::all();
         $datas = $rows->map(function ($data, $index) {
             return [
                 'no'   => $index + 1,

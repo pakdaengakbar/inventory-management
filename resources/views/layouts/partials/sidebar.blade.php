@@ -185,6 +185,7 @@
                     </a>
                     <div class="collapse" id="sidebarWebsite">
                       <ul class="nav-second-level">
+                        <li><a href="{{ route('any', 'website/configs')}}" class="tp-link" wire:current>Config</a></li>
                         <li><a href="{{ route('any', 'website/category')}}" class="tp-link" wire:current>Category</a></li>
                         <li><a href="{{ route('any', 'website/clients')}}" class="tp-link" wire:current>Clients</a></li>
 

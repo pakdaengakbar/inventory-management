@@ -9,7 +9,7 @@ use App\Models\msupplier as Supplier;
 use App\Models\Mcompanie as Companie;
 use App\Models\Mregion as Region;
 
-class tr_orderhdr extends Model
+class tr_porderhdr extends Model
 {
     protected $table = 'tr_porderhdr';
     protected $fillable = [
