@@ -51,11 +51,11 @@ class Rowquotationorder extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_inorderhdr', 1, 1);
+        $code  = v_::MaxNumber('tr_qorderhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
             'cstatus' => 'O',
             'cmonth'  => $month,
-            'cno_quorder' => $no_inorder = 'IO-'.date('ymd').'-'.$code['gennum'],
+            'cno_quorder' => $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
             'csupplier_id'=> $supplier_id = $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
@@ -101,7 +101,7 @@ class Rowquotationorder extends Controller
             'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
             'cupdate_by'=> $uauth['id'],
         );
-        ioheader::where('id', $headerId->id)->update($update);
+        qoheader::where('id', $headerId->id)->update($update);
 
         return response()->json(array('success' => true, 'last_insert_id' => $headerId), 200);
     }
@@ -112,7 +112,7 @@ class Rowquotationorder extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $datahdr = ioheader::find($request->post('id'));
+        $datahdr = qoheader::find($request->post('id'));
         $rowhdr = array(
             'dtrans_date' => $request->post('dtrans_date'),
             'csupplier_id'=> $request->post('csupplier_id'),
@@ -185,7 +185,7 @@ class Rowquotationorder extends Controller
             'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
             'cupdate_by'=> $uauth['id'],
         );
-        ioheader::where('id', $request->post('id'))->update($update);
+        qoheader::where('id', $request->post('id'))->update($update);
 
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,7 +11,6 @@ use App\Models\Mregion as Region;
 
 class tr_inorderhdr extends Model
 {
-    use HasFactory;
     protected $table = 'tr_inorderhdr';
     protected $fillable = [
         'cno_inorder',

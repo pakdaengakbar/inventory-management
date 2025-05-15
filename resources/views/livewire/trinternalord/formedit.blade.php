@@ -49,12 +49,12 @@
                             <div class="row mb-2">
                                 <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $dtheader['cno_inorder'] }}"
+                                    <input type="text" class="form-control bg-light" id="cno_inorder" name="cno_inorder" value="{{ $dtheader['cno_inorder'] }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
-                                <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
+                                <label for="cstatus" class="col-sm-2 col-form-label text-center bg-light">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ $dtheader['cstatus'] }}"
+                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}"
                                         placeholder="Status" readonly>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input readonly class="form-control text-center  bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
                                 </div>
                          	</div>
                         </div>

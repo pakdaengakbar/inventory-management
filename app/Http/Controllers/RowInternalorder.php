@@ -52,7 +52,7 @@ class RowInternalorder extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_inorderhdr', 1, 1);
+        $code  = v_::MaxNumber('tr_inorderhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
             'cstatus' => 'O',
             'cmonth'  => $month,

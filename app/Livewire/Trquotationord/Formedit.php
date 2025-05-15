@@ -5,8 +5,8 @@ use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
+use App\Models\tr_qorderhdr as qoheader;
+use App\Models\tr_qorderdtl as qodetail;
 
 class Formedit extends Component
 {
@@ -22,9 +22,9 @@ class Formedit extends Component
     public function mount($id)
     {
         // Get Header data
-        $this->dtheader = ioheader::find($id);
+        $this->dtheader = qoheader::find($id);
         // Get Header data
-        $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+        $this->dtdetail = qodetail::where('nheader_id', $id)->get();
     }
 
     /**

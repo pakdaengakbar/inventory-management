@@ -3,6 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\msupplier as Supplier;
+use App\Models\Mcompanie as Companie;
+use App\Models\Mregion as Region;
 
 class tr_qorderhdr extends Model
 {
@@ -33,4 +39,16 @@ class tr_qorderhdr extends Model
         'nNumlog'
     ];
 
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class, 'csupplier_id');
+    }
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'nregion_id');
+    }
+    public function companie(): BelongsTo
+    {
+        return $this->belongsTo(Companie::class, 'ncompanie_id');
+    }
 }

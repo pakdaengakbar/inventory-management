@@ -47,14 +47,14 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-2">
-                                <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
+                                <label for="cno_quorder" class="col-sm-2 col-form-label text-end">QO Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $dtheader['cno_inorder'] }}"
+                                    <input type="text" class="form-control" id="cno_quorder" name="cno_quorder" value="{{ $dtheader['cno_quorder'] }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ $dtheader['cstatus'] }}"
+                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}"
                                         placeholder="Status" readonly>
                                 </div>
                             </div>
