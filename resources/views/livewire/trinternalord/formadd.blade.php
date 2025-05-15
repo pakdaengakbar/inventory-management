@@ -20,7 +20,8 @@
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
-            <form class="form-horizontal"  method="POST" id="input-form" enctype="multipart/form-data" wire:ignore>
+            <div wire:ignore>
+            <form class="form-horizontal"  method="POST" id="input-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
                         <!-- start header -->
@@ -114,12 +115,13 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='save_data("/inventory/rwdata/save", "/inventory/intorder");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='_save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>
@@ -188,5 +190,16 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault(); $(this).closest('tr').remove();
     });
 }); // end document ready
+
+function _save_data(url,href){
+    const regionId = document.querySelector("#nregion_id");
+    console.log(regionId.value);
+    if (regionId.value == null || regionId.value=="") {
+        viewAlert('Please Select Region');
+        return;
+    } else {
+        save_data("/inventory/rwdata/save", "/inventory/intorder")
+    }
+}
 </script>
 @endsection

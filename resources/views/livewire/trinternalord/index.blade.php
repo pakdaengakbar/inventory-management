@@ -52,6 +52,7 @@
                                     <th>Notes</th>
                                     <th class="col-1">Total</th>
                                     <th class="col-1">Status</th>
+                                    <th>Region</th>
                                     <th class="col-1">Action</th>
                                 </tr>
                             </thead>
@@ -120,6 +121,7 @@ function handleData() {
             { data: 'notes' },
             { data: 'total' },
             { data: 'status' },
+            { data: 'region' },
             { data: 'action' }
         ],
         responsive: true

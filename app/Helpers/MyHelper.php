@@ -17,6 +17,13 @@ class MyHelper {
             return ucwords(str_replace("_", " ", $th));
         }
     }
+
+    public static function _getstatus($status)
+    {
+        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected'];
+        return $statusarr[$status];
+    }
+
     public static function setAlert(){
         return '<div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
                     <span id="mAlertMessage"></span>
@@ -87,7 +94,7 @@ class MyHelper {
         $region = MyService::getRegion();
         $html = '<label for="cbr" class="col-sm-2 col-form-label text-end">Region</label>
                  <div class="col-sm-5">
-                 <select class="form-select" name="'.$field.'" '.($lifewire == true ? 'wire:model="'.$name.'"' : '').' >
+                 <select class="form-select" id="'.$field.'" name="'.$field.'" '.($lifewire == true ? 'wire:model="'.$name.'"' : '').' >
                     <option value="">-- Select Region --</option>';
         foreach ($region as $c) {
             $html .= '<option value="'.$c->id.'">'.ucwords(strtolower($c->cname)).'</option>';

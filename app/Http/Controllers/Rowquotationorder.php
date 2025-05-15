@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use App\Helpers\MyService as v_;
 use App\Helpers\MyHelper as h_;
+
 use App\Models\tr_inorderhdr as ioheader;
 use App\Models\tr_inorderdtl as iodetail;
+use App\Models\tr_qorderhdr as qoheader;
+use App\Models\tr_qorderdtl as qodetail;
 
-class RowInternalorder extends Controller
+
+class Rowquotationorder extends Controller
 {
     public function datatable(Request $request)
     {
@@ -23,10 +26,6 @@ class RowInternalorder extends Controller
 
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
-
-        //DB::enableQueryLog();
-        //$query = DB::getQueryLog();
-        //dd($query);
         $data = $result->map(function ($row, $index) {
             return [
                 'no' => $index + 1,
