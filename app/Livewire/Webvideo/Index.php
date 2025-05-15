@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Webpromo;
+namespace App\Livewire\Webvideo;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\web_promo as promo;
+use App\Models\web_video as video;
 
 class Index extends Component
 {
@@ -19,7 +19,7 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             'title' => 'Website',
-            'description'=> 'Promo',
+            'description'=> 'video',
         );
     }
 
@@ -27,7 +27,7 @@ class Index extends Component
     {
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.webpromo.index', [
+            return view('livewire.webvideo.index', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
@@ -58,7 +58,7 @@ class Index extends Component
     public function store()
     {
         $this->validate();
-        promo::updateOrCreate(['id' => $this->id], [
+        video::updateOrCreate(['id' => $this->id], [
             'cname'  => $this->cname,
             'cleader'=> $this->cleader,
             'ctype'  => $this->ctype,
@@ -74,7 +74,7 @@ class Index extends Component
 
     public function editData($id)
     {
-        $data = promo::findOrFail($id);
+        $data = video::findOrFail($id);
         $this->id = $data->id;
         $this->cname = $data->cname;
         $this->cleader = $data->cleader;
@@ -87,7 +87,7 @@ class Index extends Component
 
     public function delData($id)
     {
-        promo::find($id)->delete();
+        video::find($id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data Delete successfully.']);
     }
 

@@ -191,6 +191,10 @@
                         <li><a href="{{ route('any', 'website/downloads')}}" class="tp-link" wire:current>Downloads</a></li>
                         <li><a href="{{ route('any', 'website/gallerys')}}" class="tp-link" wire:current>Gallerys</a></li>
                         <li><a href="{{ route('any', 'website/news')}}" class="tp-link" wire:current>News</a></li>
+                        <li><a href="{{ route('any', 'website/promos')}}" class="tp-link" wire:current>Promo</a></li>
+                        <li><a href="{{ route('any', 'website/services')}}" class="tp-link" wire:current>Services</a></li>
+                        <li><a href="{{ route('any', 'website/staffs')}}" class="tp-link" wire:current>Staff</a></li>
+                        <li><a href="{{ route('any', 'website/videos')}}" class="tp-link" wire:current>Videos</a></li>
                      </ul>
                     </div>
                 </li>

@@ -123,6 +123,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/downloads', App\Livewire\Webdownload\Index::class)->name('downloads.index');
         Route::get('/gallerys', App\Livewire\Webgallery\Index::class)->name('gallerys.index');
         Route::get('/news', App\Livewire\Webnews\Index::class)->name('news.index');
+        Route::get('/promos', App\Livewire\Webpromo\Index::class)->name('promos.index');
+        Route::get('/services', App\Livewire\Webservice\Index::class)->name('services.index');
+        Route::get('/staffs', App\Livewire\Webstaff\Index::class)->name('staffs.index');
+        Route::get('/videos', App\Livewire\Webvideo\Index::class)->name('Videos.index');
         /* Website Ajax */
         Route::post('/rwdata/category', [Webcategory::class, 'datatable']);
         Route::post('/rwdata/clients', [Webclient::class, 'datatable']);

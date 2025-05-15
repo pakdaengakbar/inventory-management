@@ -50,10 +50,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Title</th>
-                                                <th>Summary</th>
-                                                <th>Contents</th>
-                                                <th>Status</th>
-                                                <th>Type</th>
+                                                <th>Description</th>
+                                                <th>Vidio</th>
                                                 <th class="col-1">Action</th>
                                             </tr>
                                         </thead>
@@ -131,16 +129,14 @@ document.addEventListener('DOMContentLoaded', function () {
         paginationType : 'full_numbers',
         StateSave : true,
         ajax: {
-            "url"	 : '/website/rwdata/promos',
+            "url"	 : '/website/rwdata/videos',
             "type"   : "POST",
         },
         columns: [
             { data: 'no' },
             { data: 'ctitle' },
-            { data: 'csummary' },
-            { data: 'ccontents' },
-            { data: 'cstatus' },
-            { data: 'ctype' },
+            { data: 'cdescription' },
+            { data: 'cvidio' },
             { data: 'action' }
         ],
         responsive: true
