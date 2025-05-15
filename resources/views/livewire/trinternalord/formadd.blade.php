@@ -193,13 +193,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function _save_data(url,href){
     const regionId = document.querySelector("#nregion_id");
-    console.log(regionId.value);
     if (regionId.value == null || regionId.value=="") {
         viewAlert('Please Select Region');
         return;
-    } else {
-        save_data("/inventory/rwdata/save", "/inventory/intorder")
     }
+    save_data("/inventory/rwdata/iosave", "/inventory/intorder")
 }
 </script>
 @endsection
