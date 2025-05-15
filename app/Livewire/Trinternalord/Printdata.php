@@ -14,7 +14,7 @@ class Printdata extends Component
 
     public function __construct() {
         $this->page  = array(
-            'title' => 'Inventory',
+            'title' => 'Internal',
             'description'=> 'Print',
         );
     }

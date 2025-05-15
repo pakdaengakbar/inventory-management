@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Trinternalord;
 use Livewire\Component;
-use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 

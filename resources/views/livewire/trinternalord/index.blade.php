@@ -133,7 +133,5 @@ Livewire.on('delDataTable', (data) => {
     $('#rowDatatable').DataTable().ajax.reload(false, true);
     viewAlert(data[0].message);
 });
-
-
 </script>
 @endsection

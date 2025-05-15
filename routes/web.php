@@ -2,35 +2,34 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
-
+/* Master */
 use App\Http\Controllers\DtexpController;
 use App\Http\Controllers\DtprodController;
 use App\Http\Controllers\DtbrandController;
 use App\Http\Controllers\DtgroupController;
 use App\Http\Controllers\DttypeController;
-
+/* Transaction */
+use App\Http\Controllers\RowInternalorder;
+use App\Http\Controllers\Rowquotationorder;
+/* Website */
 use App\Http\Controllers\WebCategory;
 use App\Http\Controllers\WebClient;
-
-use App\Http\Controllers\RowInternalorder;
-
-
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
 */
-
 require __DIR__ . '/auth.php';
-/* Employee */
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/profiles', App\Livewire\Mprofile\Index::class)->name('profiles.index');
     });
+    /*
+    |--------------------------------------------------------------------------
+    | Master Profile
+    |--------------------------------------------------------------------------
+    */
     Route::group(['prefix' => 'profile'], function () {/* Companies */
         Route::get('/companies', App\Livewire\Mcompanie\Index::class)->name('companies.index');
         Route::get('/companies/add', App\Livewire\Mcompanie\Formadd::class)->name('companies.add');
@@ -58,6 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/expeditons', App\Livewire\Mexpedition\Index::class)->name('expeditons.index');
         Route::post('/rwdata/expeditons', [DtexpController::class, 'datatable']);
     });
+    /*
+    |--------------------------------------------------------------------------
+    | Master Product
+    |--------------------------------------------------------------------------
+    */
     Route::group(['prefix' => 'product'], function () {
         Route::get('/products', App\Livewire\Mproduct\Index::class)->name('products.index');
         Route::get('/products/add', App\Livewire\Mproduct\Formadd::class)->name('products.add');
@@ -72,18 +76,30 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/groups', [DtgroupController::class, 'datatable']);
         Route::post('/rwdata/types', [DttypeController::class, 'datatable']);
     });
-
+    /*
+    |--------------------------------------------------------------------------
+    | Transaction
+    |--------------------------------------------------------------------------
+    */
     Route::group(['prefix' => 'inventory'], function () {
+        /* Internal Order */
         Route::get('/intorder', App\Livewire\Trinternalord\Index::class)->name('intorder.index');
         Route::get('/intorder/add', App\Livewire\Trinternalord\Formadd::class)->name('intorder.add');
         Route::get('/intorder/edit/{id}', App\Livewire\Trinternalord\Formedit::class)->name('intorder.edit');
         Route::get('/intorder/print/{id}', App\Livewire\Trinternalord\Printdata::class)->name('intorder.print');
-
-
+        /* Internal Order Ajax */
         Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
-        Route::post('/rwdata/save', [RowInternalorder::class, 'save']);
-        Route::post('/rwdata/update', [RowInternalorder::class, 'update']);
-
+        Route::post('/rwdata/iosave', [RowInternalorder::class, 'save']);
+        Route::post('/rwdata/ioupdate', [RowInternalorder::class, 'update']);
+        /* Quotation Order */
+        Route::get('/quorder', App\Livewire\Trquotationord\Index::class)->name('quorder.index');
+        Route::get('/quorder/add', App\Livewire\Trquotationord\Formadd::class)->name('quorder.add');
+        Route::get('/quorder/edit/{id}', App\Livewire\Trquotationord\Formedit::class)->name('quorder.edit');
+        Route::get('/quorder/print/{id}', App\Livewire\Trquotationord\Printdata::class)->name('quorder.print');
+        /* Quotation Order Ajax */
+        Route::post('/rwdata/quorder', [Rowquotationorder::class, 'datatable']);
+        Route::post('/rwdata/qosave', [Rowquotationorder::class, 'save']);
+        Route::post('/rwdata/qoupdate', [Rowquotationorder::class, 'update']);
     });
 
     Route::group(['prefix' => 'website'], function () {
