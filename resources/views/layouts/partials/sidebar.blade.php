@@ -188,7 +188,9 @@
                         <li><a href="{{ route('any', 'website/configs')}}" class="tp-link" wire:current>Config</a></li>
                         <li><a href="{{ route('any', 'website/category')}}" class="tp-link" wire:current>Category</a></li>
                         <li><a href="{{ route('any', 'website/clients')}}" class="tp-link" wire:current>Clients</a></li>
-
+                        <li><a href="{{ route('any', 'website/downloads')}}" class="tp-link" wire:current>Downloads</a></li>
+                        <li><a href="{{ route('any', 'website/gallerys')}}" class="tp-link" wire:current>Gallerys</a></li>
+                        <li><a href="{{ route('any', 'website/news')}}" class="tp-link" wire:current>News</a></li>
                      </ul>
                     </div>
                 </li>
@@ -376,24 +378,24 @@
                     </a>
                     <div class="collapse" id="sidebarCharts">
                         <ul class="nav-second-level">
-                             <li><a href='{{ route('second', ['charts', 'line'])}}' class="tp-link">Line</a></li>
-                             <li><a href='{{ route('second', ['charts', 'area'])}}' class="tp-link">Area</a></li>
-                             <li><a href='{{ route('second', ['charts', 'column'])}}' class="tp-link">Column</a></li>
-                             <li><a href='{{ route('second', ['charts', 'bar'])}}' class="tp-link">Bar</a></li>
-                             <li><a href='{{ route('second', ['charts', 'mixed'])}}' class="tp-link">Mixed</a></li>
-                             <li><a href='{{ route('second', ['charts', 'timeline'])}}' class="tp-link">Timeline</a></li>
-                             <li><a href='{{ route('second', ['charts', 'rangearea'])}}' class="tp-link">Range Area</a></li>
-                             <li><a href='{{ route('second', ['charts', 'funnel'])}}' class="tp-link">Funnel</a></li>
-                             <li><a href='{{ route('second', ['charts', 'candlestick'])}}' class="tp-link">Candlestick</a></li>
-                             <li><a href='{{ route('second', ['charts', 'boxplot'])}}' class="tp-link">Boxplot</a></li>
-                             <li><a href='{{ route('second', ['charts', 'bubble'])}}' class="tp-link">Bubble</a></li>
-                             <li><a href='{{ route('second', ['charts', 'scatter'])}}' class="tp-link">Scatter</a></li>
-                             <li><a href='{{ route('second', ['charts', 'heatmap'])}}' class="tp-link">Heatmap</a></li>
-                             <li><a href='{{ route('second', ['charts', 'treemap'])}}' class="tp-link">Treemap</a></li>
-                             <li><a href='{{ route('second', ['charts', 'pie'])}}' class="tp-link">Pie</a></li>
-                             <li><a href='{{ route('second', ['charts', 'radialbar'])}}' class="tp-link">Radialbar</a></li>
-                             <li><a href='{{ route('second', ['charts', 'radar'])}}' class="tp-link">Radar</a></li>
-                             <li><a href='{{ route('second', ['charts', 'polararea'])}}' class="tp-link">Polar</a></li>
+                             <li><a href="{{ route('second', ['charts', 'line'])}}" class="tp-link">Line</a></li>
+                             <li><a href="{{ route('second', ['charts', 'area'])}}" class="tp-link">Area</a></li>
+                             <li><a href="{{ route('second', ['charts', 'column'])}}" class="tp-link">Column</a></li>
+                             <li><a href="{{ route('second', ['charts', 'bar'])}}" class="tp-link">Bar</a></li>
+                             <li><a href="{{ route('second', ['charts', 'mixed'])}}" class="tp-link">Mixed</a></li>
+                             <li><a href="{{ route('second', ['charts', 'timeline'])}}" class="tp-link">Timeline</a></li>
+                             <li><a href="{{ route('second', ['charts', 'rangearea'])}}" class="tp-link">Range Area</a></li>
+                             <li><a href="{{ route('second', ['charts', 'funnel'])}}" class="tp-link">Funnel</a></li>
+                             <li><a href="{{ route('second', ['charts', 'candlestick'])}}" class="tp-link">Candlestick</a></li>
+                             <li><a href="{{ route('second', ['charts', 'boxplot'])}}" class="tp-link">Boxplot</a></li>
+                             <li><a href="{{ route('second', ['charts', 'bubble'])}}" class="tp-link">Bubble</a></li>
+                             <li><a href="{{ route('second', ['charts', 'scatter'])}}" class="tp-link">Scatter</a></li>
+                             <li><a href="{{ route('second', ['charts', 'heatmap'])}}" class="tp-link">Heatmap</a></li>
+                             <li><a href="{{ route('second', ['charts', 'treemap'])}}" class="tp-link">Treemap</a></li>
+                             <li><a href="{{ route('second', ['charts', 'pie'])}}" class="tp-link">Pie</a></li>
+                             <li><a href="{{ route('second', ['charts', 'radialbar'])}}" class="tp-link">Radialbar</a></li>
+                             <li><a href="{{ route('second', ['charts', 'radar'])}}" class="tp-link">Radar</a></li>
+                             <li><a href="{{ route('second', ['charts', 'polararea'])}}" class="tp-link">Polar</a></li>
                         </ul>
                     </div>
                 </li>

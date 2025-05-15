@@ -12,7 +12,7 @@ class web_gallery extends Model
         'ctitle',
         'ctype',
         'ccontent',
-        'cimage',
+        'cimages',
         'cicon',
         'cwebsite',
         'cgroup',
