@@ -10,7 +10,6 @@ use App\Constants\Status as s_;
 use App\Models\tr_inorderhdr as ioheader;
 use App\Models\tr_inorderdtl as iodetail;
 
-
 class Index extends Component
 {
     public $page;
