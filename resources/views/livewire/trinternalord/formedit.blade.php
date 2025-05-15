@@ -18,74 +18,87 @@
                 </div>
                 <div class="float-end">
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/intorder/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                        <i class="mdi mdi-printer-outline"></i> Print</a>
                 </div>
             </div><!-- end card header -->
-            <form class="form-horizontal"  method="POST" id="id-form" enctype="multipart/form-data">
+            <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
-                            <div class="row mb-3">
+                            <div class="row mb-2">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" wire:model="dtrans_date" name="dtrans_date" placeholder="Enter date">
+                                    <input type="date" class="form-control" value="{{ $dtheader['dtrans_date'] }}" name="dtrans_date" placeholder="Enter date">
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-2">
                                 <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" wire:model="csupplier_id" id="csupplier_id">
+                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" name="csupplier_id">
                                         <option value="" disabled>Select Supplier</option>
                                         @foreach ($suppliers as $s)
-                                            <option value="{{ $s->id }}">{{ ucwords(strtolower($s->cname)) }}</option>
+                                            <option value="{{ $s->id }}" {{ $s->id == $dtheader['csupplier_id'] ? 'selected' : '' }}>{{ ucwords(strtolower($s->cname)) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-3">
+                            <div class="row mb-2">
                                 <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" wire:model="cno_inorder"
+                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $dtheader['cno_inorder'] }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus" wire:model="cstatus"
+                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ $dtheader['cstatus'] }}"
                                         placeholder="Status" readonly>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                {!! MyHelper::setRegionlivewire('cregion_id', true, 'cregion_id') !!}
-                            </div>
+                             <div class="row mb-2">
+                                <label for="cregion_id" class="col-sm-2 col-form-label text-end">Region</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name="nregion_id">
+                                        <option value="">Select Region</option>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}" {{ $c->id == $dtheader['nregion_id'] ? 'selected' : '' }}>{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input readonly class="form-control text-center  bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                </div>
+                         	</div>
                         </div>
                     </div>
                     <!-- end header -->
                     <hr>
-                    <div wire:ignore>
-                        <div class="row mb-3">
+                    <div class="mb-3" wire:ignore>
+                        <div class="row mb-3 row-cols-lg-auto g-3 align-items-center">
                             <label for="citem" class="form-label">Item Name</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Product Name" id="barcode" aria-describedby="ProductName">
+                                    <input type="text" class="form-control" onkeydown="findProductEvent(event)" onkeyup="this.value=toUCword(this.value);" placeholder="Product Code / Name" id="barcode" aria-describedby="ProductName">
                                     <span class="input-group-text">
-                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#searchModal" id="btn_item_search" class="text-primary">Search</a>
+                                        <a href="javascript:;" id="btn_item_search" class="text-primary" onclick="findProductName()">Search</a>
                                     </span>
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <button type="button" class="btn btn-success add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                                <button type="button" class="btn btn-success btn-sm add_item"><i class="mdi mdi-plus"></i>Add Item</button>
                             </div>
                         </div>
-
-                        <table id="itemDTatable" class="table">
+                        <table id="itemDTatable" class="table table-bordered dt-responsive nowrap">
                             <thead>
                                 <tr>
                                     <th class="col-1">No</th>
                                     <th>Item Code</th>
                                     <th>Item Name</th>
                                     <th class="col-1">Qty</th>
+                                    <th class="col-1">Uom</th>
                                     <th class="col-2">Harga</th>
                                     <th class="col-1 text-center">Delete</th>
                                 </tr>
@@ -93,13 +106,16 @@
                             <tbody class="input_fields_wrap">
                                 @forelse ($dtdetail as $row)
                                     <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{!! $row->citem_code !!}</td>
-                                        <td>{!! $row->citem_name !!}</td>
-                                        <td>{{ $row->nqty }}</td>
-                                        <td>{{ $row->nprice }}</td>
-                                        <td><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
+                                        <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="{{ $no }}"></td>
+                                        <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][iid]" value="{!! $row->id !!}"></td>
+                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_code]" value="{!! $row->citem_code !!}"></td>
+                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_name]" value="{!! $row->citem_name !!}"></td>
+                                        <td><input type="number" class="form-control text-center form-control-sm qty-input"  name="icode[{{ $no }}][qty]" data-price="{{ $row->nprice }}" value="{{ $row->nqty }}"></td>
+                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][uom]" value="{{ $row->cuom }}"></td>
+                                        <td><input readonly type="text" class="form-control text-end bg-light form-control-sm"  name="icode[{{ $no }}][price]" value="{{ number_format($row->nprice) }}"></td>
+                                        <td class="text-center"></td>
                                     </tr>
+                                    @php $no++; @endphp
                                 @empty
                                     <tr>
                                         <td colspan="6" class="text-center">No data available</td>
@@ -107,16 +123,16 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <input hidden class="col-sm-1 form-control bg-light form-control-sm text-center"  readonly id="lastnum" value="{{ $no }}">
                     </div>
-                    <hr>
                     <!-- start footer -->
-                    <div class="row">
+                    <hr>
+                    <div class="row mb-3">
                         <div class="col-lg-6">
                             <div class="row mb-3">
                                 <label for="cnotes" class="col-sm-2 col-form-label text-end">Notes </label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" wire:model="cnotes"
-                                        placeholder="Enter notes"></textarea>
+                                    <textarea class="form-control" rows="3" name="cnotes"  onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +140,7 @@
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control text-end" name="ntotal" id="ntotal" wire:model="ntotal" placeholder="Total">
+                                    <input readonly type="text" class="form-control text-end bg-light" id='ntotal' name="ntotal" value="{{ number_format($dtheader['ntotal']) }}" placeholder="Total">
                                 </div>
                             </div>
                         </div>
@@ -132,8 +148,8 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
-                        <i class="mdi mdi-content-save"></i> Save
+                    <button type="button" onclick='update_data("/inventory/rwdata/update", "/inventory/intorder");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i> Update
                     </button>
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
@@ -149,14 +165,14 @@
 
 @section('script')
 <script>
-// Use emit inside Livewire-ready event
 document.addEventListener('DOMContentLoaded', function () {
-    //const ntotal= document.getElementById('mAlert');
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    const last = $("#lastnum").val();
     const btn_additem = document.querySelector('.add_item');
     const wrapper = document.querySelector('.input_fields_wrap');
-    let ctr = 0, no = 0, total = 0;
 
+    let ctr = last-1, no = last-1;
+    let xtotal = 0, total = 0;
     btn_additem.addEventListener('click', function (e) {
         e.preventDefault();
         const barcode = document.querySelector("#barcode").value;
@@ -177,76 +193,48 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             const row = `
-                <tr>
+                 <tr>
                     <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="${no}"></td>
-                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][barcode]" value="${data.barcode}"></td>
+                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][]"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
-                    <td><input type="text" class="form-control text-center form-control-sm" name="icode[${ctr}][qty]" value="1"></td>
+                    <td><input type="number" class="form-control text-center form-control-sm" name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1"></td>
+                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
                     <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
+                    <td hidden><input  readonly type="text" class="form-control text-center bg-light form-control-sm" name="icode[${ctr}][barcode]" value="${data.barcode}"></td>
                 </tr>
-            `;
+           `;
             wrapper.insertAdjacentHTML('beforeend', row);
             document.querySelector("#barcode").value = "";
             document.querySelector("#barcode").focus();
 
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
-            ntotal.value = convertToRupiah(total);
-            $("#ntotal").focus();
+            // calculate total
+            xtotal = total + parseFloat($("#ntotal").val().replace(/,/g, '')) || 0;
+            $("#ntotal").val(addRupiah(xtotal));
         });
     });
 
-
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        ctr--; no--;
         const price = parseFloat($(this).closest('tr').find('input[name^="icode"][name$="[price]"]').val().replace(/,/g, '')) || 0;
         total -= price;
-        ntotal.value = convertToRupiah(total);
-        $("#ntotal").focus();
-        //console.log(total);
-        ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
+        // calculate total
+        xtotal = parseFloat($("#ntotal").val().replace(/,/g, '')) - price;
+        $("#ntotal").val(addRupiah(xtotal));
     });
 }); // end document ready
 
-function toUCword(str){
-	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-		return $1.toUpperCase();
-	});
-}
+// Recalculate total on qty input change
+document.querySelectorAll('.qty-input').forEach(input => {
+    input.addEventListener('input', calculateTotal);
+});
 
-function convertToRupiah(angka){
-    var rupiah = '';
-    var angkarev = angka.toString().split('').reverse().join('');
-    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
-    return rupiah.split('',rupiah.length-1).reverse().join('');
-}
+// Initial calculation on page load
+window.addEventListener('DOMContentLoaded', calculateTotal);
 
-function update_data(){
-    var string = $("#id-form").serialize();
-    $.ajax({
-        type: 'POST',
-        url		: "/inventory/rwdata/update",
-        data	: string,
-        dataType: "json",
-        beforeSend: function() {
-                $('#btn-save').attr('disabled', true);
-                $('#btn-save').html('<i class="mdi mdi-loading mdi-spin"></i> Processing...');
-        },
-        success	: function(data){
-                if(data.success == true){
-                    window.location.href = "/inventory/intorder";
-                }else{
-                    viewAlert('Data gagal diubah');
-                }
-        },
-        error: function(jqXHR, exception){
-            console.log('error load model');
-            console.log(jqXHR.status);
-        }
-
-    });
-}
 </script>
 @endsection

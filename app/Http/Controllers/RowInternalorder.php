@@ -42,7 +42,7 @@ class RowInternalorder extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function simpan(Request $request)
+    public function save(Request $request)
     {
         $month = date('m').date('Y');
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
@@ -58,7 +58,7 @@ class RowInternalorder extends Controller
             'csupplier_name' => $supplier->cname,
             'cnotes'  => $request->post('cnotes'),
             'ntotal'  => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'nregion_id'=> $region_id = $request->post('cregion_id'),
+            'nregion_id'=> $region_id = $request->post('nregion_id'),
             'ncompanie_id' => $uauth['companie_id'],
             'ccashier'  => $uauth['name'],
             'ccreate_by'=> $uauth['id'],
@@ -68,6 +68,7 @@ class RowInternalorder extends Controller
         $headerId = ioheader::latest()->first();
 
         // insert detail
+        $totalprice = 0;
         $datadtl = array();
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
@@ -79,15 +80,110 @@ class RowInternalorder extends Controller
                     'nbarcode'    => $row['barcode'],
                     'citem_code'  => $row['item_code'],
                     'citem_name'  => $row['item_name'],
-                    'nqty'        => $row['qty'],
+                    'cuom'        => $row['uom'],
+                    'nqty'        => $uqty = $row['qty'],
                     'nqty1'       => $row['qty'],
+                    'nprice'      => $uprice = str_replace(",","",$row['price']),
                     'ccreate_by'  => $uauth['id'],
-                    'nregion_id'=> $region_id,
+                    'cmonth'      => $month,
+                    'ctime'       => date('His'),
+                    'nregion_id'  => $region_id,
                     'ncompanie_id' => $uauth['companie_id'],
                 );
+                $totalprice += ($uqty * $uprice);
             }
             iodetail::insert($datadtl);
         }
+        $update = array(
+            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'cupdate_by'=> $uauth['id'],
+        );
+        ioheader::where('id', $headerId->id)->update($update);
+
         return response()->json(array('success' => true, 'last_insert_id' => $headerId), 200);
+    }
+
+    public function update(Request $request)
+    {
+        $month = date('m').date('Y');
+        $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
+        //create post
+        $uauth = v_::getUser_Auth();
+        $datahdr = ioheader::find($request->post('id'));
+        $rowhdr = array(
+            'dtrans_date' => $request->post('dtrans_date'),
+            'csupplier_id'=> $request->post('csupplier_id'),
+            'csupplier_name' => $supplier->cname,
+            'cnotes' => $request->post('cnotes'),
+            'ntotal' => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'cupdate_by'=> $uauth['id'],
+        );
+        $datahdr->update($rowhdr);
+
+        //update detail
+        $datadtl = array();
+        $totalprice = 0;
+        if ($request->post('icode')) {
+            foreach ($request->post('icode') as $key => $row) {
+                $checkdtl = iodetail::find($row['iid']);
+                if($checkdtl) {
+                    $row1dtl = array(
+                        'nqty'        => $hqty = $row['qty'],
+                        'nqty1'       => $hqty,
+                        'nprice'      => $hprice = str_replace(",","",$row['price']),
+                        'cupdate_by'  => $uauth['id'],
+                        'cmonth'      => $month,
+                        'ctime'       => date('His'),
+                    );
+                    $totalprice +=  $hqty * $hprice;
+                    $checkdtl->update($row1dtl);
+                } else {
+                    $check2dtl = iodetail::where('nheader_id', $request->post('id'))
+                                    ->where('citem_code', $row['item_code'])
+                                    ->first();
+                    if($check2dtl) {
+                        $row2dtl = array(
+                            'nqty'        => $uqty = $check2dtl->nqty+$row['qty'],
+                            'nqty1'       => $check2dtl->nqty1+$row['qty'],
+                            'nprice'      => $uprice = str_replace(",","",$row['price']),
+                            'cupdate_by'  => $uauth['id'],
+                            'cmonth'      => $month,
+                            'ctime'       => date('His'),
+                        );
+                        $totalprice += ($uqty * $uprice);
+                        $check2dtl->update($row2dtl);
+                    } else {
+                        $datadtl[] = array(
+                            'nheader_id'  => $request->post('id'),
+                            'dtrans_date' => $request->post('dtrans_date'),
+                            'csupplier_id'=> $request->post('csupplier_id'),
+                            'cno_inorder' => $request->post('cno_inorder'),
+                            'nbarcode'    => $row['barcode'],
+                            'citem_code'  => $row['item_code'],
+                            'citem_name'  => $row['item_name'],
+                            'cuom'        => $row['uom'],
+                            'nqty'        => $iqty = $row['qty'],
+                            'nqty1'       => $iqty,
+                            'nprice'      => $iprice = str_replace(",","",$row['price']),
+                            'ccreate_by'  => $uauth['id'],
+                            'cmonth'      => $month,
+                            'ctime'       => date('His'),
+                            'nregion_id'  => $request->post('nregion_id'),
+                            'ncompanie_id' => $uauth['companie_id'],
+                        );
+                        $totalprice += ($iqty * $iprice);
+                        iodetail::insert($datadtl);
+                    }
+                }
+            }
+        }
+
+        $update = array(
+            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'cupdate_by'=> $uauth['id'],
+        );
+        ioheader::where('id', $request->post('id'))->update($update);
+
+        return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }
 }

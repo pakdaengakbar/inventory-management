@@ -20,7 +20,7 @@
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
-            <form class="form-horizontal"  method="POST" id="id-form" enctype="multipart/form-data" wire:ignore>
+            <form class="form-horizontal"  method="POST" id="input-form" enctype="multipart/form-data" wire:ignore>
                 <div class="card-body">
                     <div class="row">
                         <!-- start header -->
@@ -56,33 +56,34 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                {!! MyHelper::setRegionlivewire('cregion_id', false) !!}
+                                {!! MyHelper::setRegionlivewire('nregion_id', false) !!}
                             </div>
                         </div>
                     </div>
                     <!-- end header -->
                     <hr>
-                    <div class="row mb-3">
-                        <label for="citem" class="form-label">Item Name</label>
+                    <div class="row mb-3 row-cols-lg-auto g-2 align-items-center">
+                        <label for="citem" class="form-label">Item Kode</label>
                         <div class="col-sm-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Product Name" id="barcode" aria-describedby="ProductName">
+                                <input type="text" class="form-control" onkeydown="findProductEvent(event)" onkeyup="this.value=toUCword(this.value);" placeholder="Product Code / Name" id="barcode" aria-describedby="ProductName">
                                 <span class="input-group-text">
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#searchModal" id="btn_item_search" class="text-primary">Search</a>
+                                    <a href="javascript:;" id="btn_item_search" class="text-primary" onclick="findProductName()">Search</a>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button type="button" class="btn btn-success add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                            <button type="button" class="btn btn-success btn-sm add_item"><i class="mdi mdi-plus"></i>Add Item</button>
                         </div>
                     </div>
-                    <table id="itemDTatable" class="table">
+                    <table id="itemDTatable" class="table table-bordered dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th class="col-1">No</th>
                                 <th>Item Code</th>
                                 <th>Item Name</th>
                                 <th class="col-1">Qty</th>
+                                <th class="col-1">Uom</th>
                                 <th class="col-2">Harga</th>
                                 <th class="col-1 text-center">Delete</th>
                             </tr>
@@ -105,7 +106,7 @@
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control text-end" name="ntotal" id="ntotal" placeholder="Total">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total">
                                 </div>
                             </div>
                         </div>
@@ -113,13 +114,12 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='save_data("/inventory/rwdata/save", "/inventory/intorder");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -132,7 +132,6 @@
 <script>
 // Use emit inside Livewire-ready event
 document.addEventListener('DOMContentLoaded', function () {
-    //const ntotal= document.getElementById('mAlert');
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     const btn_additem = document.querySelector('.add_item');
     const wrapper = document.querySelector('.input_fields_wrap');
@@ -164,70 +163,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
                     <td><input type="text" class="form-control text-center form-control-sm" name="icode[${ctr}][qty]" value="1"></td>
+                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
                     <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
                 </tr>
             `;
+
             wrapper.insertAdjacentHTML('beforeend', row);
             document.querySelector("#barcode").value = "";
             document.querySelector("#barcode").focus();
 
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
-            ntotal.value = convertToRupiah(total);
-            $("#ntotal").focus();
+            ntotal.value = addRupiah(total);
         });
     });
-
 
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
         const price = parseFloat($(this).closest('tr').find('input[name^="icode"][name$="[price]"]').val().replace(/,/g, '')) || 0;
         total -= price;
-        ntotal.value = convertToRupiah(total);
-        $("#ntotal").focus();
+        ntotal.value = addRupiah(total);
         //console.log(total);
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
 }); // end document ready
-
-function toUCword(str){
-	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-		return $1.toUpperCase();
-	});
-}
-
-function convertToRupiah(angka){
-    var rupiah = '';
-    var angkarev = angka.toString().split('').reverse().join('');
-    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+',';
-    return rupiah.split('',rupiah.length-1).reverse().join('');
-}
-
-function save_data(){
-    var string = $("#id-form").serialize();
-    $.ajax({
-        type: 'POST',
-        url		: "/inventory/rwdata/save",
-        data	: string,
-        dataType: "json",
-        beforeSend: function() {
-                $('#btn-save').attr('disabled', true);
-                $('#btn-save').html('<i class="mdi mdi-loading mdi-spin"></i> Processing...');
-        },
-        success	: function(data){
-                if(data.success == true){
-                    window.location.href = "/inventory/intorder";
-                }else{
-                    viewAlert('Data gagal disimpan');
-                }
-        },
-        error: function(jqXHR, exception){
-            console.log('error load model');
-            console.log(jqXHR.status);
-        }
-
-    });
-}
 </script>
 @endsection

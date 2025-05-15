@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Helpers\MyService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\mproduct as product;
 
 class DtprodController extends Controller
@@ -30,12 +33,11 @@ class DtprodController extends Controller
 
     public function getDetailProduct(Request $request)
 	{
-		$code = $request->post('barcode');
-        $item = isset($code) ? product::select('nbarcode', 'citem_code', 'citem_name', 'cwsale_unit', 'cretail_unit',
-                                               'nwsale_value', 'nwsale_po_price', 'nretail_po_price')
-                               ->where('nbarcode', $code)
-                               ->orWhere('citem_code', $code)
-                               ->first() : null;
+
+        $code = $request->post('barcode');
+        $data = DB::table('mproducts')->select('nbarcode', 'citem_code', 'citem_name', 'cwsale_unit',
+                          'cretail_unit','nwsale_value', 'nwsale_po_price', 'nretail_po_price');
+        $item = isset($code) ? $data->where('nbarcode', $code)->orWhere('citem_code', $code)->first() : null;
         if ($item) {
             return response()->json([
                 'barcode'=> $item->nbarcode,
@@ -50,4 +52,19 @@ class DtprodController extends Controller
         }
         return response()->json(['error' => 'Product not found'], 404);
 	}
+
+    public function getSearchProduct(Request $request)
+    {
+        $name = $request->ajax() ? $request->post('itemname') : null;
+        $product = isset($name) ? product::where('citem_name', 'like', '%'.$name.'%')->get() : product::all();
+        $data = $product->map(function ($item, $index) {
+            return [
+                'no' => $index + 1,
+                'barcode'=> '<a href="javascript:void(0)" onclick="getItemBarcode(\''.$item->nbarcode.'\')"
+                                title="Get barcode">'.$item->citem_code.'</a>',
+                'item_name'=> $item->citem_name,
+            ];
+        });
+        return response()->json(['data' => $data]);
+    }
 }

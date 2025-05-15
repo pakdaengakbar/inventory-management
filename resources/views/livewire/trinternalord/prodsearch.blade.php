@@ -7,15 +7,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <label>ID</label>
-                    <input type="text" class="form-control">
-                </div>
+                <table id="rowDataproduct" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-1">Barcode</th>
+                            <th>Item Name</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" wire:click.prevent="store()" data-bs-dismiss="modal" class="btn btn-primary ">Save changes</button>
-            </div>
+           </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
