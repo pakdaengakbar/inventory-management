@@ -4,47 +4,39 @@ namespace App\Livewire\Trquotationord;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
-use App\Constants\Status as s_;
 
 use App\Models\tr_inorderhdr as ioheader;
 use App\Models\tr_inorderdtl as iodetail;
 
-
-class Index extends Component
+class Printdata extends Component
 {
-    public $page;
+    public $page, $dtheader, $dtdetail;
+
     public function __construct() {
         $this->page  = array(
-            'path'  => 'quorder/',
-            'title' => 'Inventory',
-            'description'=> 'Quotation Order',
+            'title' => 'Quotation',
+            'description'=> 'Print',
         );
     }
-
+    public function mount($id)
+    {
+        // Get Header data
+        $this->dtheader = ioheader::find($id);
+        // Get Header data
+        $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+    }
     public function render()
     {
         try {
-            $region= v_::getRegion();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trquotationord.index', [
-                'path'           => s_::URL_. $this->page['path'],
+            return view('livewire.trquotationord.printdata', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'region'=> $region,
             ]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
         }
-    }
-
-    public function destroy($id)
-    {
-        //destroy
-        ioheader::destroy($id);
-        iodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }

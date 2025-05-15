@@ -96,6 +96,7 @@
                     <div class="collapse" id="sidebarInventory">
                       <ul class="nav-second-level">
                         <li><a  href="{{ route('any', 'inventory/intorder')}}" class="tp-link" wire:current>Internal Order</a></li>
+                        <li><a  href="{{ route('any', 'inventory/quorder')}}" class="tp-link" wire:current>Quotation Order</a></li>
                       </ul>
                     </div>
                 </li>

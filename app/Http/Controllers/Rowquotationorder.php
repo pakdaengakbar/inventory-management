@@ -8,9 +8,9 @@ use App\Helpers\MyHelper as h_;
 
 use App\Models\tr_inorderhdr as ioheader;
 use App\Models\tr_inorderdtl as iodetail;
+
 use App\Models\tr_qorderhdr as qoheader;
 use App\Models\tr_qorderdtl as qodetail;
-
 
 class Rowquotationorder extends Controller
 {
@@ -19,7 +19,7 @@ class Rowquotationorder extends Controller
         $sdate  = $request->ajax() ? $request->post('sdate') : date('Y-m-d');
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
-        $result = ioheader::select('id','dtrans_date','cno_inorder','csupplier_name','cstatus',
+        $result = qoheader::select('id','dtrans_date','cno_quorder','csupplier_name','cstatus',
                                    'cnotes','ntotal','csupplier_id','nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate);
@@ -30,14 +30,14 @@ class Rowquotationorder extends Controller
             return [
                 'no' => $index + 1,
                 'trnsdate'=> $row->dtrans_date,
-                'nofaktur'=> $row->cno_inorder,
+                'nofaktur'=> $row->cno_quorder,
                 'supplier'=> $row->csupplier_name,
                 'notes'   => $row->cnotes,
                 'status'  => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'region'  => $row->region->cname,
                 'total'   => '<div class="float-end">'.number_format($row->ntotal).'</div>',
                 'action'  => '<div class="text-center">
-                                <a href="/inventory/intorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="/inventory/quorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                </div>'
             ];
@@ -55,7 +55,7 @@ class Rowquotationorder extends Controller
         $datahdr = array(
             'cstatus' => 'O',
             'cmonth'  => $month,
-            'cno_inorder' => $no_inorder = 'IO-'.date('ymd').'-'.$code['gennum'],
+            'cno_quorder' => $no_inorder = 'IO-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
             'csupplier_id'=> $supplier_id = $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
@@ -67,8 +67,8 @@ class Rowquotationorder extends Controller
             'ccreate_by'=> $uauth['id'],
             'nnum_log'  => $code['maxnum']
         );
-        ioheader::create($datahdr);
-        $headerId = ioheader::latest()->first();
+        qoheader::create($datahdr);
+        $headerId = qoheader::latest()->first();
 
         // insert detail
         $totalprice = 0;
@@ -79,7 +79,7 @@ class Rowquotationorder extends Controller
                     'nheader_id'  => $headerId->id,
                     'dtrans_date' => $trans_date,
                     'csupplier_id'=> $supplier_id,
-                    'cno_inorder' => $no_inorder,
+                    'cno_quorder' => $no_inorder,
                     'nbarcode'    => $row['barcode'],
                     'citem_code'  => $row['item_code'],
                     'citem_name'  => $row['item_name'],
@@ -95,7 +95,7 @@ class Rowquotationorder extends Controller
                 );
                 $totalprice += ($uqty * $uprice);
             }
-            iodetail::insert($datadtl);
+            qodetail::insert($datadtl);
         }
         $update = array(
             'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
@@ -128,7 +128,7 @@ class Rowquotationorder extends Controller
         $totalprice = 0;
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
-                $checkdtl = iodetail::find($row['iid']);
+                $checkdtl = qodetail::find($row['iid']);
                 if($checkdtl) {
                     $row1dtl = array(
                         'nqty'        => $hqty = $row['qty'],
@@ -141,7 +141,7 @@ class Rowquotationorder extends Controller
                     $totalprice +=  $hqty * $hprice;
                     $checkdtl->update($row1dtl);
                 } else {
-                    $check2dtl = iodetail::where('nheader_id', $request->post('id'))
+                    $check2dtl = qodetail::where('nheader_id', $request->post('id'))
                                     ->where('citem_code', $row['item_code'])
                                     ->first();
                     if($check2dtl) {
@@ -175,7 +175,7 @@ class Rowquotationorder extends Controller
                             'ncompanie_id' => $uauth['companie_id'],
                         );
                         $totalprice += ($iqty * $iprice);
-                        iodetail::insert($datadtl);
+                        qodetail::insert($datadtl);
                     }
                 }
             }
