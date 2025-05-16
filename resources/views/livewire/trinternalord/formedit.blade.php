@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="float-start d-flex justify-content-center">
-                    <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageDescription }}</h5>
+                    <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
