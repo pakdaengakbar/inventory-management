@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trpurchaseord;
+namespace App\Livewire\Trmutationin;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
@@ -14,7 +14,7 @@ class Printdata extends Component
 
     public function __construct() {
         $this->page  = array(
-            'title' => 'Order',
+            'title' => 'Mutation In',
             'description'=> 'Print',
         );
     }
@@ -29,7 +29,7 @@ class Printdata extends Component
     {
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trpurchaseord.printdata', [
+            return view('livewire.trmutationin.printdata', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

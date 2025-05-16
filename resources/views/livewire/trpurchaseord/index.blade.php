@@ -1,5 +1,5 @@
 @section('title')
-    {{ $pageTitle }}
+    {{ $pageTitle }}d
 @endsection
 @section('page-title')
     {{ $pageDescription }}
@@ -47,8 +47,10 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Trans. Date</th>
-                                    <th>No Int.Order</th>
+                                    <th>No Puchase</th>
+                                    <th>No Order</th>
                                     <th>Supplier</th>
+                                    <th>Supplier Inv.</th>
                                     <th>Notes</th>
                                     <th class="col-1">Total</th>
                                     <th class="col-1">Status</th>
@@ -98,7 +100,7 @@ function handleData() {
         paginationType : 'full_numbers',
         StateSave : true,
         ajax: {
-            "url"  : '/inventory/rwdata/quorder',
+            "url"  : '/inventory/rwdata/puorder',
             "type" : "POST",
             "data" : {
                 "sdate" : sdate,
@@ -116,8 +118,10 @@ function handleData() {
         columns: [
             { data: 'no' },
             { data: 'trnsdate' },
-            { data: 'nofaktur' },
+            { data: 'no_po' },
+            { data: 'no_order' },
             { data: 'supplier' },
+            { data: 'suppinv' },
             { data: 'notes' },
             { data: 'total' },
             { data: 'status' },

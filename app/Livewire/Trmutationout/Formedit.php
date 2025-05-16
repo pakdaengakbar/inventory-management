@@ -1,24 +1,36 @@
 <?php
 
-namespace App\Livewire\Trpurchaseord;
+namespace App\Livewire\Trmutatuinout;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 
-class Formadd extends Component
+use App\Models\tr_orderhdr as oheader;
+use App\Models\tr_orderdtl as odetail;
+
+class Formedit extends Component
 {
-    public $page;
+    public $page, $dtheader, $dtdetail;
 
     public function __construct() {
         $this->page = array(
-            'title' => 'Purchase Order',
-            'description'=> 'Add Data'
+            'title' => 'Mutation Out',
+            'description'=> 'Edit Data'
         );
     }
+
+    public function mount($id)
+    {
+        // Get Header data
+        $this->dtheader = oheader::find($id);
+        // Get Header data
+        $this->dtdetail = odetail::where('nheader_id', $id)->get();
+    }
+
     /**
      * store
      */
-    public function store()
+    public function update()
     {
         // Debugging ntotal value
         //validate
@@ -28,17 +40,16 @@ class Formadd extends Component
      */
     public function render()
     {
-        $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_qorderhdr', $uauth['region_id'], $uauth['companie_id']);
-        $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'];
+        $region = v_::getRegion();
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trpurchaseord.formadd', [
+            return view('livewire.trmutatuinout.formedit', [
+                'no' => 1,
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'no_inorder' => $no_inorder,
-                'suppliers'  => v_::getSupplier(),
+                'suppliers'=> v_::getSupplier(),
+                'region'   => $region,
             ]);
         }catch(\Exception $e)
         {

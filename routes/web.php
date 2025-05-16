@@ -11,6 +11,7 @@ use App\Http\Controllers\DttypeController;
 /* Transaction */
 use App\Http\Controllers\RowInternalorder;
 use App\Http\Controllers\Rowquotationorder;
+use App\Http\Controllers\Rowpurchaseorder;
 /* Website */
 use App\Http\Controllers\Webcategory;
 use App\Http\Controllers\Webclient;
@@ -23,11 +24,6 @@ use App\Http\Controllers\Webpromo;
 use App\Http\Controllers\Webservice;
 use App\Http\Controllers\Webstaff;
 use App\Http\Controllers\Webvideo;
-
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +110,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/quorder', [Rowquotationorder::class, 'datatable']);
         Route::post('/rwdata/qosave', [Rowquotationorder::class, 'save']);
         Route::post('/rwdata/qoupdate', [Rowquotationorder::class, 'update']);
+        /* Quotation Order */
+        Route::get('/puorder', App\Livewire\Trpurchaseord\Index::class)->name('puorder.index');
+        Route::get('/puorder/add', App\Livewire\Trpurchaseord\Formadd::class)->name('puorder.add');
+        Route::get('/puorder/edit/{id}', App\Livewire\Trpurchaseord\Formedit::class)->name('puorder.edit');
+        Route::get('/puorder/print/{id}', App\Livewire\Trpurchaseord\Printdata::class)->name('puorder.print');
+        /* Quotation Order Ajax */
+        Route::post('/rwdata/puorder', [Rowpurchaseorder::class, 'datatable']);
+        Route::post('/rwdata/posave', [Rowpurchaseorder::class, 'save']);
+        Route::post('/rwdata/poupdate', [Rowpurchaseorder::class, 'update']);
+
     });
 
     Route::group(['prefix' => 'website'], function () {

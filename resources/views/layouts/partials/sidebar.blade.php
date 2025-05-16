@@ -37,7 +37,6 @@
                     <div class="collapse" id="sidebarDashboards">
                         <ul class="nav-second-level">
                              <li><a href="{{ route('second', ['dashboard', 'index'])}}" class="tp-link">CRM</a></li>
-                             <li><a href="{{ route('second', ['dashboard', 'analytics'])}}" class="tp-link">Analytics</a></li>
                              <li><a href="{{ route('second', ['dashboard', 'ecommerce'])}}" class="tp-link">eCommerce</a></li>
                         </ul>
                     </div>
@@ -97,6 +96,7 @@
                       <ul class="nav-second-level">
                         <li><a  href="{{ route('any', 'inventory/intorder')}}" class="tp-link" wire:current>Internal Order</a></li>
                         <li><a  href="{{ route('any', 'inventory/quorder')}}" class="tp-link" wire:current>Quotation Order</a></li>
+                        <li><a  href="{{ route('any', 'inventory/puorder')}}" class="tp-link" wire:current>Purchase Order</a></li>
                       </ul>
                     </div>
                 </li>

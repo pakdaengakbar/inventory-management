@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,31 +10,35 @@ use App\Models\Mregion as Region;
 
 class tr_orderhdr extends Model
 {
-    protected $table = 'tr_porderhdr';
+    protected $table = 'tr_orderhdr';
     protected $fillable = [
         'id',
-        'cno_quorder',
+        'cno_po',
+        'cno_order',
+        'ctype_order',
         'csupplier_id',
         'csupplier_name',
+        'csupplier_inv',
         'dtrans_date',
-        'cppprove',
-        'cppp_date',
         'cpay_type',
         'ccashier',
+        'nppn',
+        'ntot_ppn',
+        'nsub_tot',
         'ntotal',
         'ddue_date',
         'cmonth',
-        'Trs',
+        'cterminal',
+        'cwarehouse',
         'cnotes',
         'cstatus',
+        'nnum_log',
+        'iphoto',
+        'ccreate_by',
+        'cupdate_by',
         'ncompanie_id',
         'nregion_id',
-        'ccreate_by',
-        'created_at',
-        'cupdate_by',
-        'updated_at',
-        'cWarehouse',
-        'nNumlog'
+        'delete_flag'
     ];
 
     public function supplier(): BelongsTo

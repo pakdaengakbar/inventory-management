@@ -6,16 +6,10 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\MyService as v_;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
-
-use App\Models\tr_qorderhdr as qoheader;
-use App\Models\tr_qorderdtl as qodetail;
-
 use App\Models\tr_orderhdr as poheader;
 use App\Models\tr_orderdtl as podetail;
 
-class Rowpurchaseorder extends Controller
+class Rowmutationout extends Controller
 {
     public function datatable(Request $request)
     {

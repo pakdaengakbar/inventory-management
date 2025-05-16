@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trpurchaseord;
+namespace App\Livewire\Trmutationin;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
@@ -11,7 +11,7 @@ class Formadd extends Component
 
     public function __construct() {
         $this->page = array(
-            'title' => 'Purchase Order',
+            'title' => 'Mutation In',
             'description'=> 'Add Data'
         );
     }
@@ -33,7 +33,7 @@ class Formadd extends Component
         $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'];
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trpurchaseord.formadd', [
+            return view('livewire.trmutationin.formadd', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
