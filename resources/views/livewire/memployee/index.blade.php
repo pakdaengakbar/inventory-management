@@ -55,7 +55,7 @@
                                 @if ($row->iphoto)
                                 <img src="{{ asset($path.$row->iphoto) }}" alt="photo" class="rounded-circle img-fluid avatar-sm img-thumbnail">
                                 @else
-                                <img src="{{ asset('storage/NoImage.jpg') }}" alt="photo" class="rounded-circle img-fluid avatar-sm img-thumbnail">
+                                <img src="{{ asset($no_img) }}" alt="photo" class="rounded-circle img-fluid avatar-sm img-thumbnail">
                                 @endif
                             </td>
                             <td>{{ $row->cname }}</td>

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\MyService as v_;
 use App\Helpers\MyHelper as h_;
+use App\Constants\Status as s_;
 
 use App\Models\tr_inorderhdr as ioheader;
 use App\Models\tr_inorderdtl as iodetail;
@@ -41,7 +42,7 @@ class Rowpurchaseorder extends Controller
                 'region'  => $row->region->cname,
                 'total'   => '<div class="float-end">'.number_format($row->ntotal).'</div>',
                 'action'  => '<div class="text-center">
-                                <a href="/inventory/quorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="/inventory/puorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                </div>'
             ];
@@ -55,27 +56,35 @@ class Rowpurchaseorder extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_qorderhdr', $uauth['region_id'], $uauth['companie_id']);
+        $code  = v_::MaxNumber('tr_orderhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
-            'cstatus' => 'O',
-            'cmonth'  => $month,
-            'cno_quorder' => $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'],
-            'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
-            'csupplier_id'=> $supplier_id = $request->post('csupplier_id'),
-            'csupplier_name' => $supplier->cname,
-            'cnotes'  => $request->post('cnotes'),
-            'ntotal'  => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'nregion_id'=> $region_id = $request->post('nregion_id'),
-            'ncompanie_id' => $uauth['companie_id'],
+            'cno_po'   => $no_po = 'PO-'.date('ymd').'-'.$code['gennum'],
+            'dtrans_date'   => $trans_date =  $request->post('dtrans_date'),
+            'ddue_date'   => $due_date =  $request->post('ddue_date'),
+            'csupplier_id'  => $supplier_id = $request->post('csupplier_id'),
+            'csupplier_name'=> $supplier->cname,
+            'csupplier_inv' => $request->post('csupplier_inv'),
+            'corder_type'   => $request->post('gridRadios'),
+            'cpay_type'   => $pay_type = $request->post('cpay_type'),
+            'cno_order' => $no_order = $request->post('cno_order'),
+            'cnotes'    => $request->post('cnotes'),
+            'nsub_tot'  => $request->post('nsub_tot') ? str_replace(",","",$request->post('nsub_tot')) : 0,
+            'nppn'      => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'  => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
+            'ntotal'    => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
             'ccashier'  => $uauth['name'],
             'ccreate_by'=> $uauth['id'],
-            'nnum_log'  => $code['maxnum']
+            'nnum_log'  => $code['maxnum'],
+            'nregion_id'=> $region_id = $uauth['region_id'],
+            'ncompanie_id' => $uauth['companie_id'],
+            'cstatus' => 'O',
+            'cmonth'  => $month
         );
         poheader::create($datahdr);
         $headerId = poheader::latest()->first();
 
-        // insert detail
-        $totalprice = 0;
+        // insert details
+        $stotal = 0;
         $datadtl = array();
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
@@ -83,30 +92,36 @@ class Rowpurchaseorder extends Controller
                     'nheader_id'  => $headerId->id,
                     'dtrans_date' => $trans_date,
                     'csupplier_id'=> $supplier_id,
-                    'cno_quorder' => $no_inorder,
+                    'cno_po'      => $no_po,
+                    'cno_order'   => $no_order,
+                    'cpay_type'   => $pay_type,
+                    'ddue_date'   => $due_date,
                     'nbarcode'    => $row['barcode'],
                     'citem_code'  => $row['item_code'],
                     'citem_name'  => $row['item_name'],
                     'cuom'        => $row['uom'],
                     'nqty'        => $uqty = $row['qty'],
                     'nqty1'       => $row['qty'],
-                    'nprice'      => $uprice = str_replace(",","",$row['price']),
+                    'nwsale_po_price'  => $uprice = str_replace(",","",$row['price']),
+                    'nretail_po_price' => $uprice = str_replace(",","",$row['price']),
                     'ccreate_by'  => $uauth['id'],
                     'cmonth'      => $month,
                     'ctime'       => date('His'),
                     'nregion_id'  => $region_id,
                     'ncompanie_id' => $uauth['companie_id'],
                 );
-                $totalprice += ($uqty * $uprice);
+                $stotal += ($uqty * $uprice);
             }
             podetail::insert($datadtl);
         }
         $update = array(
-            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'nsub_tot'  => $stotal,
+            'nppn'      => s_::PPN_,
+            'ntot_ppn'  => $tot_ppn = ($stotal*s_::PPN_)/100,
+            'ntotal'    => $tot_ppn+$stotal,
             'cupdate_by'=> $uauth['id'],
         );
         poheader::where('id', $headerId->id)->update($update);
-
         return response()->json(array('success' => true, 'last_insert_id' => $headerId), 200);
     }
 
@@ -129,7 +144,7 @@ class Rowpurchaseorder extends Controller
 
         //update detail
         $datadtl = array();
-        $totalprice = 0;
+        $stotal = 0;
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
                 $checkdtl = podetail::find($row['iid']);
@@ -142,7 +157,7 @@ class Rowpurchaseorder extends Controller
                         'cmonth'      => $month,
                         'ctime'       => date('His'),
                     );
-                    $totalprice +=  $hqty * $hprice;
+                    $stotal +=  $hqty * $hprice;
                     $checkdtl->update($row1dtl);
                 } else {
                     $check2dtl = podetail::where('nheader_id', $request->post('id'))
@@ -157,7 +172,7 @@ class Rowpurchaseorder extends Controller
                             'cmonth'      => $month,
                             'ctime'       => date('His'),
                         );
-                        $totalprice += ($uqty * $uprice);
+                        $stotal += ($uqty * $uprice);
                         $check2dtl->update($row2dtl);
                     } else {
                         $datadtl[] = array(
@@ -178,7 +193,7 @@ class Rowpurchaseorder extends Controller
                             'nregion_id'  => $request->post('nregion_id'),
                             'ncompanie_id' => $uauth['companie_id'],
                         );
-                        $totalprice += ($iqty * $iprice);
+                        $stotal += ($iqty * $iprice);
                         podetail::insert($datadtl);
                     }
                 }
@@ -186,7 +201,10 @@ class Rowpurchaseorder extends Controller
         }
 
         $update = array(
-            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'nsub_tot'  => $stotal,
+            'nppn'      => s_::PPN_,
+            'ntot_ppn'  => $tot_ppn = ($stotal*s_::PPN_)/100,
+            'ntotal'    => $tot_ppn+$stotal,
             'cupdate_by'=> $uauth['id'],
         );
         poheader::where('id', $request->post('id'))->update($update);

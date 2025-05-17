@@ -11,7 +11,7 @@ use App\Models\tr_inorderdtl as iodetail;
 class Printdata extends Component
 {
     public $page, $dtheader, $dtdetail;
-
+    public $no=1;
     public function __construct() {
         $this->page  = array(
             'title' => 'Mutation Out',

@@ -9,4 +9,5 @@ class Status
     const PENDING   = 'pending';
     const PATH_     = 'public/';
     const URL_      = 'storage/';
+    const PPN_      = 11;
 }

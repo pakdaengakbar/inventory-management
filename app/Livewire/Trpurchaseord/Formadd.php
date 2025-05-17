@@ -4,6 +4,7 @@ namespace App\Livewire\Trpurchaseord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
+use App\Constants\Status as s_;
 
 class Formadd extends Component
 {
@@ -39,6 +40,7 @@ class Formadd extends Component
                 'pageBreadcrumb' => $pageBreadcrumb,
                 'no_inorder' => $no_inorder,
                 'suppliers'  => v_::getSupplier(),
+                'ppn' => s_::PPN_,
             ]);
         }catch(\Exception $e)
         {

@@ -225,7 +225,7 @@
                                         @if ($photo)
                                         <img src="{{ asset($url.$photo) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
                                         @else
-                                        <img src="{{ asset('storage/NoImage.jpg') }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        <img src="{{ asset($no_img) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
                                         @endif
                                     </div>
                                     <div class="overflow-hidden ms-md-4 ms-0">

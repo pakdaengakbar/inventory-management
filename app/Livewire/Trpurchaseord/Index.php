@@ -8,7 +8,7 @@ use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
 use App\Models\tr_orderhdr as oheader;
-use App\Models\tr_orderhdr as odetail;
+use App\Models\tr_orderdtl as odetail;
 
 class Index extends Component
 {

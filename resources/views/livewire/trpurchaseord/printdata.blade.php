@@ -5,164 +5,223 @@
     {{ $pageDescription }}
 @endsection
 <div>
-<style>
-
-    .header, .content {
-        margin-bottom: 20px;
-    }
-
-    .footerx {
-        margin-top: 30px;
-         text-align: center;
-    }
-
-    .print-btn {
-        float: right;
-        margin-bottom: 20px;
-        background: #00c6ad;
-        color: white;
-        padding: 6px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    h2, h4 {
-        margin: 0;
-    }
-
-    .flex-row {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    .box {
-        border: 1px solid #ddd;
-        padding: 15px;
-        margin-top: 15px;
-        background: #f9f9f9;
-        border-radius: 6px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background: #f2f2f2;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .text-end {
-        text-align: right;
-    }
-
-    .label {
-        font-size: 12px;
-        color: white;
-        background: crimson;
-        padding: 3px 8px;
-        border-radius: 4px;
-        margin-left: 8px;
-    }
-
-    .creator {
-        margin-top: 30px;
-        text-align: center;
-    }
-
-    @media print {
-        .print-btn {
-            display: none;
-        }
-    }
-</style>
 <div class="container-fluid">
-<div class="card">
-    <div class="card-body">
-        <button class="print-btn" onclick="window.print()">Print</button>
-        <div class="header">
-            <h2>Internal Order</h2>
-            <p><strong>Edelweiss Tea & Coffee House</strong><br>
-            HO EDELWEISS CAFE<br>
-            Jl. Neglasari Dalam No. 7 Ciumbuleuit<br>
-            P: 0821-1123-0926<br>
-            <strong style="color:#000">#IO-PST-202505-00001</strong></p>
+    <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+        <div class="flex-grow-1">
+            <h4 class="fs-18 fw-semibold m-0">Invoice</h4>
         </div>
 
-        <div class="flex-row box">
-            <div style="flex: 1">
-                <h4>INTERNAL ORDER:</h4>
-                <p><strong>#IO-PST-202505-00001</strong></p>
-                <p><strong>TRANS NUM:</strong> IO-PST-202505-00001</p>
-                <p><strong>DATE:</strong> 15-05-2025</p>
-                <p><strong>WAREHOUSE:</strong> GDG-PUSAT EDELWEISS</p>
-            </div>
-            <div style="flex: 1">
-                <h4>HEAD OFFICE:</h4>
-                <p><strong>ANEKA SOLUSI TEKNOLOGI</strong></p>
-                <p><strong>ADDRESS:</strong> Jl. Daan Mogot KM.11 Gedung SSK, Cengkareng</p>
-                <p><strong>PHONE:</strong> (21) 881-423</p>
-                <p><strong>CITY:</strong> Jakarta Barat</p>
-            </div>
+        <div class="text-end">
+            <ol class="breadcrumb m-0 py-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
+                <li class="breadcrumb-item active">Invoice</li>
+            </ol>
         </div>
+    </div>
 
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th>Description</th>
-                        <th class="text-center">Flag</th>
-                        <th class="text-center">Qty</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>05181020188905 - GEMBOK UKURAN 25MM</td>
-                        <td class="text-center">IO</td>
-                        <td class="text-center">1</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end"><strong>TOTAL:</strong></td>
-                        <td class="text-center"><strong>1</strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="panel-body">
+                        <div class="clearfix">
+                            <div class="float-start d-flex justify-content-center">
+                                <img src="{{ asset($url_img.'profile/'.$profile->clogo) }}" class="me-2" alt="logo" height="24">
+                                <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }}</h4>
+                            </div>
+                            <div class="float-end">
+                                <h4 class="fs-18">IO #4987<br>
+                                    <strong class="fs-15 fw-normal">Internal Order</strong>
+                                </h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="float-start mt-3">
+                                    <address>
+                                        <strong>Internal Order :</strong><br>
+                                        {{ $profile->cname }}<br>
+                                        {{ $profile->caddress }}<br>
+                                        <abbr title="Phone">P:</abbr> {{ $profile->cphone }}
+                                    </address>
+                                </div>
+                                <div class="float-end mt-3">
+                                    <address>
+                                        <strong>Bill To:</strong><br>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td class="pe-4">Total Due:</td>
+                                                <td class="fw-medium">$12,110.55</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pe-4">Bank name:</td>
+                                                <td>Swiss Bank</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pe-4">Country:</td>
+                                                <td>Switzerland</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pe-4">BCODE:</td>
+                                                <td>LAPE149879564874</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pe-4">SWIFT code:</td>
+                                                <td>RTP03234</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="footerx">
-            <div class="flex-row" style="justify-content: space-between;">
-                <div>
-                    <span class="label">Create By</span>
-                    <p>#Date: 15-05-2025</p>
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <p class="mb-1 fw-semibold">Invoice ID :</p>
+                                <p class="mb-1">#ERTW1249879</p>
+                            </div>
+
+                            <div class="col-xl-3">
+                                <p class="mb-1 fw-semibold">Date Issued :</p>
+                                <p class="mb-1">10, Jan 2024</p>
+                            </div>
+
+                            <div class="col-xl-3">
+                                <p class="mb-1 fw-semibold">Due Date :</p>
+                                <p class="mb-1">17, Feb 2024</p>
+                            </div>
+
+                            <div class="col-xl-3">
+                                <p class="mb-1 fw-semibold">Due Amount :</p>
+                                <p class="mb-1 fw-bold">$2,032.82</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive rounded-2">
+                                    <table class="table mt-4 mb-4 table-centered border">
+                                        <thead class="rounded-2">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Item</th>
+                                                <th>Description</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Cost</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>PH Monitor</td>
+                                                <td>HP offers monitors with high refresh rates.</td>
+                                                <td>1</td>
+                                                <td>$180</td>
+                                                <td>$180</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Mobile</td>
+                                                <td>DisplayPort, USB-C, and sometimes.</td>
+                                                <td>5</td>
+                                                <td>$150</td>
+                                                <td>$2750</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Keyboard</td>
+                                                <td>These monitors often boast features such as factory calibration.</td>
+                                                <td>2</td>
+                                                <td>$80</td>
+                                                <td>$160</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>Mouse Master</td>
+                                                <td>Balance of performance, features, and design to meet the demands.</td>
+                                                <td>3</td>
+                                                <td>$300</td>
+                                                <td>$900</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>IMac</td>
+                                                <td>Eco-friendly features such as low power consumption.</td>
+                                                <td>5</td>
+                                                <td>$1520</td>
+                                                <td>$7600</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4"></td>
+                                                <td colspan="2">
+                                                    <table class="table table-sm text-nowrap mb-0 table-borderless">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <p class="mb-0">Sub-total :</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-0 fw-medium fs-15">$1,1590</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td scope="row">
+                                                                    <p class="mb-0">Discout :</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-0 fw-medium fs-15">$29.98</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td scope="row">
+                                                                    <p class="mb-0">Vat <span class="text-danger">(20%)</span> :</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-0 fw-medium fs-15">$472.80</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td scope="row">
+                                                                    <p class="mb-0">Due Till Date :</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-0 fw-medium fs-15">$0</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td scope="row">
+                                                                    <p class="mb-0 fs-14">Total :</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-0 fw-medium fs-16 text-success">$2,032.82</p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-print-none">
+                            <div class="float-end">
+                                <a href="javascript:window.print()" class="btn btn-dark border-0"><i class="mdi mdi-printer me-1"></i>Print</a>
+                                <a href="#" class="btn btn-primary">Submit</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
                 </div>
-                <div>
-                    <span class="label">Approval HOD</span>
-                    <p>#Date:</p>
-                </div>
-            </div>
-            <div class="creator">
-                <h5>Create By System</h5>
-                <p>ADMIN PUSAT</p>
             </div>
         </div>
     </div>
-    </div>
-</div>
+</div> <!-- container-fluid -->
 </div>

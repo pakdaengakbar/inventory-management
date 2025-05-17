@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Mprofile as profile;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
                 $url_img = 'storage/';
                 view()->share('url_img', $url_img);
 
+                $no_img = 'storage/NoImage.jpg';
+                view()->share('no_img', $no_img);
+
+                $app_img = 'storage/app_stamp.png';
+                view()->share('app_img', $app_img);
+
                 view()->composer('*', function ($view)
                 {
                     if (Auth::check()) {
@@ -36,6 +44,9 @@ class AppServiceProvider extends ServiceProvider
                         return redirect('/');
                     }
                 });
+
+                $profile= profile::where('cstatus',1)->first();
+                view()->share('profile', $profile);
 
             }else{
                 die("Could not find the database. Please check your configuration");

@@ -23,7 +23,7 @@ class tr_orderdtl extends Model
         'citem_name',
         'cuom',
         'nqty',
-        'nqty2',
+        'nqty1',
         'nwsale_po_price',
         'nretail_po_price',
         'cmonth',
@@ -35,7 +35,8 @@ class tr_orderdtl extends Model
         'cupdate_by',
         'ncompanie_id',
         'nregion_id',
-        'delete_flg'
+        'delete_flg',
+        'ctime'
     ];
 
     public function supplier(): BelongsTo

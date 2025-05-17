@@ -18,12 +18,6 @@ class MyHelper {
         }
     }
 
-    public static function _getstatus($status)
-    {
-        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected'];
-        return $statusarr[$status];
-    }
-
     public static function setAlert(){
         return '<div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
                     <span id="mAlertMessage"></span>
@@ -54,6 +48,12 @@ class MyHelper {
                 </select>';
     }
 
+     public static function _getstatus($status)
+    {
+        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected'];
+        return $statusarr[$status];
+    }
+
     public static function setStatusTrans(){
         return '<label class="form-label">Status</label>
                 <select class="form-select" wire:model="cstatus" >
@@ -76,6 +76,24 @@ class MyHelper {
                     <label for="edate" class="form-label">End Date</label>
                     <input type="date" id="edate" class="form-control" value="'.$today.'">
                 </div>';
+    }
+
+    public static function _getpayment($type)
+    {
+        $statusarr = [1 => 'Credit', 2 => 'Cash', 3 => 'Consigment'];
+        return $statusarr[$type];
+    }
+
+    public static function setOPayentType($lifewire=false){
+        return '<label class="col-sm-2 col-form-label text-end">Type</label>
+                <div class="col-sm-4">
+                <select class="form-select"'.($lifewire == true ? 'wire:model="cpay_type"' : '').'" id="cpay_type" name="cpay_type" >
+                    <option value="">Payment Type</option>
+                    <option value="1">Credit</option>
+                    <option value="2">Cash</option>
+                    <option value="3">Consigment</option>
+                </select>
+                 </div>';
     }
 
     public static function setSearchRegion($field){

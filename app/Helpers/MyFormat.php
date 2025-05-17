@@ -1,5 +1,6 @@
 <?php
 namespace App\Helpers;
+use Illuminate\Support\Facades\DB;
 
 class MyFormat {
 
@@ -78,7 +79,7 @@ class MyFormat {
     public static function ambilBln($tgl){
         $exp = explode('-',$tgl);
         $tgl = $exp[1];
-        $bln = MyService::getBulan($tgl);
+        $bln = MyFormat::getBulan($tgl);
         $hasil = substr($bln,0,3);
         return $hasil;
     }
@@ -86,7 +87,7 @@ class MyFormat {
         $jam = substr($tgl,11,10);
         $tgl = substr($tgl,0,10);
         $tanggal = substr($tgl,8,2);
-        $bulan = MyService::getBulan(substr($tgl,5,2));
+        $bulan = MyFormat::getBulan(substr($tgl,5,2));
         $tahun = substr($tgl,0,4);
         return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
     }
@@ -106,7 +107,7 @@ class MyFormat {
 			  <option value='All'>-Pilih-</option>";
         for ($bln=$awal; $bln<=$akhir; $bln++){
             $lebar=strlen($bln);
-            $bulan = MyService::getBulan($bln);
+            $bulan = MyFormat::getBulan($bln);
             switch($lebar){
                 case 1:
                 {

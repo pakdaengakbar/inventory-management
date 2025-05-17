@@ -15,7 +15,7 @@ class tr_orderhdr extends Model
         'id',
         'cno_po',
         'cno_order',
-        'ctype_order',
+        'corder_type',
         'csupplier_id',
         'csupplier_name',
         'csupplier_inv',
