@@ -17,6 +17,9 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
+                    <button type="button" onclick='_save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i> Save
+                    </button>
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
