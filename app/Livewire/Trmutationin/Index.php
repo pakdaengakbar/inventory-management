@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trmutatuinin;
+namespace App\Livewire\Trmutationin;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
@@ -26,7 +26,7 @@ class Index extends Component
         try {
             $region= v_::getRegion();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutatuinin.index', [
+            return view('livewire.Trmutationin.index', [
                 'path'           => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,

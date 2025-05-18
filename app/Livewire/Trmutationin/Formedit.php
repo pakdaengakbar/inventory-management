@@ -43,7 +43,7 @@ class Formedit extends Component
         $region = v_::getRegion();
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutationin.formedit', [
+            return view('livewire.Trmutationin.formedit', [
                 'no' => 1,
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,

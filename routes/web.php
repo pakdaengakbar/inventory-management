@@ -12,6 +12,8 @@ use App\Http\Controllers\DttypeController;
 use App\Http\Controllers\RowInternalorder;
 use App\Http\Controllers\Rowquotationorder;
 use App\Http\Controllers\Rowpurchaseorder;
+use App\Http\Controllers\Rowmutationout;
+use App\Http\Controllers\Rowmutationin;
 /* Website */
 use App\Http\Controllers\Webcategory;
 use App\Http\Controllers\Webclient;
@@ -110,16 +112,33 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/quorder', [Rowquotationorder::class, 'datatable']);
         Route::post('/rwdata/qosave', [Rowquotationorder::class, 'save']);
         Route::post('/rwdata/qoupdate', [Rowquotationorder::class, 'update']);
-        /* Quotation Order */
+        /* Purchase Order */
         Route::get('/puorder', App\Livewire\Trpurchaseord\Index::class)->name('puorder.index');
         Route::get('/puorder/add', App\Livewire\Trpurchaseord\Formadd::class)->name('puorder.add');
         Route::get('/puorder/edit/{id}', App\Livewire\Trpurchaseord\Formedit::class)->name('puorder.edit');
         Route::get('/puorder/print/{id}', App\Livewire\Trpurchaseord\Printdata::class)->name('puorder.print');
-        /* Quotation Order Ajax */
+        /* Purchase Order Ajax */
         Route::post('/rwdata/puorder', [Rowpurchaseorder::class, 'datatable']);
         Route::post('/rwdata/posave', [Rowpurchaseorder::class, 'save']);
         Route::post('/rwdata/poupdate', [Rowpurchaseorder::class, 'update']);
-
+        /* Mutation Out */
+        Route::get('/mutout', App\Livewire\Trmutationout\Index::class)->name('mutout.index');
+        Route::get('/mutout/add', App\Livewire\Trmutationout\Formadd::class)->name('mutout.add');
+        Route::get('/mutout/edit/{id}', App\Livewire\Trmutationout\Formedit::class)->name('mutout.edit');
+        Route::get('/mutout/print/{id}', App\Livewire\Trmutationout\Printdata::class)->name('mutout.print');
+        /* Mutation Out Ajax */
+        Route::post('/rwdata/mutout', [Rowmutationout::class, 'datatable']);
+        Route::post('/rwdata/mosave', [Rowmutationout::class, 'save']);
+        Route::post('/rwdata/moupdate', [Rowmutationout::class, 'update']);
+        /* Mutation In */
+        Route::get('/mutin', App\Livewire\Trmutationin\Index::class)->name('mutin.index');
+        Route::get('/mutin/add', App\Livewire\Trmutationin\Formadd::class)->name('mutin.add');
+        Route::get('/mutin/edit/{id}', App\Livewire\Trmutationin\Formedit::class)->name('mutin.edit');
+        Route::get('/mutin/print/{id}', App\Livewire\Trmutationin\Printdata::class)->name('mutin.print');
+        /* Mutation In Ajax */
+        Route::post('/rwdata/mutin', [Rowmutationin::class, 'datatable']);
+        Route::post('/rwdata/misave', [Rowmutationin::class, 'save']);
+        Route::post('/rwdata/miupdate', [Rowmutationin::class, 'update']);
     });
 
     Route::group(['prefix' => 'website'], function () {

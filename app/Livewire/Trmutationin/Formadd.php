@@ -33,7 +33,7 @@ class Formadd extends Component
         $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'];
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutationin.formadd', [
+            return view('livewire.Trmutationin.formadd', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
