@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalProduct">Form Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick='cLoseSearcProduct()'>
                 </button>
             </div>
             <div class="modal-body">
@@ -17,7 +17,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-light"  data-bs-dismiss="modal" aria-label="Close" onclick='cLoseSearcProduct()'>Close</button>
            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -80,7 +80,7 @@
                             <div class="row mb-3">
                                 <label for="cno_inorder" class="col-sm-2 col-form-label text-end">PO Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $no_inorder }}"
+                                    <input type="text" class="form-control" id="cno_po" name="cno_po" value="{{ $no_po }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>

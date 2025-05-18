@@ -154,7 +154,6 @@
                     <a href="/inventory/intorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

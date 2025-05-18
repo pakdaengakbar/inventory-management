@@ -22,21 +22,51 @@
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
+            <div wire:ignore>
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
-                            <div class="row mb-2">
+
+                            <fieldset class="row mb-3 justify-content-center">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
                                 <div class="col-sm-4">
                                     <input type="date" class="form-control" value="{{ $dtheader['dtrans_date'] }}" name="dtrans_date" placeholder="Enter date">
                                 </div>
+                                <legend class="col-form-label col-sm-2 pt-0 text-end mt-2">Type Order</legend>
+                                <div class="col-sm-4 d-flex gap-2 mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="ioRadios" value="IO" {{ $dtheader['corder_type'] == 'IO'  ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="ioRadios">
+                                            I.O
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="qoRadios" value="QO" {{ $dtheader['corder_type'] == 'QO'  ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="qoRadios">
+                                            Q.O
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="row mb-3">
+                                <label for="cno_order" class="col-sm-2 col-form-label text-end">No. IO/QO</label>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cno_order" name="cno_order" value="{{ $dtheader['cno_order'] }}" placeholder="Enter Order Number">
+                                        <span class="input-group-text">
+                                            <a href="javascript:;" id="btn_search_order" class="text-primary">
+                                                <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
-                                <div class="col-sm-6">
-                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" name="csupplier_id">
+                                <div class="col-sm-5">
+                                    <select class="form-select" name="csupplier_id" id="csupplier_id">
                                         <option value="" disabled>Select Supplier</option>
                                         @foreach ($suppliers as $s)
                                             <option value="{{ $s->id }}" {{ $s->id == $dtheader['csupplier_id'] ? 'selected' : '' }}>{{ ucwords(strtolower($s->cname)) }}</option>
@@ -44,103 +74,118 @@
                                     </select>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-2">
-                                <label for="cno_quorder" class="col-sm-2 col-form-label text-end">QO Number</label>
+                            <div class="row mb-3">
+                                <label for="cno_inorder" class="col-sm-2 col-form-label text-end">PO Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_quorder" name="cno_quorder" value="{{ $dtheader['cno_quorder'] }}"
+                                    <input type="text" class="form-control" id="cno_po" name="cno_po" value="{{ $dtheader['cno_po'] }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}"
-                                        placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
-                             <div class="row mb-2">
-                                <label for="cregion_id" class="col-sm-2 col-form-label text-end">Region</label>
-                                <div class="col-sm-6">
-                                    <select class="form-select" name="nregion_id">
-                                        <option value="">Select Region</option>
-                                        @foreach ($region as $c)
-                                            <option value="{{ $c->id }}" {{ $c->id == $dtheader['nregion_id'] ? 'selected' : '' }}>{{ ucfirst($c->id.' - '.$c->cname) }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="row mb-3">
+                                {!! MyHelper::setOPayentType() !!}
+
+                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Due Date </label>
+                                <div class="col-sm-4">
+                                    <input type="date" class="form-control" value="{{ $dtheader['ddue_date'] }}" name="ddue_date" placeholder="Enter date">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="cno_inorder" class="col-sm-2 col-form-label text-end">Invoice</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="csupplier_inv" value="{{ $dtheader['csupplier_inv'] }}" placeholder="Supplier Invoice">
                                 </div>
                                 <div class="col-sm-2">
-                                    <input readonly class="form-control text-center  bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
                                 </div>
-                         	</div>
+                            </div>
                         </div>
                     </div>
                     <!-- end header -->
                     <hr>
-                    <div class="mb-3" wire:ignore>
-                        <div class="row mb-3 row-cols-lg-auto g-3 align-items-center">
-                            <label for="citem" class="form-label">Item Name</label>
-                            <div class="col-sm-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" onkeydown="findProductEvent(event)" onkeyup="this.value=toUCword(this.value);" placeholder="Product Code / Name" id="barcode" aria-describedby="ProductName">
-                                    <span class="input-group-text">
-                                        <a href="javascript:;" id="btn_item_search" class="text-primary" onclick="findProductName()">Search</a>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-success btn-sm add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                    <div class="row mb-3 row-cols-lg-auto g-2 align-items-center">
+                        <label for="citem" class="form-label">Item Kode</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" onkeydown="findProductEvent(event)" onkeyup="this.value=toUCword(this.value);" placeholder="Product Code / Name" id="barcode" aria-describedby="ProductName">
+                                <span class="input-group-text">
+                                    <a href="javascript:;" id="btn_item_search" class="text-primary" onclick="findProductName()">Find </a>
+                                </span>
                             </div>
                         </div>
-                        <table id="itemDTatable" class="table table-bordered dt-responsive nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="col-1">No</th>
-                                    <th>Item Code</th>
-                                    <th>Item Name</th>
-                                    <th class="col-1">Qty</th>
-                                    <th class="col-1">Uom</th>
-                                    <th class="col-2">Harga</th>
-                                    <th class="col-1 text-center">Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody class="input_fields_wrap">
-                                @forelse ($dtdetail as $row)
-                                    <tr>
-                                        <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="{{ $no }}"></td>
-                                        <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][iid]" value="{!! $row->id !!}"></td>
-                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_code]" value="{!! $row->citem_code !!}"></td>
-                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_name]" value="{!! $row->citem_name !!}"></td>
-                                        <td><input type="number" class="form-control text-center form-control-sm qty-input"  name="icode[{{ $no }}][qty]" data-price="{{ $row->nprice }}" value="{{ $row->nqty }}"></td>
-                                        <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][uom]" value="{{ $row->cuom }}"></td>
-                                        <td><input readonly type="text" class="form-control text-end bg-light form-control-sm"  name="icode[{{ $no }}][price]" value="{{ number_format($row->nprice) }}"></td>
-                                        <td class="text-center"></td>
-                                    </tr>
-                                    @php $no++; @endphp
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">No data available</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        <input hidden class="col-sm-1 form-control bg-light form-control-sm text-center"  readonly id="lastnum" value="{{ $no }}">
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-success btn-sm add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                        </div>
                     </div>
-                    <!-- start footer -->
+                    <table id="itemDTatable" class="table table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th class="col-1">No</th>
+                                <th>Item Code</th>
+                                <th>Item Name</th>
+                                <th class="col-1">Qty</th>
+                                <th class="col-1">Uom</th>
+                                <th class="col-2">Harga</th>
+                                <th class="col-1 text-center">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="input_fields_wrap">
+                             @forelse ($dtdetail as $row)
+                                <tr>
+                                    <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="{{ $no }}"></td>
+                                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][iid]" value="{!! $row->id !!}"></td>
+                                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_code]" value="{!! $row->citem_code !!}"></td>
+                                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][item_name]" value="{!! $row->citem_name !!}"></td>
+                                    <td><input type="number" class="form-control text-center form-control-sm qty-input"  name="icode[{{ $no }}][qty]" data-price="{{ $row->nretail_po_price }}" value="{{ $row->nqty }}"></td>
+                                    <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][uom]" value="{{ $row->cuom }}"></td>
+                                    <td><input readonly type="text" class="form-control text-end bg-light form-control-sm"  name="icode[{{ $no }}][price]" value="{{ number_format($row->nretail_po_price) }}"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                @php $no++; @endphp
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">No data available</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                     <hr>
-                    <div class="row mb-3">
+                    <!-- start footer -->
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="row mb-3">
                                 <label for="cnotes" class="col-sm-2 col-form-label text-end">Notes </label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" rows="3" name="cnotes"  onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
+                                    <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
-                                <div class="col-sm-4">
-                                    <input readonly type="text" class="form-control text-end bg-light" id='ntotal' name="ntotal" value="{{ number_format($dtheader['ntotal']) }}" placeholder="Total">
+                                <label for="nsub_tot" class="col-sm-2 col-form-label text-end">Sub Total </label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control text-end bg-light" name="nsub_tot" id="nsub_tot" value="{{ number_format($dtheader['nsub_tot']) }}" placeholder="Sub Total">
+                                </div>
+                            </div>
+                             <div class="row mb-3 justify-content-end">
+                                <label for="nppn" class="col-sm-2 col-form-label text-end">PPN </label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control text-center" name="nppn" id="nppn" value="{{ $dtheader['nppn'] }}" placeholder="Ppn">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntot_ppn" id="ntot_ppn" value="{{ number_format($dtheader['ntot_ppn']) }}" placeholder="Total PPN">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="total" class="col-sm-2 col-form-label text-end">Total </label>
+                                <div class="col-sm-5">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" value="{{ number_format($dtheader['ntotal']) }}" placeholder="Total">
                                 </div>
                             </div>
                         </div>
@@ -148,13 +193,13 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/inventory/rwdata/poupdate", "/inventory/puorder");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='update_data("/inventory/rwdata/poupdate", "/inventory/puorder");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
-
+            </div>
         </div>
     </div>
 </div>
@@ -212,8 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
             // calculate total
-            xtotal = total + parseFloat($("#ntotal").val().replace(/,/g, '')) || 0;
-            $("#ntotal").val(addRupiah(xtotal));
+            ntotal.value = total;
         });
     });
 
@@ -223,18 +267,19 @@ document.addEventListener('DOMContentLoaded', function () {
         total -= price;
         e.preventDefault(); $(this).closest('tr').remove();
         // calculate total
-        xtotal = parseFloat($("#ntotal").val().replace(/,/g, '')) - price;
-        $("#ntotal").val(addRupiah(xtotal));
+        ntotal.value = total;
     });
 }); // end document ready
-
+function cLoseSearcProduct(){
+	const searchModal = bootstrap.Modal.getInstance(document.getElementById('searchModal'));
+    if (searchModal) searchModal.hide();
+    $("#barcode").focus();
+}
 // Recalculate total on qty input change
 document.querySelectorAll('.qty-input').forEach(input => {
-    input.addEventListener('input', calculateTotal);
+    input.addEventListener('input', calculateSubTotal);
 });
-
 // Initial calculation on page load
-window.addEventListener('DOMContentLoaded', calculateTotal);
-
+window.addEventListener('DOMContentLoaded', calculateSubTotal);
 </script>
 @endsection

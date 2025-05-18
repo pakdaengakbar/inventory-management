@@ -14,7 +14,7 @@ class Formedit extends Component
 
     public function __construct() {
         $this->page = array(
-            'title' => 'Quotation Order',
+            'title' => 'Purchase Order',
             'description'=> 'Edit Data'
         );
     }
@@ -32,7 +32,7 @@ class Formedit extends Component
      */
     public function update()
     {
-        // Debugging ntotal value
+        // Debugging
         //validate
     }
     /**
