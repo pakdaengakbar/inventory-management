@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\MyService as v_;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\tr_orderhdr as poheader;
-use App\Models\tr_orderdtl as podetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
 
 class Rowmutationin extends Controller
 {
@@ -16,20 +16,32 @@ class Rowmutationin extends Controller
         $sdate  = $request->ajax() ? $request->post('sdate') : date('Y-m-d');
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
-        $result = poheader::select('id','dtrans_date','cno_po','cno_order','csupplier_id','csupplier_name',
-                                   'cstatus','cnotes','ntotal','csupplier_id','nregion_id')
+        $result = moheader::select('id',
+                                    'cno_mutation',
+                                    'cno_order',
+                                    'dtrans_date',
+                                    'cexpedition',
+                                    'cshipment',
+                                    'cmonth',
+                                    'cnotes',
+                                    'cstatus',
+                                    'nsrc_region',
+                                    'ndst_region',
+                                    'nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
-						    ->where(DB::raw('dtrans_date'), '<=', $edate);
+						    ->where(DB::raw('dtrans_date'), '<=', $edate)
+                            ->where('ctype','IN');
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
         $data = $result->map(function ($row, $index) {
             return [
                 'no' => $index + 1,
-                'trnsdate'=> $row->dtrans_date,
-                'no_po'=> $row->cno_po,
-                'no_order'=> $row->cno_quorder,
-                'supplier'=> $row->csupplier_name,
-                'suppinv' => $row->csupplier_inv,
+                'trnsdate'   => $row->dtrans_date,
+                'no_mutation'=> $row->cno_mutation,
+                'no_order'   => $row->cno_quorder,
+                'expedition' => $row->cexpedition,
+                'shipment'   => $row->cshipment,
+                'ndst_region'=> $row->dst_region->cname,
                 'notes'   => $row->cnotes,
                 'status'  => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'region'  => $row->region->cname,
@@ -49,11 +61,11 @@ class Rowmutationin extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_qorderhdr', $uauth['region_id'], $uauth['companie_id']);
+        $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
             'cstatus' => 'O',
             'cmonth'  => $month,
-            'cno_quorder' => $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'],
+            'cno_mutation' => $no_inorder = 'MO-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
             'csupplier_id'=> $supplier_id = $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
@@ -65,8 +77,8 @@ class Rowmutationin extends Controller
             'ccreate_by'=> $uauth['id'],
             'nnum_log'  => $code['maxnum']
         );
-        poheader::create($datahdr);
-        $headerId = poheader::latest()->first();
+        moheader::create($datahdr);
+        $headerId = moheader::latest()->first();
 
         // insert detail
         $totalprice = 0;
@@ -93,13 +105,13 @@ class Rowmutationin extends Controller
                 );
                 $totalprice += ($uqty * $uprice);
             }
-            podetail::insert($datadtl);
+            modetail::insert($datadtl);
         }
         $update = array(
             'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
             'cupdate_by'=> $uauth['id'],
         );
-        poheader::where('id', $headerId->id)->update($update);
+        moheader::where('id', $headerId->id)->update($update);
 
         return response()->json(array('success' => true, 'last_insert_id' => $headerId), 200);
     }
@@ -110,7 +122,7 @@ class Rowmutationin extends Controller
         $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
-        $datahdr = poheader::find($request->post('id'));
+        $datahdr = moheader::find($request->post('id'));
         $rowhdr = array(
             'dtrans_date' => $request->post('dtrans_date'),
             'csupplier_id'=> $request->post('csupplier_id'),
@@ -126,7 +138,7 @@ class Rowmutationin extends Controller
         $totalprice = 0;
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
-                $checkdtl = podetail::find($row['iid']);
+                $checkdtl = modetail::find($row['iid']);
                 if($checkdtl) {
                     $row1dtl = array(
                         'nqty'        => $hqty = $row['qty'],
@@ -139,7 +151,7 @@ class Rowmutationin extends Controller
                     $totalprice +=  $hqty * $hprice;
                     $checkdtl->update($row1dtl);
                 } else {
-                    $check2dtl = podetail::where('nheader_id', $request->post('id'))
+                    $check2dtl = modetail::where('nheader_id', $request->post('id'))
                                     ->where('citem_code', $row['item_code'])
                                     ->first();
                     if($check2dtl) {
@@ -173,7 +185,7 @@ class Rowmutationin extends Controller
                             'ncompanie_id' => $uauth['companie_id'],
                         );
                         $totalprice += ($iqty * $iprice);
-                        podetail::insert($datadtl);
+                        modetail::insert($datadtl);
                     }
                 }
             }
@@ -183,7 +195,7 @@ class Rowmutationin extends Controller
             'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
             'cupdate_by'=> $uauth['id'],
         );
-        poheader::where('id', $request->post('id'))->update($update);
+        moheader::where('id', $request->post('id'))->update($update);
 
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }

@@ -17,7 +17,7 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/mutout" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <div wire:ignore>
@@ -35,9 +35,9 @@
                             <div class="row mb-3">
                                 <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" name="csupplier_id" id="csupplier_id">
-                                        <option value="" disabled>Select Supplier</option>
-                                        @foreach ($suppliers as $s)
+                                    <select class="form-select" name="cexpedition" id="cexpedition">
+                                        <option value="" disabled>Select Expedition</option>
+                                        @foreach ($expedition as $s)
                                             <option value="{{ $s->id }}">{{ ucwords(strtolower($s->cname)) }}</option>
                                         @endforeach
                                     </select>
@@ -197,7 +197,7 @@ function _save_data(url,href){
         viewAlert('Please Select Region');
         return;
     }
-    save_data("/inventory/rwdata/qosave", "/inventory/quorder")
+    save_data("/inventory/rwdata/mosave", "/inventory/mutout")
 }
 </script>
 @endsection

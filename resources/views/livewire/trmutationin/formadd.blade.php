@@ -17,14 +17,14 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <div wire:ignore>
             <form class="form-horizontal"  method="POST" id="input-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <!-- start header -->
+                        <!-- start header  v-->
                         <div class="col-lg-6">
                             <div class="row mb-3">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
@@ -118,7 +118,7 @@
                     <button type="button" onclick='_save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
-                    <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
             </div>

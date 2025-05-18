@@ -17,8 +17,8 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
-                    <a href="/inventory/quorder/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="/inventory/mutout" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/mutout/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
                         <i class="mdi mdi-printer-outline"></i> Print</a>
                 </div>
             </div><!-- end card header -->
@@ -148,10 +148,10 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/inventory/rwdata/qoupdate", "/inventory/quorder");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='update_data("/inventory/rwdata/moupdate", "/inventory/mutout");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
-                    <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/inventory/mutout" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
 

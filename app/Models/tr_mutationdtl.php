@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\Mregion as Region;
 
 class tr_mutationdtl extends Model
 {
@@ -23,15 +26,19 @@ class tr_mutationdtl extends Model
         'nwsale_sell_price',
         'nretail_sell_price',
         'cmonth',
-        'cTime',
-        'cTerminal',
-        'Trs',
+        'ctime',
+        'cterminal',
+        'trs',
         'cstatus',
-        'cWarehouse',
         'ccreate_by',
         'cupdate_by',
         'ncompanie_id',
         'nregion_id'
     ];
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'nregion_id');
+    }
 
 }

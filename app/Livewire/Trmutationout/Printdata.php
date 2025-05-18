@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Trmutatuinout;
+namespace App\Livewire\Trmutationout;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
 
 class Printdata extends Component
 {
@@ -21,15 +21,15 @@ class Printdata extends Component
     public function mount($id)
     {
         // Get Header data
-        $this->dtheader = ioheader::find($id);
+        $this->dtheader = moheader::find($id);
         // Get Header data
-        $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+        $this->dtdetail = modetail::where('nheader_id', $id)->get();
     }
     public function render()
     {
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutatuinout.printdata', [
+            return view('livewire.trmutationout.printdata', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Trmutatuinout;
+namespace App\Livewire\Trmutationout;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 
-use App\Models\tr_orderhdr as oheader;
-use App\Models\tr_orderdtl as odetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
 
 class Formedit extends Component
 {
@@ -22,9 +22,9 @@ class Formedit extends Component
     public function mount($id)
     {
         // Get Header data
-        $this->dtheader = oheader::find($id);
+        $this->dtheader = moheader::find($id);
         // Get Header data
-        $this->dtdetail = odetail::where('nheader_id', $id)->get();
+        $this->dtdetail = modetail::where('nheader_id', $id)->get();
     }
 
     /**
@@ -43,7 +43,7 @@ class Formedit extends Component
         $region = v_::getRegion();
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutatuinout.formedit', [
+            return view('livewire.trmutationout.formedit', [
                 'no' => 1,
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,

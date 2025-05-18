@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\Trmutatuinout;
+namespace App\Livewire\Trmutationout;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
-use App\Models\tr_qorderhdr as qoheader;
-use App\Models\tr_qorderhdr as qodetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
 
 class Index extends Component
 {
@@ -26,7 +26,7 @@ class Index extends Component
         try {
             $region= v_::getRegion();
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutatuinout.index', [
+            return view('livewire.trmutationout.index', [
                 'path'           => s_::URL_. $this->page['path'],
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
@@ -42,8 +42,8 @@ class Index extends Component
     public function destroy($id)
     {
         //destroy
-        qoheader::destroy($id);
-        qodetail::where('nheader_id', $id)->delete();
+        moheader::destroy($id);
+        modetail::where('nheader_id', $id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }
