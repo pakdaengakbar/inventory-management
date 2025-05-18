@@ -148,7 +148,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/inventory/rwdata/miupdate", "/inventory/mutin");' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='update_data("/inventory/rwdata/miupdate", "/inventory/mutin");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
                     <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>

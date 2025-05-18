@@ -115,7 +115,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='_save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='_save_data();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>

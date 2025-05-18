@@ -58,27 +58,27 @@ class Rowpurchaseorder extends Controller
         $uauth = v_::getUser_Auth();
         $code  = v_::MaxNumber('tr_orderhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
-            'cno_po'   => $no_po = 'PO-'.date('ymd').'-'.$code['gennum'],
-            'dtrans_date'   => $trans_date =  $request->post('dtrans_date'),
-            'ddue_date'   => $due_date =  $request->post('ddue_date'),
-            'csupplier_id'  => $supplier_id = $request->post('csupplier_id'),
+            'cno_po'        => $no_po = 'PO-'.date('ymd').'-'.$code['gennum'],
+            'dtrans_date'   => $trans_date = $request->post('dtrans_date'),
+            'ddue_date'     => $due_date   = $request->post('ddue_date'),
+            'csupplier_id'  => $supplier_id= $request->post('csupplier_id'),
             'csupplier_name'=> $supplier->cname,
             'csupplier_inv' => $request->post('csupplier_inv'),
             'corder_type'   => $request->post('gridRadios'),
-            'cpay_type'   => $pay_type = $request->post('cpay_type'),
-            'cno_order' => $no_order = $request->post('cno_order'),
-            'cnotes'    => $request->post('cnotes'),
-            'nsub_tot'  => $request->post('nsub_tot') ? str_replace(",","",$request->post('nsub_tot')) : 0,
-            'nppn'      => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
-            'ntot_ppn'  => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
-            'ntotal'    => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'ccashier'  => $uauth['name'],
-            'ccreate_by'=> $uauth['id'],
-            'nnum_log'  => $code['maxnum'],
-            'nregion_id'=> $region_id = $uauth['region_id'],
-            'ncompanie_id' => $uauth['companie_id'],
-            'cstatus' => 'O',
-            'cmonth'  => $month
+            'cpay_type'     => $pay_type = $request->post('cpay_type'),
+            'cno_order'     => $no_order = $request->post('cno_order'),
+            'cnotes'        => $request->post('cnotes'),
+            'nsub_tot'      => $request->post('nsub_tot') ? str_replace(",","",$request->post('nsub_tot')) : 0,
+            'nppn'          => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'      => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
+            'ntotal'        => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'ccashier'      => $uauth['name'],
+            'ccreate_by'    => $uauth['id'],
+            'nnum_log'      => $code['maxnum'],
+            'nregion_id'    => $region_id = $uauth['region_id'],
+            'ncompanie_id'  => $uauth['companie_id'],
+            'cstatus'       => 'O',
+            'cmonth'        => $month
         );
         poheader::create($datahdr);
         $headerId = poheader::latest()->first();
