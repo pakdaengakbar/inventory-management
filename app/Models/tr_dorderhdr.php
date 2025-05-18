@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\Mregion as Region;
 
 class tr_dorderhdr extends Model
 {
@@ -33,4 +36,9 @@ class tr_dorderhdr extends Model
         'ncompanie_id',
         'nregion_id'
     ];
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'nregion_id');
+    }
 }
