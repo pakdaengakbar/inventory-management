@@ -16,7 +16,7 @@ use App\Models\mbrand_type as prodtype;
 use App\Models\msupplier as supplier;
 use App\Models\mcustomer as customer;
 use App\Models\mexpedition as expedition;
-
+use App\Models\memployee as employee;
 use App\Models\Mlog_user as userLog;
 use App\Models\Mlog_activity as activitylog;
 
@@ -213,8 +213,17 @@ class MyService {
     public static function getBranchId($where){
         $result = Mregion::where($where)->first();
         return $result;
-    }public static function getExped($status){
+    }
+    public static function getExped($status){
         $result = expedition::where('cflag', $status)->get();
+        return $result;
+    }
+    public static function getEmployee($status=''){
+        if (isset($status)){
+             $result = employee::where('cstatus', $status)->get();
+        }else{
+             $result = employee::all();
+        }
         return $result;
     }
 }

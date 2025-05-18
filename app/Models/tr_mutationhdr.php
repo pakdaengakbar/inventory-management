@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Mregion as Region;
+use App\Models\memployee as Employee;
+
 
 class tr_mutationhdr extends Model
 {
@@ -37,6 +39,14 @@ class tr_mutationhdr extends Model
         'ncompanie_id',
         'nregion_id'
     ];
+    public function sender(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'csender');
+    }
+    public function recipient(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'crecipient');
+    }
     public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class, 'nregion_id');
