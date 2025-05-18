@@ -50,11 +50,11 @@
                                     <th>No Mutation</th>
                                     <th>Expedition</th>
                                     <th>Shipment</th>
+                                    <th>From</th>
+                                    <th>To</th>
                                     <th>Notes</th>
-                                    <th class="col-1">Total</th>
                                     <th class="col-1">Status</th>
-                                    <th>Region</th>
-                                    <th>Destination</th>
+                                    <th class="col-1">Total</th>
                                     <th class="col-1">Action</th>
                                 </tr>
                             </thead>
@@ -121,11 +121,11 @@ function handleData() {
             { data: 'no_mutation' },
             { data: 'expedition' },
             { data: 'shipment' },
+            { data: 'sender' },
+            { data: 'recipient' },
             { data: 'notes' },
-            { data: 'total' },
             { data: 'status' },
-            { data: 'region' },
-            { data: 'ndst_region'},
+            { data: 'total' },
             { data: 'action' }
         ],
         responsive: true

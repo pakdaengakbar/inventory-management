@@ -4,46 +4,42 @@ namespace App\Livewire\Trmutationin;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
-use App\Constants\Status as s_;
+use App\Helpers\MyService as s_;
 
-use App\Models\tr_qorderhdr as qoheader;
-use App\Models\tr_qorderhdr as qodetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
 
 class Index extends Component
 {
-    public $page;
+    public $page, $region;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'mutationin/',
-            'title' => 'Inventory',
-            'description'=> 'Mutation In',
+            't' => 'Inventory',
+            'd'=> 'Mutation In',
         );
     }
-
+    public function mount()
+    {
+        $this->region    = s_::getRegion();
+        $this->pageTitle = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+    }
     public function render()
     {
         try {
-            $region= v_::getRegion();
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.Trmutationin.index', [
-                'path'           => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'region'=> $region,
-            ]);
+            return view('livewire.Trmutationin.index');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
         }
     }
-
     public function destroy($id)
     {
         //destroy
-        qoheader::destroy($id);
-        qodetail::where('nheader_id', $id)->delete();
+        moheader::destroy($id);
+        modetail::where('nheader_id', $id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }

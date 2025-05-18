@@ -27,10 +27,11 @@ class Rowmutationout extends Controller
                                     'cstatus',
                                     'nsrc_region',
                                     'ndst_region',
+                                    'ntotal',
                                     'nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate)
-                            ->where('ctype','OUT');
+                            ->where('ctype','MOT');
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
         $data = $result->map(function ($row, $index) {
@@ -39,17 +40,17 @@ class Rowmutationout extends Controller
                 'trnsdate'   => $row->dtrans_date,
                 'no_mutation'=> $row->cno_mutation,
                 'no_order'   => $row->cno_quorder,
-                'expedition' => $row->cexpedition,
+                'expedition' => $row->expedition->cname,
                 'shipment'   => $row->cshipment,
-                'ndst_region'=> $row->dst_region->cname,
-                'notes'   => $row->cnotes,
-                'status'  => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
-                'region'  => $row->region->cname,
-                'total'   => '<div class="float-end">'.number_format($row->ntotal).'</div>',
-                'action'  => '<div class="text-center">
-                                <a href="/inventory/quorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
-                                <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
-                               </div>'
+                'sender'     => $row->src_region->cname,
+                'recipient'  => $row->dst_region->cname,
+                'notes'      => $row->cnotes,
+                'status'     => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
+                'total'      => '<div class="float-end">'.number_format($row->ntotal).'</div>',
+                'action'     => '<div class="text-center">
+                                    <a href="/inventory/mutout/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
+                                </div>'
             ];
         });
         return response()->json(['data' => $data]);
@@ -58,24 +59,30 @@ class Rowmutationout extends Controller
     public function save(Request $request)
     {
         $month = date('m').date('Y');
-        $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
         $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
-            'cstatus' => 'O',
-            'cmonth'  => $month,
-            'cno_mutation' => $no_inorder = 'MO-'.date('ymd').'-'.$code['gennum'],
+            'cstatus'     => 'O',
+            'ctype'       => 'MOT',
+            'cmonth'      => $month,
+            'cno_mutation'=> $no_mot = 'MOT-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
-            'csupplier_id'=> $supplier_id = $request->post('csupplier_id'),
-            'csupplier_name' => $supplier->cname,
-            'cnotes'  => $request->post('cnotes'),
-            'ntotal'  => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'nregion_id'=> $region_id = $request->post('nregion_id'),
-            'ncompanie_id' => $uauth['companie_id'],
-            'ccashier'  => $uauth['name'],
-            'ccreate_by'=> $uauth['id'],
-            'nnum_log'  => $code['maxnum']
+            'cexpedition' => $request->post('cexpedition'),
+            'cshipment'   => $request->post('cshipment'),
+            'nsrc_region' => $request->post('nsrc_region'),
+            'ndst_region' => $request->post('ndst_region'),
+            'cnotes'      => $request->post('cnotes'),
+            'nsub_total'  => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
+            'nshipp_cost' => $shipp_cost =  $request->post('nshipp_cost') ? str_replace(",","",$request->post('nshipp_cost')) : 0,
+            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'csender'     => $request->post('csender'),
+            'crecipient'  => $request->post('crecipient'),
+            'ccashier'    => $uauth['name'],
+            'ccreate_by'  => $uauth['id'],
+            'nnum_log'    => $code['maxnum'],
+            'nregion_id'  => $region_id =  $uauth['region_id'],
+            'ncompanie_id'=> $uauth['companie_id'],
         );
         moheader::create($datahdr);
         $headerId = moheader::latest()->first();
@@ -88,14 +95,12 @@ class Rowmutationout extends Controller
                 $datadtl[] = array(
                     'nheader_id'  => $headerId->id,
                     'dtrans_date' => $trans_date,
-                    'csupplier_id'=> $supplier_id,
-                    'cno_quorder' => $no_inorder,
+                    'cno_mutation'=> $no_mot,
                     'nbarcode'    => $row['barcode'],
                     'citem_code'  => $row['item_code'],
                     'citem_name'  => $row['item_name'],
                     'cuom'        => $row['uom'],
                     'nqty'        => $uqty = $row['qty'],
-                    'nqty1'       => $row['qty'],
                     'nprice'      => $uprice = str_replace(",","",$row['price']),
                     'ccreate_by'  => $uauth['id'],
                     'cmonth'      => $month,
@@ -108,8 +113,9 @@ class Rowmutationout extends Controller
             modetail::insert($datadtl);
         }
         $update = array(
-            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
-            'cupdate_by'=> $uauth['id'],
+            'nsub_total' => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'ntotal'     => $totalprice + $shipp_cost,
+            'cupdate_by' => $uauth['id'],
         );
         moheader::where('id', $headerId->id)->update($update);
 
@@ -119,16 +125,21 @@ class Rowmutationout extends Controller
     public function update(Request $request)
     {
         $month = date('m').date('Y');
-        $supplier = v_::getRowData('msuppliers', $request->post('csupplier_id'));
         //create post
         $uauth = v_::getUser_Auth();
         $datahdr = moheader::find($request->post('id'));
         $rowhdr = array(
             'dtrans_date' => $request->post('dtrans_date'),
-            'csupplier_id'=> $request->post('csupplier_id'),
-            'csupplier_name' => $supplier->cname,
-            'cnotes' => $request->post('cnotes'),
-            'ntotal' => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'cexpedition' => $request->post('cexpedition'),
+            'cshipment'   => $request->post('cshipment'),
+            'nsrc_region' => $request->post('nsrc_region'),
+            'ndst_region' => $request->post('ndst_region'),
+            'cnotes'      => $request->post('cnotes'),
+            'csender'     => $request->post('csender'),
+            'crecipient'  => $request->post('crecipient'),
+            'nsub_total'  => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
+            'nshipp_cost' => $shipp_cost = $request->post('nshipp_cost') ? str_replace(",","",$request->post('nshipp_cost')) : 0,
+            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
             'cupdate_by'=> $uauth['id'],
         );
         $datahdr->update($rowhdr);
@@ -142,7 +153,6 @@ class Rowmutationout extends Controller
                 if($checkdtl) {
                     $row1dtl = array(
                         'nqty'        => $hqty = $row['qty'],
-                        'nqty1'       => $hqty,
                         'nprice'      => $hprice = str_replace(",","",$row['price']),
                         'cupdate_by'  => $uauth['id'],
                         'cmonth'      => $month,
@@ -157,7 +167,6 @@ class Rowmutationout extends Controller
                     if($check2dtl) {
                         $row2dtl = array(
                             'nqty'        => $uqty = $check2dtl->nqty+$row['qty'],
-                            'nqty1'       => $check2dtl->nqty1+$row['qty'],
                             'nprice'      => $uprice = str_replace(",","",$row['price']),
                             'cupdate_by'  => $uauth['id'],
                             'cmonth'      => $month,
@@ -169,14 +178,12 @@ class Rowmutationout extends Controller
                         $datadtl[] = array(
                             'nheader_id'  => $request->post('id'),
                             'dtrans_date' => $request->post('dtrans_date'),
-                            'csupplier_id'=> $request->post('csupplier_id'),
-                            'cno_inorder' => $request->post('cno_inorder'),
+                            'cno_mutation'=> $request->post('cno_mutation'),
                             'nbarcode'    => $row['barcode'],
                             'citem_code'  => $row['item_code'],
                             'citem_name'  => $row['item_name'],
                             'cuom'        => $row['uom'],
                             'nqty'        => $iqty = $row['qty'],
-                            'nqty1'       => $iqty,
                             'nprice'      => $iprice = str_replace(",","",$row['price']),
                             'ccreate_by'  => $uauth['id'],
                             'cmonth'      => $month,
@@ -190,10 +197,10 @@ class Rowmutationout extends Controller
                 }
             }
         }
-
         $update = array(
-            'ntotal'    => $totalprice ? str_replace(",","",$totalprice) : 0,
-            'cupdate_by'=> $uauth['id'],
+            'nsub_total' => $totalprice ? str_replace(",","",$totalprice) : 0,
+            'ntotal'     => $totalprice + $shipp_cost,
+            'cupdate_by' => $uauth['id'],
         );
         moheader::where('id', $request->post('id'))->update($update);
 

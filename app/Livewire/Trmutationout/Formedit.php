@@ -3,7 +3,7 @@
 namespace App\Livewire\Trmutationout;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
+use App\Helpers\MyService as s_;
 
 use App\Models\tr_mutationhdr as moheader;
 use App\Models\tr_mutationdtl as modetail;
@@ -11,11 +11,13 @@ use App\Models\tr_mutationdtl as modetail;
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;
-    public $expedition, $region;
+    public $expedition, $region, $employee;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
+
     public function __construct() {
         $this->page = array(
-            'title' => 'Mutation Out',
-            'description'=> 'Edit Data'
+            't' => 'Mutation Out',
+            'd'=> 'Edit Data'
         );
     }
 
@@ -25,34 +27,29 @@ class Formedit extends Component
         $this->dtheader = moheader::find($id);
         $this->dtdetail = modetail::where('nheader_id', $id)->get();
         // Get master
-        $this->region = v_::getRegion();
-        $this->expedition = v_::getAllDataLimited('mexpeditions','id',10);
-    }
+        $this->region    = s_::getRegion();
+        $this->expedition= s_::getExped(1);
+        $this->employee  = s_::getEmployee('Actived');
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
 
+    }
     /**
      * store
      */
     public function update()
     {
         // Debugging ntotal value
-        //validate
+        // validate
     }
     /**
      * render
      */
     public function render()
     {
-        $region = v_::getRegion();
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutationout.formedit', [
-                'no' => 1,
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'suppliers'=> v_::getSupplier(),
-                'region'   => $region,
-            ]);
+            return view('livewire.trmutationout.formedit', ['no' => 1]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

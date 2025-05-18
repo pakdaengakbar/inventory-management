@@ -17,6 +17,9 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
+                    <button type="button" onclick='_save_data();' id='btn-save1' class="btn btn-primary btn-sm waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i> Save
+                    </button>
                     <a href="/inventory/mutout" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
@@ -46,8 +49,7 @@
                             <div class="row mb-3">
                                 <label for="cshipment" class="col-sm-3 col-form-label text-end">Shipment Num.</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cshipment" name="cno_mutation" value="{{ $no_mutation }}"
-                                        placeholder="Enter Internal Order" readonly>
+                                    <input type="text" class="form-control" id="cshipment" name="cshipment"  onkeyup="this.value=toUCase(this.value);" placeholder="Enter Shipment Number">
                                 </div>
                             </div>
                         </div>
@@ -60,7 +62,7 @@
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value='O' placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus('O') }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -76,7 +78,7 @@
                             <div class="row mb-3">
                                 <label for="ndst_region" class="col-sm-3 col-form-label text-end">To</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select" name='ndst_region'>
+                                    <select class="form-select" name='ndst_region' id = 'ndst_region'>
                                         <option value="">Select Region</option>
                                         @foreach ($region as $c)
                                             <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
@@ -127,11 +129,44 @@
                                     <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes"></textarea>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Sender </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="csender" id="csender"  placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucwords(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Recipient </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="crecipient" id="crecipient"   onkeyup="this.value=toUCword(this.value);" placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucfirst(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
                         </div>
-
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <div class="col-sm-4">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" placeholder="Sub Total">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Shipping Cost </label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control text-end" name="nshipp_cost" id="nshipp_cost" onkeyup="calculateMOT();" value='0' placeholder="Shipping Cost">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
                                 <div class="col-sm-4">
                                     <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total">
                                 </div>
@@ -141,7 +176,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='_save_data();' id='btn-save' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='_save_data();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
@@ -203,24 +238,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
-            ntotal.value = addRupiah(total);
+            nsub_total.value = addRupiah(total);
+            calculateMOT();
         });
     });
 
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
         const price = parseFloat($(this).closest('tr').find('input[name^="icode"][name$="[price]"]').val().replace(/,/g, '')) || 0;
         total -= price;
-        ntotal.value = addRupiah(total);
+        nsub_total.value = addRupiah(total);
+        calculateMOT();
         //console.log(total);
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
 }); // end document ready mutout
 
+function calculateMOT() {
+    const subtotal = parseFloat(document.getElementById('nsub_total').value.replace(/,/g, '')) || 0;
+    const shipping = parseFloat(document.getElementById('nshipp_cost').value.replace(/,/g, '')) || 0;
+    // Format number as currency (you can customize this)
+    document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
+    document.getElementById('nshipp_cost').value = addRupiah(shipping);
+}
+
 function _save_data(url,href){
-    const regionId = document.querySelector("#nregion_id");
-    if (regionId.value == null || regionId.value=="") {
-        viewAlert('Please Select Region');
+    const sender = document.querySelector("#csender");
+    const to = document.querySelector("#ndst_region");
+    if (sender.value == null || sender.value=="") {
+        viewAlert('Sender Name Empty..!');
+        return;
+    }
+    if (to.value == null || to.value=="") {
+        viewAlert('Destination Branch Empty..!');
         return;
     }
     save_data("/inventory/rwdata/mosave", "/inventory/mutout")

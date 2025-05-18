@@ -97,8 +97,8 @@
                         <li><a  href="{{ route('any', 'inventory/intorder')}}" class="tp-link" wire:current>Internal Order</a></li>
                         <li><a  href="{{ route('any', 'inventory/quorder')}}" class="tp-link" wire:current>Quotation Order</a></li>
                         <li><a  href="{{ route('any', 'inventory/puorder')}}" class="tp-link" wire:current>Purchase Order</a></li>
-                        <li><a  href="{{ route('any', 'inventory/mutin')}}" class="tp-link" wire:current>Mutation In</a></li>
                         <li><a  href="{{ route('any', 'inventory/mutout')}}" class="tp-link" wire:current>Mutation Out</a></li>
+                        <li><a  href="{{ route('any', 'inventory/mutin')}}" class="tp-link" wire:current>Mutation In</a></li>
                     </ul>
                     </div>
                 </li>
