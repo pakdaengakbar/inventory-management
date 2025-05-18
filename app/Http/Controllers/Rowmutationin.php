@@ -30,7 +30,7 @@ class Rowmutationin extends Controller
                                     'nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate)
-                            ->where('ctype','IN');
+                            ->where('ctype','MIN');
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
         $data = $result->map(function ($row, $index) {
@@ -41,7 +41,7 @@ class Rowmutationin extends Controller
                 'no_order'   => $row->cno_quorder,
                 'expedition' => $row->cexpedition,
                 'shipment'   => $row->cshipment,
-                'ndst_region'=> $row->dst_region->cname,
+                'ndst_region'=> $row->recipient->cname,
                 'notes'   => $row->cnotes,
                 'status'  => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'region'  => $row->region->cname,

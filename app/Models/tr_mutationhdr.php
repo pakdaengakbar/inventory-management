@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Mregion as Region;
 use App\Models\memployee as Employee;
+use App\Models\mexpedition as Expedition;
 
 
 class tr_mutationhdr extends Model
@@ -39,6 +40,10 @@ class tr_mutationhdr extends Model
         'ncompanie_id',
         'nregion_id'
     ];
+    public function expedition(): BelongsTo
+    {
+        return $this->belongsTo(Expedition::class, 'cexpedition');
+    }
     public function sender(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'csender');
