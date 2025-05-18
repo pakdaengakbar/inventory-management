@@ -27,13 +27,13 @@
                         <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
+                                <label for="dtrans_date" class="col-sm-3 col-form-label text-end">Date Trans.</label>
                                 <div class="col-sm-4">
                                     <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="dtrans_date" placeholder="Enter date">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
+                                <label for="csupplier_id" class="col-sm-3 col-form-label text-end">Expedition Name</label>
                                 <div class="col-sm-6">
                                     <select class="form-select" name="cexpedition" id="cexpedition">
                                         <option value="" disabled>Select Expedition</option>
@@ -43,12 +43,19 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="cshipment" class="col-sm-3 col-form-label text-end">Shipment Num.</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="cshipment" name="cno_mutation" value="{{ $no_mutation }}"
+                                        placeholder="Enter Internal Order" readonly>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
+                                <label for="cno_mutation" class="col-sm-3 col-form-label text-end">MOT Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $no_inorder }}"
+                                    <input type="text" class="form-control" id="cno_mutation" name="cno_mutation" value="{{ $no_mutation }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
@@ -57,7 +64,25 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                {!! MyHelper::setRegionlivewire('nregion_id', false) !!}
+                                <label for="nsrc_region" class="col-sm-3 col-form-label text-end">From</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name='nsrc_region'>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ndst_region" class="col-sm-3 col-form-label text-end">To</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name='ndst_region'>
+                                        <option value="">Select Region</option>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,6 +128,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
@@ -189,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
-}); // end document ready
+}); // end document ready mutout
 
 function _save_data(url,href){
     const regionId = document.querySelector("#nregion_id");

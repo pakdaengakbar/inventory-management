@@ -8,13 +8,21 @@ use App\Constants\Status as s_;
 
 class Formadd extends Component
 {
-    public $page;
-
+    public $page, $ppn;
+    public $suppliers;
     public function __construct() {
         $this->page = array(
             'title' => 'Purchase Order',
             'description'=> 'Add Data'
         );
+    }
+
+    public function mount()
+    {
+        // Get Data
+        $this->ppn = s_::PPN_;
+         // get Master
+        $this->suppliers = v_::getSupplier();
     }
     /**
      * store
@@ -39,8 +47,6 @@ class Formadd extends Component
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
                 'no_po'     => $no_po,
-                'suppliers'      => v_::getSupplier(),
-                'ppn' => s_::PPN_,
             ]);
         }catch(\Exception $e)
         {

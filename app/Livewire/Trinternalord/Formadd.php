@@ -21,7 +21,7 @@ class Formadd extends Component
     public function store()
     {
         // Debugging ntotal value
-        //validate
+        // validate
     }
     /**
      * render

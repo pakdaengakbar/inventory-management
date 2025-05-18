@@ -21,19 +21,17 @@ class Formedit extends Component
 
     public function mount($id)
     {
-        // Get Header data
+        // Get Data
         $this->dtheader = ioheader::find($id);
-        // Get Header data
         $this->dtdetail = iodetail::where('nheader_id', $id)->get();
     }
-
     /**
      * store
      */
     public function update()
     {
         // Debugging ntotal value
-        //validate
+        // validate
     }
     /**
      * render

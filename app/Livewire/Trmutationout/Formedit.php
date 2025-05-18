@@ -11,7 +11,7 @@ use App\Models\tr_mutationdtl as modetail;
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;
-
+    public $expedition, $region;
     public function __construct() {
         $this->page = array(
             'title' => 'Mutation Out',
@@ -21,10 +21,12 @@ class Formedit extends Component
 
     public function mount($id)
     {
-        // Get Header data
+        // Get Data
         $this->dtheader = moheader::find($id);
-        // Get Header data
         $this->dtdetail = modetail::where('nheader_id', $id)->get();
+        // Get master
+        $this->region = v_::getRegion();
+        $this->expedition = v_::getAllDataLimited('mexpeditions','id',10);
     }
 
     /**

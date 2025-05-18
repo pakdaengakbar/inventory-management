@@ -15,9 +15,9 @@ class Index extends Component
     public $page;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'mutationout/',
+            'path'  => 'mutationin/',
             'title' => 'Inventory',
-            'description'=> 'Mutation Out',
+            'description'=> 'Mutation In',
         );
     }
 

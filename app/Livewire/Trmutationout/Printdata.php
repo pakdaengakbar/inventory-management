@@ -20,9 +20,8 @@ class Printdata extends Component
     }
     public function mount($id)
     {
-        // Get Header data
+         // Get Data
         $this->dtheader = moheader::find($id);
-        // Get Header data
         $this->dtdetail = modetail::where('nheader_id', $id)->get();
     }
     public function render()

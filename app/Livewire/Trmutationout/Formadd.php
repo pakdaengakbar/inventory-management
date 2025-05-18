@@ -8,20 +8,25 @@ use App\Helpers\MyService as v_;
 class Formadd extends Component
 {
     public $page;
+    public $expedition, $region;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
 
     public function __construct() {
         $this->page = array(
-            'title' => 'Mutation Out',
-            'description'=> 'Add Data'
+            't' => 'Mutation Out',
+            'd'=> 'Add Data'
         );
     }
     /**
-     * store
+     * mount
      */
-    public function store()
+    public function mount()
     {
-        // Debugging ntotal value
-        //validate
+        $this->region     = v_::getRegion();
+        $this->expedition = v_::getExped(1);
+        $this->pageBreadcrumb = h_::setBreadcrumb($t = $this->page['t'], $d = $this->page['d'], strtolower($t));
+        $this->pageTitle  = $t;
+        $this->pageDescription = $d;
     }
     /**
      * render
@@ -32,15 +37,7 @@ class Formadd extends Component
         $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $nomut = 'MOT-'.date('ymd').'-'.$code['gennum'];
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutationout.formadd', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'no_mutation'=> $nomut,
-                'suppliers'  => v_::getSupplier(),
-                'expedition' => v_::getAllDataLimited('mexpedition','id',10)
-            ]);
+            return view('livewire.trmutationout.formadd', ['no_mutation'=> $nomut]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

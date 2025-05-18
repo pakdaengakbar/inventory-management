@@ -8,14 +8,14 @@ use App\Models\Mcompanie;
 use App\Models\Mregion;
 use App\Models\Mdepart;
 use App\Models\Mposition;
+use App\Models\muom as uom;
 use App\Models\indcities as cities;
 use App\Models\mbrand_group as prodgroup;
 use App\Models\mbrand_prod as prodbrand;
 use App\Models\mbrand_type as prodtype;
-use App\Models\muom as uom;
-
 use App\Models\msupplier as supplier;
 use App\Models\mcustomer as customer;
+use App\Models\mexpedition as expedition;
 
 use App\Models\Mlog_user as userLog;
 use App\Models\Mlog_activity as activitylog;
@@ -212,6 +212,9 @@ class MyService {
     }
     public static function getBranchId($where){
         $result = Mregion::where($where)->first();
+        return $result;
+    }public static function getExped($status){
+        $result = expedition::where('cflag', $status)->get();
         return $result;
     }
 }

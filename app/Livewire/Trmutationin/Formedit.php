@@ -11,7 +11,7 @@ use App\Models\tr_orderdtl as odetail;
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;
-
+    public $region, $suppliers;
     public function __construct() {
         $this->page = array(
             'title' => 'Mutation Out',
@@ -21,10 +21,12 @@ class Formedit extends Component
 
     public function mount($id)
     {
-        // Get Header data
+        // Get Data
         $this->dtheader = oheader::find($id);
-        // Get Header data
         $this->dtdetail = odetail::where('nheader_id', $id)->get();
+        // get Master
+        $this->region = v_::getRegion();
+        $this->suppliers = v_::getSupplier();
     }
 
     /**
@@ -40,7 +42,6 @@ class Formedit extends Component
      */
     public function render()
     {
-        $region = v_::getRegion();
         try {
             $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.Trmutationin.formedit', [
@@ -48,8 +49,6 @@ class Formedit extends Component
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-                'suppliers'=> v_::getSupplier(),
-                'region'   => $region,
             ]);
         }catch(\Exception $e)
         {
