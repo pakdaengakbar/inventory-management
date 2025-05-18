@@ -21,6 +21,8 @@ class tr_orderhdr extends Model
         'csupplier_inv',
         'dtrans_date',
         'cpay_type',
+        'capprove',
+        'capp_date',
         'ccashier',
         'nppn',
         'ntot_ppn',

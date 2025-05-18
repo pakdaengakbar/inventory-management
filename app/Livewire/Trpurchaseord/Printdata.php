@@ -5,8 +5,8 @@ namespace App\Livewire\Trpurchaseord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
+use App\Models\tr_orderhdr as oheader;
+use App\Models\tr_orderdtl as odetail;
 
 class Printdata extends Component
 {
@@ -21,9 +21,9 @@ class Printdata extends Component
     public function mount($id)
     {
         // Get Header data
-        $this->dtheader = ioheader::find($id);
+        $this->dtheader = oheader::find($id);
         // Get Header data
-        $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+        $this->dtdetail = odetail::where('nheader_id', $id)->get();
     }
     public function render()
     {

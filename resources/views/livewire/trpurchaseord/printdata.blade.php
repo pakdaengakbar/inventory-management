@@ -5,223 +5,189 @@
     {{ $pageDescription }}
 @endsection
 <div>
-<div class="container-fluid">
-    <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-        <div class="flex-grow-1">
-            <h4 class="fs-18 fw-semibold m-0">Invoice</h4>
+    <div class="container-fluid">
+        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+            <div class="flex-grow-1">
+                <h4 class="fs-18 fw-semibold m-0">{{ $pageDescription }}</h4>
+            </div>
+
+            <div class="text-end">
+                <ol class="breadcrumb m-0 py-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">{{ $pageTitle }}</a></li>
+                    <li class="breadcrumb-item active">{{ $pageDescription }}</li>
+                </ol>
+            </div>
         </div>
 
-        <div class="text-end">
-            <ol class="breadcrumb m-0 py-0">
-                <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                <li class="breadcrumb-item active">Invoice</li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="panel-body">
-                        <div class="clearfix">
-                            <div class="float-start d-flex justify-content-center">
-                                <img src="{{ asset($url_img.'profile/'.$profile->clogo) }}" class="me-2" alt="logo" height="24">
-                                <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }}</h4>
-                            </div>
-                            <div class="float-end">
-                                <h4 class="fs-18">IO #4987<br>
-                                    <strong class="fs-15 fw-normal">Internal Order</strong>
-                                </h4>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="float-start mt-3">
-                                    <address>
-                                        <strong>Internal Order :</strong><br>
-                                        {{ $profile->cname }}<br>
-                                        {{ $profile->caddress }}<br>
-                                        <abbr title="Phone">P:</abbr> {{ $profile->cphone }}
-                                    </address>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="panel-body">
+                            <div class="clearfix">
+                                <div class="float-start d-flex justify-content-center">
+                                    <img src="{{ asset($url_img.'profile/'.$profile->clogo) }}" class="me-2" alt="logo" height="26">
+                                    <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }}<br>
+                                        <strong class="fs-15 fw-normal">Date : {{ date('M d Y') }} </strong>
+                                    </h4>
                                 </div>
-                                <div class="float-end mt-3">
-                                    <address>
-                                        <strong>Bill To:</strong><br>
-                                        <table>
+                                <div class="float-end">
+                                    <h4 class="fs-18">#{{ $dtheader->cno_po }}<br>
+                                        <strong class="fs-15 fw-normal">Purchase Order</strong>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-start mt-3">
+                                        <address>
+                                            <strong>Purchase Order :</strong><br>
+                                            {{ $dtheader->region->cname }}<br>
+                                            {{ $dtheader->region->caddress1 }}<br>
+                                            <abbr title="Phone">P:</abbr> {{ $dtheader->region->cphone }}
+                                        </address>
+                                    </div>
+                                    <div class="float-end mt-3">
+                                        <address>
+                                            <strong>Supplier : </strong><br>
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pe-3">Name</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td>{{ $dtheader->supplier->cname }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pe-3">Address</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td>{{ $dtheader->supplier->caddress }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pe-3">Phone</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td>{{ $dtheader->supplier->cphone }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Invoice ID :</p>
+                                    <p class="mb-1">#{{ $dtheader->csupplier_inv }} </p>
+                                </div>
+
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Date Issued :</p>
+                                    <p class="mb-1">{{ $dtheader->dtrans_date }}</p>
+                                </div>
+
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Due Date :</p>
+                                    <p class="mb-1">{{ $dtheader->ddue_date }}</p>
+                                </div>
+
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Due Amount :</p>
+                                    <p class="mb-1 fw-bold">{{ number_format($dtheader->ntotal) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive rounded-2">
+                                        <table class="table mt-4 mb-4 table-centered border">
+                                            <thead class="rounded-2">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Item</th>
+                                                    <th>Description</th>
+                                                    <th class='text-center'>Quantity</th>
+                                                    <th class='text-end'>Price</th>
+                                                    <th class='text-end'>Total</th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
-                                            <tr>
-                                                <td class="pe-4">Total Due:</td>
-                                                <td class="fw-medium">$12,110.55</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pe-4">Bank name:</td>
-                                                <td>Swiss Bank</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pe-4">Country:</td>
-                                                <td>Switzerland</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pe-4">BCODE:</td>
-                                                <td>LAPE149879564874</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pe-4">SWIFT code:</td>
-                                                <td>RTP03234</td>
-                                            </tr>
+                                                @forelse ($dtdetail as $row)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $row->citem_code }}</td>
+                                                    <td>{{ $row->citem_name }}</td>
+                                                    <td class='text-center'>{{ $row->nqty }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nretail_po_price) }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nqty*$row->nretail_po_price) }}</td>
+                                                </tr>
+                                                @empty
+                                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        Empty Row Data
+                                                    </div>
+                                                @endforelse
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="2">
+                                                        <table class="table table-sm text-nowrap mb-0 table-borderless">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td scope="row">
+                                                                        <p class="mb-0 fs-14">Total :</p>
+                                                                    </td>
+                                                                    <td class='text-end'>
+                                                                        <p class="mb-0 fw-medium fs-16 text-success">{{ number_format($dtheader->ntotal) }}</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                         <p class="mb-0 fs-14">Notes :</p>
+                                                        <span >{{ $dtheader->cnotes }}</span>
+                                                    </td>
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
-                                    </address>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xl-3">
-                                <p class="mb-1 fw-semibold">Invoice ID :</p>
-                                <p class="mb-1">#ERTW1249879</p>
-                            </div>
-
-                            <div class="col-xl-3">
-                                <p class="mb-1 fw-semibold">Date Issued :</p>
-                                <p class="mb-1">10, Jan 2024</p>
-                            </div>
-
-                            <div class="col-xl-3">
-                                <p class="mb-1 fw-semibold">Due Date :</p>
-                                <p class="mb-1">17, Feb 2024</p>
-                            </div>
-
-                            <div class="col-xl-3">
-                                <p class="mb-1 fw-semibold">Due Amount :</p>
-                                <p class="mb-1 fw-bold">$2,032.82</p>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive rounded-2">
-                                    <table class="table mt-4 mb-4 table-centered border">
-                                        <thead class="rounded-2">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Item</th>
-                                                <th>Description</th>
-                                                <th>Quantity</th>
-                                                <th>Unit Cost</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>PH Monitor</td>
-                                                <td>HP offers monitors with high refresh rates.</td>
-                                                <td>1</td>
-                                                <td>$180</td>
-                                                <td>$180</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Mobile</td>
-                                                <td>DisplayPort, USB-C, and sometimes.</td>
-                                                <td>5</td>
-                                                <td>$150</td>
-                                                <td>$2750</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Keyboard</td>
-                                                <td>These monitors often boast features such as factory calibration.</td>
-                                                <td>2</td>
-                                                <td>$80</td>
-                                                <td>$160</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Mouse Master</td>
-                                                <td>Balance of performance, features, and design to meet the demands.</td>
-                                                <td>3</td>
-                                                <td>$300</td>
-                                                <td>$900</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>IMac</td>
-                                                <td>Eco-friendly features such as low power consumption.</td>
-                                                <td>5</td>
-                                                <td>$1520</td>
-                                                <td>$7600</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4"></td>
-                                                <td colspan="2">
-                                                    <table class="table table-sm text-nowrap mb-0 table-borderless">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="mb-0">Sub-total :</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-0 fw-medium fs-15">$1,1590</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td scope="row">
-                                                                    <p class="mb-0">Discout :</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-0 fw-medium fs-15">$29.98</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td scope="row">
-                                                                    <p class="mb-0">Vat <span class="text-danger">(20%)</span> :</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-0 fw-medium fs-15">$472.80</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td scope="row">
-                                                                    <p class="mb-0">Due Till Date :</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-0 fw-medium fs-15">$0</p>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td scope="row">
-                                                                    <p class="mb-0 fs-14">Total :</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-0 fw-medium fs-16 text-success">$2,032.82</p>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-start mt-3">
+                                        <address>
+                                            <strong class=''>Create By :</strong><br>
+                                            <span class='mb-2 d-block'>Date : {{ $dtheader->dtrans_date }}</span><br>
+                                            <span class='mt-3 d-block'>{{ $dtheader->ccashier }}</span>
+                                        </address>
+                                    </div>
+                                    <div class="float-end mt-3">
+                                        <address>
+                                            <strong>Approve By : </strong><br>
+                                            <span>Date : {{ $dtheader->capp_date }}</span><br>
+                                            @if(isset($dtheader->capprove))
+                                                <img src="{{ asset($app_img) }}" alt="approved" height="45px">
+                                            @else
+                                                <span class='mb-3 d-block'>-</span>
+                                            @endif
+                                            <span class='mt-1 d-block'>{{ isset($dtheader->capprove)  ? $dtheader->capprove : "not yet approved"  }}</span>
+                                        </address>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="d-print-none">
-                            <div class="float-end">
-                                <a href="javascript:window.print()" class="btn btn-dark border-0"><i class="mdi mdi-printer me-1"></i>Print</a>
-                                <a href="#" class="btn btn-primary">Submit</a>
+                            <div class="d-print-none">
+                                <div class="float-end">
+                                    <a href="javascript:window.print()" class="btn btn-dark border-0"><i class="mdi mdi-printer me-1"></i>Print</a>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div> <!-- container-fluid -->
+    </div> <!-- container-fluid -->
 </div>

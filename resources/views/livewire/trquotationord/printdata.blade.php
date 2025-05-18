@@ -26,7 +26,9 @@
                             <div class="clearfix">
                                 <div class="float-start d-flex justify-content-center">
                                     <img src="{{ asset($url_img.'profile/'.$profile->clogo) }}" class="me-2" alt="logo" height="26">
-                                    <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }}</h4>
+                                    <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }} <br>
+                                        <strong class="fs-15 fw-normal">Date : {{ date('M d Y') }} </strong>
+                                    </h4>
                                 </div>
                                 <div class="float-end">
                                     <h4 class="fs-18">#{{ $dtheader->cno_quorder }}<br>
