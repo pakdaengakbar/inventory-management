@@ -20,8 +20,8 @@
                                     </h4>
                                 </div>
                                 <div class="float-end">
-                                    <h4 class="fs-18">#{{ $dtheader->cno_po }}<br>
-                                        <strong class="fs-15 fw-normal">Purchase Order</strong>
+                                    <h4 class="fs-18">#{{ $dtheader->cno_mutation }}<br>
+                                        <strong class="fs-15 fw-normal">Mutation Out</strong>
                                     </h4>
                                 </div>
                             </div>
@@ -30,57 +30,43 @@
                                 <div class="col-md-12">
                                     <div class="float-start mt-3">
                                         <address>
-                                            <strong>Purchase Order :</strong><br>
-                                            {{ $dtheader->region->cname }}<br>
-                                            {{ $dtheader->region->caddress1 }}<br>
-                                            <abbr title="Phone">P:</abbr> {{ $dtheader->region->cphone }}
+                                            <strong>Sender :</strong><br>
+                                            <strong>{{ $dtheader->csender }}</strong><br>
+                                            {{ $dtheader->src_region->cname }}<br>
+                                            {{ $dtheader->src_region->caddress1 }}<br>
+                                            <abbr title="Phone">P:</abbr> {{ $dtheader->src_region->cphone }}
                                         </address>
                                     </div>
                                     <div class="float-end mt-3">
                                         <address>
-                                            <strong>Supplier : </strong><br>
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pe-3">Name</td>
-                                                    <td class="pe-1">:</td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pe-3">Address</td>
-                                                    <td class="pe-1">:</td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pe-3">Phone</td>
-                                                    <td class="pe-1">:</td>
-                                                    <td></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                            <strong>Recipient :</strong><br>
+                                            <strong>{{ $dtheader->crecipient }}</strong><br>
+                                            {{ $dtheader->dst_region->cname }}<br>
+                                            {{ $dtheader->dst_region->caddress1 }}<br>
+                                            <abbr title="Phone">P:</abbr> {{ $dtheader->dst_region->cphone }}
                                         </address>
                                     </div>
                                 </div>
                             </div>
                              <div class="row">
                                 <div class="col-xl-3">
-                                    <p class="mb-1 fw-semibold">Invoice ID :</p>
-                                    <p class="mb-1">#{{ $dtheader->csupplier_inv }} </p>
+                                    <p class="mb-1 fw-semibold">Expedition :</p>
+                                    <p class="mb-1">#{{ $dtheader->expedition->cname }} </p>
                                 </div>
 
                                 <div class="col-xl-3">
-                                    <p class="mb-1 fw-semibold">Date Issued :</p>
-                                    <p class="mb-1">{{ $dtheader->dtrans_date }}</p>
+                                    <p class="mb-1 fw-semibold">Shipment Num. :</p>
+                                    <p class="mb-1">{{ $dtheader->cshipment }}</p>
                                 </div>
 
                                 <div class="col-xl-3">
-                                    <p class="mb-1 fw-semibold">Due Date :</p>
-                                    <p class="mb-1">{{ $dtheader->ddue_date }}</p>
+                                    <p class="mb-1 fw-semibold">Sender :</p>
+                                    <p class="mb-1">{{ $dtheader->csender }}</p>
                                 </div>
 
                                 <div class="col-xl-3">
-                                    <p class="mb-1 fw-semibold">Due Amount :</p>
-                                    <p class="mb-1 fw-bold">{{ number_format($dtheader->ntotal) }}</p>
+                                    <p class="mb-1 fw-semibold">Recipient :</p>
+                                    <p class="mb-1">{{ $dtheader->crecipient }}</p>
                                 </div>
                             </div>
                             <div class="row">
