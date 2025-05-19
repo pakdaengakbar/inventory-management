@@ -3,43 +3,41 @@
 namespace App\Livewire\Trmutationin;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
+use App\Helpers\MyService as s_;
 
 class Formadd extends Component
 {
     public $page;
-
+    public $expedition, $region, $employee;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'title' => 'Mutation In',
-            'description'=> 'Add Data'
+            't' => 'Mutation In',
+            'd' => 'Add Data'
         );
     }
     /**
-     * store
+     * mounts
      */
-    public function store()
+    public function mount()
     {
-        // Debugging ntotal value
-        //validate
+        $this->region    = s_::getRegion();
+        $this->expedition= s_::getExped(1);
+        $this->employee  = s_::getEmployee('Actived');
+        $this->pageTitle = $t  = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
     }
     /**
      * render
      */
     public function render()
     {
-        $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
+        $uauth = s_::getUser_Auth();
+        $code  = s_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $nomut = 'MIN-'.date('ymd').'-'.$code['gennum'];
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.Trmutationin.formadd', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'no_mutation' => $nomut,
-                'suppliers'  => v_::getSupplier(),
-            ]);
+            return view('livewire.Trmutationin.formadd', ['no_mutation' => $nomut]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

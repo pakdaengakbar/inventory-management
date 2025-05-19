@@ -36,7 +36,6 @@ class Index extends Component
             return view('livewire.error404.index');
         }
     }
-
     public function destroy($id)
     {
         //destroy

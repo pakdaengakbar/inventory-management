@@ -28,7 +28,6 @@ class Formadd extends Component
         $this->pageTitle  = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
-
     }
     /**
      * render

@@ -16,7 +16,7 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             't' => 'Inventory',
-            'd'=> 'Mutation In',
+            'd' => 'Mutation In',
         );
     }
     public function mount()

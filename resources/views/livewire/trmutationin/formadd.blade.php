@@ -24,43 +24,68 @@
             <form class="form-horizontal"  method="POST" id="input-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <!-- start header  v-->
+                        <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
+                                <label for="dtrans_date" class="col-sm-3 col-form-label text-end">Date Trans.</label>
                                 <div class="col-sm-4">
                                     <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="dtrans_date" placeholder="Enter date">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
+                                <label for="csupplier_id" class="col-sm-3 col-form-label text-end">Expedition Name</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" name="csupplier_id" id="csupplier_id">
-                                        <option value="" disabled>Select Supplier</option>
-                                        @foreach ($suppliers as $s)
+                                    <select class="form-select" name="cexpedition" id="cexpedition">
+                                        <option value="" disabled>Select Expedition</option>
+                                        @foreach ($expedition as $s)
                                             <option value="{{ $s->id }}">{{ ucwords(strtolower($s->cname)) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="cshipment" class="col-sm-3 col-form-label text-end">Shipment Num.</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="cshipment" name="cshipment"  onkeyup="this.value=toUCase(this.value);" placeholder="Enter Shipment Number">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="cno_inorder" class="col-sm-2 col-form-label text-end">IO Number</label>
+                                <label for="cno_mutation" class="col-sm-3 col-form-label text-end">MOT Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_inorder" name="cno_inorder" value="{{ $no_inorder }}"
+                                    <input type="text" class="form-control" id="cno_mutation" name="cno_mutation" value="{{ $no_mutation }}"
                                         placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value='O' placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus('O') }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                {!! MyHelper::setRegionlivewire('nregion_id', false) !!}
+                                <label for="nsrc_region" class="col-sm-3 col-form-label text-end">From</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name='nsrc_region'>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ndst_region" class="col-sm-3 col-form-label text-end">To</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name='ndst_region' id = 'ndst_region'>
+                                        <option value="">Select Region</option>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- end header -->
                     <!-- end header -->
                     <hr>
                     <div class="row mb-3 row-cols-lg-auto g-2 align-items-center">
@@ -102,10 +127,44 @@
                                     <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes"></textarea>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Sender </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="csender" id="csender"  placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucwords(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Recipient </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="crecipient" id="crecipient"   onkeyup="this.value=toUCword(this.value);" placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucfirst(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <div class="col-sm-4">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" placeholder="Sub Total">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Shipping Cost </label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control text-end" name="nshipp_cost" id="nshipp_cost" onkeyup="calculateMOT();" value='0' placeholder="Shipping Cost">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
                                 <div class="col-sm-4">
                                     <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total">
                                 </div>
