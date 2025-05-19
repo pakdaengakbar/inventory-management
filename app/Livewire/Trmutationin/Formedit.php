@@ -8,7 +8,6 @@ use App\Helpers\MyService as s_;
 use App\Models\tr_mutationhdr as moheader;
 use App\Models\tr_mutationdtl as modetail;
 
-
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;

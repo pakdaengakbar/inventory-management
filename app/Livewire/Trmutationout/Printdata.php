@@ -10,12 +10,13 @@ use App\Models\tr_mutationdtl as modetail;
 
 class Printdata extends Component
 {
-    public $page, $dtheader, $dtdetail;
     public $no=1;
+    public $page, $dtheader, $dtdetail;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'title' => 'Mutation Out',
-            'description'=> 'Print',
+            't' => 'Mutation Out',
+            'd'=> 'Print',
         );
     }
     public function mount($id)
@@ -23,16 +24,14 @@ class Printdata extends Component
          // Get Data
         $this->dtheader = moheader::find($id);
         $this->dtdetail = modetail::where('nheader_id', $id)->get();
+        $this->pageTitle = $t  = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
     }
     public function render()
     {
         try {
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trmutationout.printdata', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-            ]);
+            return view('livewire.trmutationout.printdata');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

@@ -5,164 +5,177 @@
     {{ $pageDescription }}
 @endsection
 <div>
-<style>
+    <div class="container-fluid">
+        {!! $pageBreadcrumb !!}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="panel-body">
+                            <div class="clearfix">
+                                <div class="float-start d-flex justify-content-center">
+                                    <img src="{{ asset($url_img.'profile/'.$profile->clogo) }}" class="me-2" alt="logo" height="26">
+                                    <h4 class="mb-0 caption fw-semibold fs-18">{{ $profile->cname }}<br>
+                                        <strong class="fs-15 fw-normal">Date : {{ date('M d Y') }} </strong>
+                                    </h4>
+                                </div>
+                                <div class="float-end">
+                                    <h4 class="fs-18">#{{ $dtheader->cno_po }}<br>
+                                        <strong class="fs-15 fw-normal">Purchase Order</strong>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-start mt-3">
+                                        <address>
+                                            <strong>Purchase Order :</strong><br>
+                                            {{ $dtheader->region->cname }}<br>
+                                            {{ $dtheader->region->caddress1 }}<br>
+                                            <abbr title="Phone">P:</abbr> {{ $dtheader->region->cphone }}
+                                        </address>
+                                    </div>
+                                    <div class="float-end mt-3">
+                                        <address>
+                                            <strong>Supplier : </strong><br>
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pe-3">Name</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pe-3">Address</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pe-3">Phone</td>
+                                                    <td class="pe-1">:</td>
+                                                    <td></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Invoice ID :</p>
+                                    <p class="mb-1">#{{ $dtheader->csupplier_inv }} </p>
+                                </div>
 
-    .header, .content {
-        margin-bottom: 20px;
-    }
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Date Issued :</p>
+                                    <p class="mb-1">{{ $dtheader->dtrans_date }}</p>
+                                </div>
 
-    .footerx {
-        margin-top: 30px;
-         text-align: center;
-    }
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Due Date :</p>
+                                    <p class="mb-1">{{ $dtheader->ddue_date }}</p>
+                                </div>
 
-    .print-btn {
-        float: right;
-        margin-bottom: 20px;
-        background: #00c6ad;
-        color: white;
-        padding: 6px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    h2, h4 {
-        margin: 0;
-    }
-
-    .flex-row {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    .box {
-        border: 1px solid #ddd;
-        padding: 15px;
-        margin-top: 15px;
-        background: #f9f9f9;
-        border-radius: 6px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background: #f2f2f2;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .text-end {
-        text-align: right;
-    }
-
-    .label {
-        font-size: 12px;
-        color: white;
-        background: crimson;
-        padding: 3px 8px;
-        border-radius: 4px;
-        margin-left: 8px;
-    }
-
-    .creator {
-        margin-top: 30px;
-        text-align: center;
-    }
-
-    @media print {
-        .print-btn {
-            display: none;
-        }
-    }
-</style>
-<div class="container-fluid">
-<div class="card">
-    <div class="card-body">
-        <button class="print-btn" onclick="window.print()">Print</button>
-        <div class="header">
-            <h2>Internal Order</h2>
-            <p><strong>Edelweiss Tea & Coffee House</strong><br>
-            HO EDELWEISS CAFE<br>
-            Jl. Neglasari Dalam No. 7 Ciumbuleuit<br>
-            P: 0821-1123-0926<br>
-            <strong style="color:#000">#IO-PST-202505-00001</strong></p>
-        </div>
-
-        <div class="flex-row box">
-            <div style="flex: 1">
-                <h4>INTERNAL ORDER:</h4>
-                <p><strong>#IO-PST-202505-00001</strong></p>
-                <p><strong>TRANS NUM:</strong> IO-PST-202505-00001</p>
-                <p><strong>DATE:</strong> 15-05-2025</p>
-                <p><strong>WAREHOUSE:</strong> GDG-PUSAT EDELWEISS</p>
-            </div>
-            <div style="flex: 1">
-                <h4>HEAD OFFICE:</h4>
-                <p><strong>ANEKA SOLUSI TEKNOLOGI</strong></p>
-                <p><strong>ADDRESS:</strong> Jl. Daan Mogot KM.11 Gedung SSK, Cengkareng</p>
-                <p><strong>PHONE:</strong> (21) 881-423</p>
-                <p><strong>CITY:</strong> Jakarta Barat</p>
-            </div>
-        </div>
-
-        <div class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th>Description</th>
-                        <th class="text-center">Flag</th>
-                        <th class="text-center">Qty</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>05181020188905 - GEMBOK UKURAN 25MM</td>
-                        <td class="text-center">IO</td>
-                        <td class="text-center">1</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end"><strong>TOTAL:</strong></td>
-                        <td class="text-center"><strong>1</strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="footerx">
-            <div class="flex-row" style="justify-content: space-between;">
-                <div>
-                    <span class="label">Create By</span>
-                    <p>#Date: 15-05-2025</p>
+                                <div class="col-xl-3">
+                                    <p class="mb-1 fw-semibold">Due Amount :</p>
+                                    <p class="mb-1 fw-bold">{{ number_format($dtheader->ntotal) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive rounded-2">
+                                        <table class="table mt-4 mb-4 table-centered border">
+                                            <thead class="rounded-2">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Item</th>
+                                                    <th>Description</th>
+                                                    <th class='text-center'>Quantity</th>
+                                                    <th class='text-end'>Price</th>
+                                                    <th class='text-end'>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($dtdetail as $row)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $row->citem_code }}</td>
+                                                    <td>{{ $row->citem_name }}</td>
+                                                    <td class='text-center'>{{ $row->nqty }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nretail_po_price) }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nqty*$row->nretail_po_price) }}</td>
+                                                </tr>
+                                                @empty
+                                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        Empty Row Data
+                                                    </div>
+                                                @endforelse
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="2">
+                                                        <table class="table table-sm text-nowrap mb-0 table-borderless">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td scope="row">
+                                                                        <p class="mb-0 fs-14">Total :</p>
+                                                                    </td>
+                                                                    <td class='text-end'>
+                                                                        <p class="mb-0 fw-medium fs-16 text-success">{{ number_format($dtheader->ntotal) }}</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                         <p class="mb-0 fs-14">Notes :</p>
+                                                        <span >{{ $dtheader->cnotes }}</span>
+                                                    </td>
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-start mt-3">
+                                        <address>
+                                            <strong class=''>Create By :</strong><br>
+                                            <span class='mb-2 d-block'>Date : {{ $dtheader->dtrans_date }}</span><br>
+                                            <span class='mt-3 d-block'>{{ $dtheader->ccashier }}</span>
+                                        </address>
+                                    </div>
+                                    <div class="float-end mt-3">
+                                        <address>
+                                            <strong>Approve By : </strong><br>
+                                            <span>Date : {{ $dtheader->capp_date }}</span><br>
+                                            @if(isset($dtheader->capprove))
+                                                <img src="{{ asset($app_img) }}" alt="approved" height="45px">
+                                            @else
+                                                <span class='mb-3 d-block'>-</span>
+                                            @endif
+                                            <span class='mt-1 d-block'>{{ isset($dtheader->capprove)  ? $dtheader->capprove : "not yet approved"  }}</span>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-print-none">
+                                <div class="float-end">
+                                    <a href="javascript:window.print()" class="btn btn-dark border-0"><i class="mdi mdi-printer me-1"></i>Print</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <span class="label">Approval HOD</span>
-                    <p>#Date:</p>
-                </div>
-            </div>
-            <div class="creator">
-                <h5>Create By System</h5>
-                <p>ADMIN PUSAT</p>
             </div>
         </div>
-    </div>
-    </div>
-</div>
+    </div> <!-- container-fluid -->
 </div>
