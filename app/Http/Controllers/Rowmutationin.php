@@ -20,18 +20,16 @@ class Rowmutationin extends Controller
                                     'cno_mutation',
                                     'cno_order',
                                     'dtrans_date',
-                                    'cexpedition',
-                                    'cshipment',
+                                    'crecipient',
                                     'cmonth',
                                     'cnotes',
                                     'cstatus',
-                                    'nsrc_region',
                                     'ndst_region',
                                     'ntotal',
                                     'nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate)
-                            ->where('ctype','MIN');
+                            ->where('cflag','MIN');
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
         $data = $result->map(function ($row, $index) {
@@ -39,16 +37,13 @@ class Rowmutationin extends Controller
                 'no' => $index + 1,
                 'trnsdate'   => $row->dtrans_date,
                 'no_mutation'=> $row->cno_mutation,
-                'no_order'   => $row->cno_quorder,
-                'expedition' => $row->expedition->cname,
-                'shipment'   => $row->cshipment,
-                'sender'     => $row->src_region->cname,
-                'recipient'  => $row->dst_region->cname,
+                'no_order'   => $row->cno_order,
+                'recipient'  => $row->crecipient,
                 'notes'      => $row->cnotes,
                 'status'     => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'total'      => '<div class="float-end">'.number_format($row->ntotal).'</div>',
                 'action'     => '<div class="text-center">
-                                    <a href="/inventory/mutout/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="/inventory/mutin/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                 </div>'
             ];
@@ -64,12 +59,11 @@ class Rowmutationin extends Controller
         $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
             'cstatus'     => 'O',
-            'ctype'       => 'MOT',
             'cmonth'      => $month,
-            'cno_mutation'=> $no_mot = 'MOT-'.date('ymd').'-'.$code['gennum'],
+            'ctype'       => $request->post('gridRadios'),
+            'cno_mutation'=> $no_mot = 'MIN-'.date('ymd').'-'.$code['gennum'],
+            'cno_order'   => $request->post('cno_order'),
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
-            'cexpedition' => $request->post('cexpedition'),
-            'cshipment'   => $request->post('cshipment'),
             'nsrc_region' => $request->post('nsrc_region'),
             'ndst_region' => $request->post('ndst_region'),
             'cnotes'      => $request->post('cnotes'),
@@ -83,6 +77,7 @@ class Rowmutationin extends Controller
             'nnum_log'    => $code['maxnum'],
             'nregion_id'  => $region_id =  $uauth['region_id'],
             'ncompanie_id'=> $uauth['companie_id'],
+            'cterminal'   => $clientIP = request()->ip()
         );
         moheader::create($datahdr);
         $headerId = moheader::latest()->first();
@@ -106,7 +101,8 @@ class Rowmutationin extends Controller
                     'cmonth'      => $month,
                     'ctime'       => date('His'),
                     'nregion_id'  => $region_id,
-                    'ncompanie_id' => $uauth['companie_id'],
+                    'ncompanie_id'=> $uauth['companie_id'],
+                    'cterminal'   => $clientIP
                 );
                 $totalprice += ($uqty * $uprice);
             }
@@ -141,6 +137,7 @@ class Rowmutationin extends Controller
             'nshipp_cost' => $shipp_cost = $request->post('nshipp_cost') ? str_replace(",","",$request->post('nshipp_cost')) : 0,
             'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
             'cupdate_by'=> $uauth['id'],
+            'cterminal'   => $clientIP = request()->ip()
         );
         $datahdr->update($rowhdr);
 

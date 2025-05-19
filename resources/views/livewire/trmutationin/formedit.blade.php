@@ -27,51 +27,79 @@
                     <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
-                            <div class="row mb-2">
-                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
+                            <div class="row mb-3">
+                                <label for="dtrans_date" class="col-sm-3 col-form-label text-end">Date Trans.</label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" value="{{ $dtheader['dtrans_date'] }}" name="dtrans_date" placeholder="Enter date">
+                                    <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="dtrans_date" placeholder="Enter date">
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <label for="csupplier_id" class="col-sm-2 col-form-label text-end">Supplier</label>
+                            <div class="row mb-3">
+                                <legend class="col-form-label col-sm-3 pt-0 text-end mt-2">Type Mutation</legend>
+                                <div class="col-sm-5 d-flex gap-3 mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="otRadios" value="OTH" {{ $dtheader["ctype"] == "OTH"  ? "checked" : "" }} >
+                                        <label class="form-check-label" for="qoRadios">
+                                            OTHER
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="ioRadios" value="MOT" {{ $dtheader["ctype"] == "MOT"  ? "checked" : "" }}>
+                                        <label class="form-check-label" for="ioRadios">
+                                            MOT
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="qoRadios" value="PO" {{ $dtheader["ctype"] == "PO"  ? "checked" : "" }}>
+                                        <label class="form-check-label" for="qoRadios">
+                                            PO
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="nsrc_region" class="col-sm-3 col-form-label text-end">From Region</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select @error('csupplier_id') is-invalid @enderror" name="csupplier_id">
-                                        <option value="" disabled>Select Supplier</option>
-                                        @foreach ($suppliers as $s)
-                                            <option value="{{ $s->id }}" {{ $s->id == $dtheader['csupplier_id'] ? 'selected' : '' }}>{{ ucwords(strtolower($s->cname)) }}</option>
+                                    <select class="form-select" name='nsrc_region' id='nsrc_region'>
+                                        <option value="">Select Region</option>
+                                        @foreach ($region as $s)
+                                            <option value="{{ $s->id }}" {{ $s->id == $dtheader['nsrc_region'] ? 'selected' : '' }}>{{ ucfirst($s->id.' - '.$s->cname) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-2">
-                                <label for="cno_quorder" class="col-sm-2 col-form-label text-end">QO Number</label>
+                            <div class="row mb-3">
+                                <label for="cno_mutation" class="col-sm-3 col-form-label text-end">MIN Number</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_quorder" name="cno_quorder" value="{{ $dtheader['cno_quorder'] }}"
-                                        placeholder="Enter Internal Order" readonly>
+                                    <input type="text" class="form-control" id="cno_mutation" name="cno_mutation" value="{{ $dtheader['cno_mutation'] }}" placeholder="Enter Internal Order" readonly>
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus" value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}"
-                                        placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
-                             <div class="row mb-2">
-                                <label for="cregion_id" class="col-sm-2 col-form-label text-end">Region</label>
+                            <div class="row mb-3">
+                                <label for="cshipment" class="col-sm-3 col-form-label text-end">Mutation Code </label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="cno_order" name="cno_order"  value="{{ $dtheader['cno_order'] }}" placeholder="Enter PO / MOT Number">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ndst_region" class="col-sm-3 col-form-label text-end">To</label>
                                 <div class="col-sm-6">
-                                    <select class="form-select" name="nregion_id">
+                                    <select class="form-select" name='ndst_region' id = 'ndst_region'>
                                         <option value="">Select Region</option>
                                         @foreach ($region as $c)
-                                            <option value="{{ $c->id }}" {{ $c->id == $dtheader['nregion_id'] ? 'selected' : '' }}>{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                            <option value="{{ $c->id }}" {{ $c->id == $dtheader['ndst_region'] ? 'selected' : '' }}>{{ ucfirst($c->id.' - '.$c->cname) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input readonly class="form-control text-center  bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
                                 </div>
-                         	</div>
+                            </div>
                         </div>
                     </div>
                     <!-- end header -->
@@ -127,20 +155,54 @@
                     </div>
                     <!-- start footer -->
                     <hr>
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="row mb-3">
                                 <label for="cnotes" class="col-sm-2 col-form-label text-end">Notes </label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" rows="3" name="cnotes"  onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
+                                    <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Sender </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="csender" id="csender" value="{{ $dtheader['csender'] }}" onkeyup="this.value=toUCword(this.value);" placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucwords(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Recipient </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="crecipient" id="crecipient" value="{{ $dtheader['crecipient'] }}" onkeyup="this.value=toUCword(this.value);" placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucfirst(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
                                 <div class="col-sm-4">
-                                    <input readonly type="text" class="form-control text-end bg-light" id='ntotal' name="ntotal" value="{{ number_format($dtheader['ntotal']) }}" placeholder="Total">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" value="{{ number_format($dtheader['nsub_total']) }}" placeholder="Sub Total">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Shipping Cost </label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control text-end" name="nshipp_cost" id="nshipp_cost" onkeyup="calculateMOT();" value="{{ number_format($dtheader['nshipp_cost']) }}" placeholder="Shipping Cost">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <div class="col-sm-4">
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total" value="{{ number_format($dtheader['ntotal']) }}">
                                 </div>
                             </div>
                         </div>
@@ -212,8 +274,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
             // calculate total
-            xtotal = total + parseFloat($("#ntotal").val().replace(/,/g, '')) || 0;
-            $("#ntotal").val(addRupiah(xtotal));
+            xtotal = total + parseFloat($("#nsub_total").val().replace(/,/g, '')) || 0;
+            $("#nsub_total").val(addRupiah(xtotal));
         });
     });
 
@@ -223,18 +285,26 @@ document.addEventListener('DOMContentLoaded', function () {
         total -= price;
         e.preventDefault(); $(this).closest('tr').remove();
         // calculate total
-        xtotal = parseFloat($("#ntotal").val().replace(/,/g, '')) - price;
-        $("#ntotal").val(addRupiah(xtotal));
+        xtotal = parseFloat($("#nsub_total").val().replace(/,/g, '')) - price;
+        $("#nsub_total").val(addRupiah(xtotal));
     });
 }); // end document ready
 
 // Recalculate total on qty input change
 document.querySelectorAll('.qty-input').forEach(input => {
-    input.addEventListener('input', calculateTotal);
+    input.addEventListener('input', calculateMOT);
 });
 
 // Initial calculation on page load
-window.addEventListener('DOMContentLoaded', calculateTotal);
+window.addEventListener('DOMContentLoaded', calculateMOT);
+
+function calculateMOT() {
+    const subtotal = parseFloat(document.getElementById('nsub_total').value.replace(/,/g, '')) || 0;
+    const shipping = parseFloat(document.getElementById('nshipp_cost').value.replace(/,/g, '')) || 0;
+    // Format number as currency (you can customize this)
+    document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
+    document.getElementById('nshipp_cost').value = addRupiah(shipping);
+}
 
 </script>
 @endsection

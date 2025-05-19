@@ -3,30 +3,36 @@
 namespace App\Livewire\Trmutationin;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
+use App\Helpers\MyService as s_;
 
-use App\Models\tr_orderhdr as oheader;
-use App\Models\tr_orderdtl as odetail;
+use App\Models\tr_mutationhdr as moheader;
+use App\Models\tr_mutationdtl as modetail;
+
 
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;
-    public $region, $suppliers;
+    public $expedition, $region, $employee;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'title' => 'Mutation Out',
-            'description'=> 'Edit Data'
+            't' => 'Mutation Out',
+            'd'=> 'Edit Data'
         );
     }
 
     public function mount($id)
     {
         // Get Data
-        $this->dtheader = oheader::find($id);
-        $this->dtdetail = odetail::where('nheader_id', $id)->get();
+        $this->dtheader = moheader::find($id);
+        $this->dtdetail = modetail::where('nheader_id', $id)->get();
         // get Master
-        $this->region = v_::getRegion();
-        $this->suppliers = v_::getSupplier();
+        $this->region    = s_::getRegion();
+        $this->expedition= s_::getExped(1);
+        $this->employee  = s_::getEmployee('Actived');
+        $this->pageTitle = $t  = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
     }
 
     /**
@@ -43,13 +49,7 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.Trmutationin.formedit', [
-                'no' => 1,
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-            ]);
+            return view('livewire.Trmutationin.formedit', ['no' => 1]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

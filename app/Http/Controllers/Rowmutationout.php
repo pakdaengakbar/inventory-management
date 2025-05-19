@@ -31,7 +31,7 @@ class Rowmutationout extends Controller
                                     'nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate)
-                            ->where('ctype','MOT');
+                            ->where('cflag','MOT');
         if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
         $data = $result->map(function ($row, $index) {
@@ -64,7 +64,7 @@ class Rowmutationout extends Controller
         $code  = v_::MaxNumber('tr_mutationhdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
             'cstatus'     => 'O',
-            'ctype'       => 'MOT',
+            'cflag'       => 'MOT',
             'cmonth'      => $month,
             'cno_mutation'=> $no_mot = 'MOT-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),

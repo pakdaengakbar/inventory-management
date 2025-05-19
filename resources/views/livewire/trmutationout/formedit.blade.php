@@ -83,6 +83,9 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-sm-2">
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>

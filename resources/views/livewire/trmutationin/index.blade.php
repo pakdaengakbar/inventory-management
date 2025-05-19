@@ -48,10 +48,8 @@
                                     <th>No</th>
                                     <th>Trans. Date</th>
                                     <th>No Mutation</th>
-                                    <th>Expedition</th>
-                                    <th>Shipment</th>
-                                    <th>From</th>
-                                    <th>To</th>
+                                    <th>No Order</th>
+                                    <th>Recipient</th>
                                     <th>Notes</th>
                                     <th class="col-1">Status</th>
                                     <th class="col-1">Total</th>
@@ -62,7 +60,6 @@
                     </div>
                  </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -119,9 +116,7 @@ function handleData() {
             { data: 'no' },
             { data: 'trnsdate' },
             { data: 'no_mutation' },
-            { data: 'expedition' },
-            { data: 'shipment' },
-            { data: 'sender' },
+            { data: 'no_order' },
             { data: 'recipient' },
             { data: 'notes' },
             { data: 'status' },

@@ -17,6 +17,9 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
+                    <button type="button" onclick='_save_data();' id='btn-save1' class="btn btn-primary btn-sm waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i> Save
+                    </button>
                     <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
@@ -33,26 +36,44 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="csupplier_id" class="col-sm-3 col-form-label text-end">Expedition Name</label>
-                                <div class="col-sm-6">
-                                    <select class="form-select" name="cexpedition" id="cexpedition">
-                                        <option value="" disabled>Select Expedition</option>
-                                        @foreach ($expedition as $s)
-                                            <option value="{{ $s->id }}">{{ ucwords(strtolower($s->cname)) }}</option>
-                                        @endforeach
-                                    </select>
+                                <legend class="col-form-label col-sm-3 pt-0 text-end mt-2">Type Mutation</legend>
+                                <div class="col-sm-5 d-flex gap-3 mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="otRadios" value="OTH" checked>
+                                        <label class="form-check-label" for="qoRadios">
+                                            OTHER
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="ioRadios" value="MOT">
+                                        <label class="form-check-label" for="ioRadios">
+                                            MOT
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="qoRadios" value="PO">
+                                        <label class="form-check-label" for="qoRadios">
+                                            PO
+                                        </label>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="cshipment" class="col-sm-3 col-form-label text-end">Shipment Num.</label>
-                                <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cshipment" name="cshipment"  onkeyup="this.value=toUCase(this.value);" placeholder="Enter Shipment Number">
+                                <label for="nsrc_region" class="col-sm-3 col-form-label text-end">From Region</label>
+                                <div class="col-sm-6">
+                                    <select class="form-select" name='nsrc_region' id='nsrc_region'>
+                                        <option value="">Select Region</option>
+                                        @foreach ($region as $c)
+                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="cno_mutation" class="col-sm-3 col-form-label text-end">MOT Number</label>
+                                <label for="cno_mutation" class="col-sm-3 col-form-label text-end">MIN Number</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="cno_mutation" name="cno_mutation" value="{{ $no_mutation }}"
                                         placeholder="Enter Internal Order" readonly>
@@ -63,13 +84,9 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="nsrc_region" class="col-sm-3 col-form-label text-end">From</label>
-                                <div class="col-sm-6">
-                                    <select class="form-select" name='nsrc_region'>
-                                        @foreach ($region as $c)
-                                            <option value="{{ $c->id }}">{{ ucfirst($c->id.' - '.$c->cname) }}</option>
-                                        @endforeach
-                                    </select>
+                                <label for="cshipment" class="col-sm-3 col-form-label text-end">Mutation Code </label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="cno_order" name="cno_order"  placeholder="Enter PO / MOT Number">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -85,7 +102,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- end header -->
                     <!-- end header -->
                     <hr>
                     <div class="row mb-3 row-cols-lg-auto g-2 align-items-center">
@@ -236,27 +252,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
             total += price;
-            ntotal.value = addRupiah(total);
+            nsub_total.value = addRupiah(total);
+            calculateMOT();
         });
     });
 
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
         const price = parseFloat($(this).closest('tr').find('input[name^="icode"][name$="[price]"]').val().replace(/,/g, '')) || 0;
         total -= price;
-        ntotal.value = addRupiah(total);
+        nsub_total.value = addRupiah(total);
+        calculateMOT();
         //console.log(total);
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
 }); // end document ready
 
+function calculateMOT() {
+    const subtotal = parseFloat(document.getElementById('nsub_total').value.replace(/,/g, '')) || 0;
+    const shipping = parseFloat(document.getElementById('nshipp_cost').value.replace(/,/g, '')) || 0;
+    // Format number as currency (you can customize this)
+    document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
+    document.getElementById('nshipp_cost').value = addRupiah(shipping);
+}
+
 function _save_data(url,href){
-    const regionId = document.querySelector("#nregion_id");
-    if (regionId.value == null || regionId.value=="") {
-        viewAlert('Please Select Region');
-        return;
-    }
-    save_data("/inventory/rwdata/qosave", "/inventory/quorder")
+    save_data("/inventory/rwdata/misave", "/inventory/mutin")
 }
 </script>
 @endsection
