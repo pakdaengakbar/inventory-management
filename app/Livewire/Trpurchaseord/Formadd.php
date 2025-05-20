@@ -3,26 +3,33 @@
 namespace App\Livewire\Trpurchaseord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
-use App\Constants\Status as s_;
+use App\Helpers\MyService as s_;
+use App\Constants\Status as p_;
 
 class Formadd extends Component
 {
-    public $page, $ppn;
-    public $suppliers;
+    public $page, $ppn ;
+    public $path, $suppliers;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'title' => 'Purchase Order',
-            'description'=> 'Add Data'
+            'p' => 'purchase/',
+            't' => 'Purchase Order',
+            'd' => 'Add Data'
         );
     }
 
     public function mount()
     {
         // Get Data
-        $this->ppn = s_::PPN_;
+        $this->ppn = p_::PPN_;
          // get Master
-        $this->suppliers = v_::getSupplier();
+        $this->path    = p_::URL_. $this->page['p'];
+        $this->suppliers = s_::getSupplier();
+        $this->pageTitle = $t  = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+
     }
     /**
      * store
@@ -37,17 +44,11 @@ class Formadd extends Component
      */
     public function render()
     {
-        $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_orderhdr', $uauth['region_id'], $uauth['companie_id']);
+        $uauth = s_::getUser_Auth();
+        $code  = s_::MaxNumber('tr_orderhdr', $uauth['region_id'], $uauth['companie_id']);
         $no_po = 'PO-'.date('ymd').'-'.$code['gennum'];
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trpurchaseord.formadd', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'no_po'     => $no_po,
-            ]);
+            return view('livewire.trpurchaseord.formadd', ['no_po' => $no_po]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

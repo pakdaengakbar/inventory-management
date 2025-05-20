@@ -140,7 +140,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/misave', [Rowmutationin::class, 'save']);
         Route::post('/rwdata/miupdate', [Rowmutationin::class, 'update']);
     });
-
+    Route::group(['prefix' => 'sales'], function () {
+        /* Delivery */
+        Route::get('/delivery', App\Livewire\Trdeliveryord\Index::class)->name('delivery.index');
+        Route::get('/delivery/add', App\Livewire\Trdeliveryord\Formadd::class)->name('delivery.add');
+        Route::get('/delivery/edit/{id}', App\Livewire\Trdeliveryord\Formedit::class)->name('delivery.edit');
+        Route::get('/delivery/print/{id}', App\Livewire\Trdeliveryord\Printdata::class)->name('delivery.print');
+        /* Delivery In Ajax */
+        Route::post('/rwdata/delivery', [Rowmutationin::class, 'datatable']);
+        Route::post('/rwdata/dosave', [Rowmutationin::class, 'save']);
+        Route::post('/rwdata/doupdate', [Rowmutationin::class, 'update']);
+    });
     Route::group(['prefix' => 'website'], function () {
         Route::get('/configs', App\Livewire\Webconfig\Index::class)->name('configs.index');
         Route::get('/category', App\Livewire\Webcategory\Index::class)->name('webcategory.index');

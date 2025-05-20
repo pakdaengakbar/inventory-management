@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="float-end">
                                     <h4 class="fs-18">#{{ $dtheader->cno_mutation }}<br>
-                                        <strong class="fs-15 fw-normal">Mutation Out</strong>
+                                        <strong class="fs-15 fw-normal">Mutation In</strong>
                                     </h4>
                                 </div>
                             </div>

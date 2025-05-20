@@ -24,7 +24,7 @@ class Rowpurchaseorder extends Controller
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
         $result = poheader::select('id','dtrans_date','cno_po','cno_order','csupplier_id','csupplier_name',
-                                   'cstatus','cnotes','ntotal','csupplier_id','nregion_id')
+                                   'csupplier_inv','cnotes','cstatus','nregion_id','ntotal')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate);
         if ($region != null) $result = $result->where('nregion_id', $region);
@@ -33,8 +33,8 @@ class Rowpurchaseorder extends Controller
             return [
                 'no' => $index + 1,
                 'trnsdate'=> $row->dtrans_date,
-                'no_po'=> $row->cno_po,
-                'no_order'=> $row->cno_quorder,
+                'no_po'   => $row->cno_po,
+                'no_order'=> $row->cno_order,
                 'supplier'=> $row->csupplier_name,
                 'suppinv' => $row->csupplier_inv,
                 'notes'   => $row->cnotes,

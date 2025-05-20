@@ -16,19 +16,9 @@ class Rowmutationout extends Controller
         $sdate  = $request->ajax() ? $request->post('sdate') : date('Y-m-d');
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
-        $result = moheader::select('id',
-                                    'cno_mutation',
-                                    'cno_order',
-                                    'dtrans_date',
-                                    'cexpedition',
-                                    'cshipment',
-                                    'cmonth',
-                                    'cnotes',
-                                    'cstatus',
-                                    'nsrc_region',
-                                    'ndst_region',
-                                    'ntotal',
-                                    'nregion_id')
+        $result = moheader::select('id','dtrans_date','cno_mutation','cno_order',
+                                    'cexpedition','cshipment','cnotes','cstatus',
+                                    'nsrc_region','ndst_region','ntotal','nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
 						    ->where(DB::raw('dtrans_date'), '<=', $edate)
                             ->where('cflag','MOT');
@@ -39,7 +29,7 @@ class Rowmutationout extends Controller
                 'no' => $index + 1,
                 'trnsdate'   => $row->dtrans_date,
                 'no_mutation'=> $row->cno_mutation,
-                'no_order'   => $row->cno_quorder,
+                'no_order'   => $row->cno_order,
                 'expedition' => $row->expedition->cname,
                 'shipment'   => $row->cshipment,
                 'sender'     => $row->src_region->cname,
