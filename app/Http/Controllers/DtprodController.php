@@ -37,7 +37,7 @@ class DtprodController extends Controller
         $code = $request->post('barcode');
         $data = DB::table('mproducts')->select('nbarcode', 'citem_code', 'citem_name', 'cwsale_unit',
                           'cretail_unit','nwsale_value', 'nwsale_po_price', 'nretail_po_price');
-        $item = isset($code) ? $data->where('nbarcode', $code)->orWhere('citem_code', $code)->first() : null;
+        $item = isset($code) ? $data->where('nretail_po_price', '>', 0)->where('nbarcode', $code)->orWhere('citem_code', $code)->first() : null;
         if ($item) {
             return response()->json([
                 'barcode'=> $item->nbarcode,
@@ -56,7 +56,11 @@ class DtprodController extends Controller
     public function getSearchProduct(Request $request)
     {
         $name = $request->ajax() ? $request->post('itemname') : null;
-        $product = isset($name) ? product::where('citem_name', 'like', '%'.$name.'%')->get() : product::all();
+        $product = isset($name)
+            ? product::where('nretail_po_price', '>', 0)
+            ->where('citem_name', 'like', '%'.$name.'%')
+            ->get()
+            : product::all();
         $data = $product->map(function ($item, $index) {
             return [
                 'no' => $index + 1,
