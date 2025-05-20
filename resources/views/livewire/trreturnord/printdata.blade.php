@@ -32,16 +32,17 @@
                                         <address>
                                             <strong>Sender :</strong><br>
                                             <strong>{{ $dtheader->csender }}</strong><br>
-                                            {{ $dtheader->region->cname }}<br>
-                                            {{ $dtheader->region->caddress1 }}<br>
-                                            <abbr title="Phone">P:</abbr> {{ $dtheader->region->cphone }}
-                                        </address>
+                                            <span> {!! $dtheader->cnotes !!} </span><br>
+                                            <span>#Reff : {!! $dtheader->cno_faktur !!} </span>
+                                       </address>
                                     </div>
                                     <div class="float-end mt-3 col-md-3">
                                         <address>
                                             <strong>Recipient :</strong><br>
                                             <strong>{{ $dtheader->crecipient }}</strong><br>
-                                            <span> {!! $dtheader->cnotes !!} </span>
+                                            {{ $dtheader->region->cname }}<br>
+                                            {{ $dtheader->region->caddress1 }}<br>
+                                            <abbr title="Phone">P:</abbr> {{ $dtheader->region->cphone }}
                                         </address>
                                     </div>
                                 </div>
@@ -89,8 +90,8 @@
                                                     <td>{{ $row->citem_code }}</td>
                                                     <td>{{ $row->citem_name }}</td>
                                                     <td class='text-center'>{{ $row->nqty }}</td>
-                                                    <td class='text-end'>{{ number_format($row->nretail_po_price) }}</td>
-                                                    <td class='text-end'>{{ number_format($row->nqty*$row->nretail_po_price) }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nprice) }}</td>
+                                                    <td class='text-end'>{{ number_format($row->nqty*$row->nprice) }}</td>
                                                 </tr>
                                                 @empty
                                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

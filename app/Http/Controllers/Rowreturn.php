@@ -37,7 +37,7 @@ class Rowreturn extends Controller
                 'shipping'  => '<div class="float-end">'.number_format($row->nshipp_cost).'</div>',
                 'status'    => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'action'    => '<div class="text-center">
-                                    <a href="/sales/delivery/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="/sales/return/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                 </div>'
             ];
@@ -56,7 +56,7 @@ class Rowreturn extends Controller
             'cflag'       => 'RN',
             'ctype'       => 'SO',
             'cmonth'      => $month,
-            'cno_delivery'=> $no_mot = 'DO-'.date('ymd').'-'.$code['gennum'],
+            'cno_delivery'=> $no_mot = 'RN-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
             'cno_faktur'  => $request->post('cno_faktur'),
             'cexpedition' => $request->post('cexpedition'),

@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="cno_delivery" class="col-sm-3 col-form-label text-end">DO Number</label>
+                                <label for="cno_delivery" class="col-sm-3 col-form-label text-end">Return Number</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="cno_delivery" name="cno_delivery" value="{{ $cno_delivery }}"
                                         placeholder="Enter Internal Order" readonly>
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="cno_faktur" class="col-sm-3 col-form-label text-end">Sales Num.</label>
+                                <label for="cno_faktur" class="col-sm-3 col-form-label text-end">Delivery Num.</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="cno_faktur" name="cno_faktur"  onkeyup="this.value=toUCase(this.value);" placeholder="Enter Sales Order">
                                 </div>
