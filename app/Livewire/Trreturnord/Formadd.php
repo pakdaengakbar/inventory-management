@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trdeliveryord;
+namespace App\Livewire\Trreturnord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as s_;

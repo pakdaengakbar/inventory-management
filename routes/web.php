@@ -155,10 +155,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/doupdate', [Rowdelivery::class, 'update']);
 
         /* Delivery */
-        Route::get('/return', App\Livewire\Trdeliveryord\Index::class)->name('return.index');
-        Route::get('/return/add', App\Livewire\Trdeliveryord\Formadd::class)->name('return.add');
-        Route::get('/return/edit/{id}', App\Livewire\Trdeliveryord\Formedit::class)->name('return.edit');
-        Route::get('/return/print/{id}', App\Livewire\Trdeliveryord\Printdata::class)->name('return.print');
+        Route::get('/return', App\Livewire\Trreturnord\Index::class)->name('return.index');
+        Route::get('/return/add', App\Livewire\Trreturnord\Formadd::class)->name('return.add');
+        Route::get('/return/edit/{id}', App\Livewire\Trreturnord\Formedit::class)->name('return.edit');
+        Route::get('/return/print/{id}', App\Livewire\Trreturnord\Printdata::class)->name('return.print');
         /* Delivery In Ajax */
         Route::post('/rwdata/return', [Rowreturn::class, 'datatable']);
         Route::post('/rwdata/rnsave', [Rowreturn::class, 'save']);

@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3">
-                                <label for="cno_delivery" class="col-sm-3 col-form-label text-end">MOT Number</label>
+                                <label for="cno_delivery" class="col-sm-3 col-form-label text-end">DO Number</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="cno_delivery" name="cno_delivery" value="{{ $dtheader['cno_delivery'] }}"
                                         placeholder="Enter Internal Order" readonly>

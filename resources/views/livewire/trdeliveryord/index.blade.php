@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Trans. Date</th>
+                                    <th>Date</th>
                                     <th>Delivery Num.</th>
                                     <th>Sales Num.</th>
                                     <th>Notes</th>
