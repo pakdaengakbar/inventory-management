@@ -164,6 +164,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/rnsave', [Rowreturn::class, 'save']);
         Route::post('/rwdata/rnupdate', [Rowreturn::class, 'update']);
 
+         /* sales Retail */
+        Route::get('/retail', App\Livewire\Trreturnord\Index::class)->name('return.index');
+        Route::get('/retail/add', App\Livewire\Trreturnord\Formadd::class)->name('return.add');
+        Route::get('/retail/edit/{id}', App\Livewire\Trreturnord\Formedit::class)->name('return.edit');
+        Route::get('/retail/print/{id}', App\Livewire\Trreturnord\Printdata::class)->name('return.print');
+        /* Delivery In Ajax */
+        Route::post('/rwdata/retail', [Rowreturn::class, 'datatable']);
+        Route::post('/rwdata/rtsave', [Rowreturn::class, 'save']);
+        Route::post('/rwdata/rtupdate', [Rowreturn::class, 'update']);
+
     });
     Route::group(['prefix' => 'website'], function () {
         Route::get('/configs', App\Livewire\Webconfig\Index::class)->name('configs.index');

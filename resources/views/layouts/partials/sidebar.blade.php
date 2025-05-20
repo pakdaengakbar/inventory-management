@@ -129,7 +129,7 @@
                     <div class="collapse" id="sidebarSales">
                       <ul class="nav-second-level">
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Price List</a></li>
-                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Retail</a></li>
+                        <li><a href="{{ route('any', 'sales/retail')}}" class="tp-link" wire:current>Retail</a></li>
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Service</a></li>
                     </ul>
                     </div>
