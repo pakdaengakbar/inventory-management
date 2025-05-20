@@ -5,35 +5,35 @@ namespace App\Livewire\Trdeliveryord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 
-use App\Models\tr_inorderhdr as ioheader;
-use App\Models\tr_inorderdtl as iodetail;
+use App\Models\tr_dorderhdr as doheader;
+use App\Models\tr_dorderdtl as dodetail;
 
 class Printdata extends Component
 {
-    public $page, $dtheader, $dtdetail;
     public $no=1;
+    public $page, $dtheader, $dtdetail;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'title' => 'Delivery',
-            'description'=> 'Print',
+            'p' => 'delivery/',
+            't' => 'Delivery',
+            'd'=> 'Print',
         );
     }
     public function mount($id)
     {
         // Get Header data
-        $this->dtheader = ioheader::find($id);
-        // Get Header data
-        $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+        $this->dtheader = doheader::find($id);
+        $this->dtdetail = dodetail::where('nheader_id', $id)->get();
+
+        $this->pageTitle = $t  = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
     }
     public function render()
     {
         try {
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trdeliveryord.printdata', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-            ]);
+            return view('livewire.trdeliveryord.printdata');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

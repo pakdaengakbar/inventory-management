@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Livewire\Trdeliveryorder;
+namespace App\Livewire\Trdeliveryord;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Helpers\MyService as v_;
-use App\Constants\Status as s_;
+use App\Helpers\MyService as s_;
+use App\Constants\Status as p_;
 
-use App\Models\tr_qorderhdr as qoheader;
-use App\Models\tr_qorderhdr as qodetail;
+use App\Models\tr_dorderhdr as doheader;
+use App\Models\tr_dorderhdr as dodetail;
 
 class Index extends Component
 {
-    public $page;
+    public $page, $path, $region;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'delivery/',
-            'title' => 'Inventory',
-            'description'=> 'Mutation Out',
+            'p' => 'delivery/',
+            't' => 'Sales',
+            'd' => 'Delivery',
         );
     }
-
+    public function mount()
+    {
+        $this->path    = p_::URL_. $this->page['p'];
+        $this->region  = s_::getRegion();
+        $this->pageTitle = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+    }
     public function render()
     {
         try {
-            $region= v_::getRegion();
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trdeliveryorder.index', [
-                'path'           => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'region'=> $region,
-            ]);
+            return view('livewire.Trdeliveryord.index');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
@@ -42,8 +42,8 @@ class Index extends Component
     public function destroy($id)
     {
         //destroy
-        qoheader::destroy($id);
-        qodetail::where('nheader_id', $id)->delete();
+        doheader::destroy($id);
+        dodetail::where('nheader_id', $id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
     }
 }

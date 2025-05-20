@@ -1,5 +1,5 @@
 @section('title')
-    {{ $pageTitle }}d
+    {{ $pageTitle }}
 @endsection
 @section('page-title')
     {{ $pageDescription }}
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-12">
                         <div class="float-end mt-4">
-                            <a href="{{ route('quorder.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                            <a href="{{ route('delivery.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                                 <i class="mdi mdi-plus"></i> New Data
                             </a>
                             <a href="javascript:;" type="button" class="btn btn-warning btn-sm" id="btn_reload" onclick="handleData();">
@@ -47,12 +47,12 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Trans. Date</th>
-                                    <th>No Puchase</th>
-                                    <th>No Order</th>
-                                    <th>Supplier</th>
-                                    <th>Supplier Inv.</th>
+                                    <th>Delivery Num.</th>
+                                    <th>Sales Num.</th>
                                     <th>Notes</th>
+                                    <th>Recipient</th>
                                     <th class="col-1">Total</th>
+                                    <th class="col-1">Shipping</th>
                                     <th class="col-1">Status</th>
                                     <th>Region</th>
                                     <th class="col-1">Action</th>
@@ -100,7 +100,7 @@ function handleData() {
         paginationType : 'full_numbers',
         StateSave : true,
         ajax: {
-            "url"  : '/inventory/rwdata/puorder',
+            "url"  : '/sales/rwdata/delivery',
             "type" : "POST",
             "data" : {
                 "sdate" : sdate,
@@ -118,12 +118,12 @@ function handleData() {
         columns: [
             { data: 'no' },
             { data: 'trnsdate' },
-            { data: 'no_po' },
-            { data: 'no_order' },
-            { data: 'supplier' },
-            { data: 'suppinv' },
+            { data: 'no_do' },
+            { data: 'no_so' },
             { data: 'notes' },
+            { data: 'recipient' },
             { data: 'total' },
+            { data: 'shipping' },
             { data: 'status' },
             { data: 'region' },
             { data: 'action' }
