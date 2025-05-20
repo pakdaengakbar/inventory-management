@@ -16,7 +16,7 @@ class Formedit extends Component
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'p' => 'delivery/',
+            'p' => 'retail/',
             't' => 'Retail',
             'd' => 'Edit Data'
         );

@@ -16,7 +16,7 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             'p' => 'retail/',
-            't' => 'Sales',
+            't' => 'Saless',
             'd' => 'Retail',
         );
     }

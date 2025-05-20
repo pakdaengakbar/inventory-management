@@ -165,10 +165,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/rnupdate', [Rowreturn::class, 'update']);
 
          /* sales Retail */
-        Route::get('/retail', App\Livewire\Trreturnord\Index::class)->name('return.index');
-        Route::get('/retail/add', App\Livewire\Trreturnord\Formadd::class)->name('return.add');
-        Route::get('/retail/edit/{id}', App\Livewire\Trreturnord\Formedit::class)->name('return.edit');
-        Route::get('/retail/print/{id}', App\Livewire\Trreturnord\Printdata::class)->name('return.print');
+        Route::get('/retail', App\Livewire\Trsalesretail\Index::class)->name('retail.index');
+        Route::get('/retail/add', App\Livewire\Trsalesretail\Formadd::class)->name('retail.add');
+        Route::get('/retail/edit/{id}', App\Livewire\Trsalesretail\Formedit::class)->name('retail.edit');
+        Route::get('/retail/print/{id}', App\Livewire\Trsalesretail\Printdata::class)->name('retail.print');
         /* Delivery In Ajax */
         Route::post('/rwdata/retail', [Rowreturn::class, 'datatable']);
         Route::post('/rwdata/rtsave', [Rowreturn::class, 'save']);

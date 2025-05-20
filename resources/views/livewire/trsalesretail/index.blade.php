@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-12">
                         <div class="float-end mt-4">
-                            <a href="{{ route('delivery.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                            <a href="{{ route('retail.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                                 <i class="mdi mdi-plus"></i> New Data
                             </a>
                             <a href="javascript:;" type="button" class="btn btn-warning btn-sm" id="btn_reload" onclick="handleData();">

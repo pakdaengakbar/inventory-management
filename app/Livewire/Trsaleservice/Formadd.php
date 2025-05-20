@@ -38,8 +38,8 @@ class Formadd extends Component
     public function render()
     {
         $uauth = s_::getUser_Auth();
-        $code  = s_::MaxNumber('tr_dorderhdr', $uauth['region_id'], $uauth['companie_id']);
-        $nodo = 'DO-'.date('ymd').'-'.$code['gennum'];
+        $code  = s_::MaxNumber('tr_saleshdr', $uauth['region_id'], $uauth['companie_id']);
+        $nodo = 'SV-'.date('ymd').'-'.$code['gennum'];
         try {
             return view('livewire.trsaleservice.formadd', ['cno_delivery'=> $nodo]);
         }catch(\Exception $e)
