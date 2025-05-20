@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trdeliveryord;
+namespace App\Livewire\Trreturnord;
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as s_;
@@ -16,8 +16,8 @@ class Formedit extends Component
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'p' => 'delivery/',
-            't' => 'Delivery',
+            'p' => 'return/',
+            't' => 'Return',
             'd' => 'Edit Data'
         );
     }
@@ -49,7 +49,7 @@ class Formedit extends Component
     public function render()
     {
         try {
-            return view('livewire.trdeliveryord.formedit', ['no' => 1]);
+            return view('livewire.trreturnord.formedit', ['no' => 1]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

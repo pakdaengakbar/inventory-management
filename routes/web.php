@@ -15,6 +15,7 @@ use App\Http\Controllers\Rowpurchaseorder;
 use App\Http\Controllers\Rowmutationout;
 use App\Http\Controllers\Rowmutationin;
 use App\Http\Controllers\Rowdelivery;
+use App\Http\Controllers\Rowreturn;
 
 /* Website */
 use App\Http\Controllers\Webcategory;
@@ -152,6 +153,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/delivery', [Rowdelivery::class, 'datatable']);
         Route::post('/rwdata/dosave', [Rowdelivery::class, 'save']);
         Route::post('/rwdata/doupdate', [Rowdelivery::class, 'update']);
+
+        /* Delivery */
+        Route::get('/return', App\Livewire\Trdeliveryord\Index::class)->name('return.index');
+        Route::get('/return/add', App\Livewire\Trdeliveryord\Formadd::class)->name('return.add');
+        Route::get('/return/edit/{id}', App\Livewire\Trdeliveryord\Formedit::class)->name('return.edit');
+        Route::get('/return/print/{id}', App\Livewire\Trdeliveryord\Printdata::class)->name('return.print');
+        /* Delivery In Ajax */
+        Route::post('/rwdata/return', [Rowreturn::class, 'datatable']);
+        Route::post('/rwdata/rnsave', [Rowreturn::class, 'save']);
+        Route::post('/rwdata/rnupdate', [Rowreturn::class, 'update']);
+
     });
     Route::group(['prefix' => 'website'], function () {
         Route::get('/configs', App\Livewire\Webconfig\Index::class)->name('configs.index');

@@ -17,9 +17,9 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/sales/delivery/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="/sales/return/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
                         <i class="mdi mdi-printer-outline"></i> Print</a>
-                    <a href="/sales/delivery" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
@@ -198,10 +198,10 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/sales/rwdata/doupdate", "/sales/delivery");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='update_data("/sales/rwdata/rnupdate", "/sales/return");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
-                    <a href="/sales/delivery" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                    <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
 

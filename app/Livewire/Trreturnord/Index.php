@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Trdeliveryord;
+namespace App\Livewire\Trreturnord;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
@@ -16,9 +16,9 @@ class Index extends Component
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'p' => 'delivery/',
+            'p' => 'return/',
             't' => 'Sales',
-            'd' => 'Delivery',
+            'd' => 'Return',
         );
     }
     public function mount()
@@ -32,13 +32,12 @@ class Index extends Component
     public function render()
     {
         try {
-            return view('livewire.trdeliveryord.index');
+            return view('livewire.trreturnord.index');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
         }
     }
-
     public function destroy($id)
     {
         //destroy

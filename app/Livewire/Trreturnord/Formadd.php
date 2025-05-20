@@ -13,8 +13,8 @@ class Formadd extends Component
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'p' => 'delivery/',
-            't' => 'Delivery',
+            'p' => 'return/',
+            't' => 'Return',
             'd' => 'Add Data '
         );
     }
@@ -38,9 +38,9 @@ class Formadd extends Component
     {
         $uauth = s_::getUser_Auth();
         $code  = s_::MaxNumber('tr_dorderhdr', $uauth['region_id'], $uauth['companie_id']);
-        $nodo = 'DO-'.date('ymd').'-'.$code['gennum'];
+        $nodo = 'RN-'.date('ymd').'-'.$code['gennum'];
         try {
-            return view('livewire.trdeliveryord.formadd', ['cno_delivery'=> $nodo]);
+            return view('livewire.trreturnord.formadd', ['cno_delivery'=> $nodo]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
