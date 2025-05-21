@@ -173,8 +173,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
                 </tr>
             `;
-
-            wrapper.insertAdjacentHTML('beforeend', row);
+                        // Check if item_code already exists
+            let found = false;
+            wrapper.querySelectorAll('input[name^="icode"][name$="[item_code]"]').forEach(function(input) {
+                if (input.value === data.icode) {
+                    let qtyInput = input.closest('tr').querySelector('input[name^="icode"][name$="[qty]"]');
+                    qtyInput.value = parseInt(qtyInput.value) + 1;
+                    found = true;
+                }
+            });
+            if (!found) {
+                wrapper.insertAdjacentHTML('beforeend', row);
+            }
             document.querySelector("#barcode").value = "";
             document.querySelector("#barcode").focus();
 
