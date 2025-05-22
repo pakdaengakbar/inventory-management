@@ -54,7 +54,7 @@
                                 <label for="cno_order" class="col-sm-2 col-form-label text-end">No. IO/QO</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="cno_order" name="cno_order" placeholder="Enter Order Number">
+                                        <input type="text" class="form-control" id="cno_order" name="cno_order" placeholder="Enter Order Number"  onkeyup="this.value=toUCase(this.value);">
                                         <span class="input-group-text">
                                             <a href="javascript:;" id="btn_search_order" class="text-primary">
                                                 <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
@@ -99,7 +99,7 @@
                             <div class="row mb-3">
                                 <label for="cno_inorder" class="col-sm-2 col-form-label text-end">Invoice</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="csupplier_inv" name="csupplier_inv" placeholder="Supplier Invoice">
+                                    <input type="text" class="form-control" id="csupplier_inv" onkeyup="this.value=toUCase(this.value);" name="csupplier_inv" placeholder="Supplier Invoice">
                                 </div>
                             </div>
                         </div>
