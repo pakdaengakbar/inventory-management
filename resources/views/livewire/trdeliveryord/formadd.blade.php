@@ -273,13 +273,14 @@ function calculateMOT() {
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
 }
 
-function _save_data(url,href){
+function _save_data(){
+    const url = "/sales/rwdata/dosave", href= "/sales/delivery";
     const sender = document.querySelector("#csender");
     if (sender.value == null || sender.value=="") {
         viewAlert('Sender Name Empty..!');
         return;
     }
-    save_data("/sales/rwdata/dosave", "/sales/delivery")
+    save_data(url,href)
 }
 </script>
 @endsection

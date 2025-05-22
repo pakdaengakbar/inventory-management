@@ -272,7 +272,8 @@ function calculateMOT() {
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
 }
 
-function _save_data(url,href){
+function _save_data(){
+    const url = "/inventory/rwdata/mosave", href= "/inventory/mutout";
     const sender = document.querySelector("#csender");
     const to = document.querySelector("#ndst_region");
     if (sender.value == null || sender.value=="") {
@@ -283,7 +284,7 @@ function _save_data(url,href){
         viewAlert('Destination Branch Empty..!');
         return;
     }
-    save_data("/inventory/rwdata/mosave", "/inventory/mutout")
+    save_data(url,href)
 }
 </script>
 @endsection

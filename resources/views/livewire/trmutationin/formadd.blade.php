@@ -286,8 +286,9 @@ function calculateMOT() {
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
 }
 
-function _save_data(url,href){
-    save_data("/inventory/rwdata/misave", "/inventory/mutin")
+function _save_data(){
+    const url = "/inventory/rwdata/misave", href= "/inventory/mutin";
+    save_data(url,href)
 }
 </script>
 @endsection

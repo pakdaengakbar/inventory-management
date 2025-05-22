@@ -203,13 +203,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 }); // end document ready
 
-function _save_data(url,href){
+function _save_data(){
+    const url = "/inventory/rwdata/qosave", href= "/inventory/quorder";
     const regionId = document.querySelector("#nregion_id");
     if (regionId.value == null || regionId.value=="") {
         viewAlert('Please Select Region');
         return;
     }
-    save_data("/inventory/rwdata/qosave", "/inventory/quorder")
+    save_data(url,href)
 }
 </script>
 @endsection

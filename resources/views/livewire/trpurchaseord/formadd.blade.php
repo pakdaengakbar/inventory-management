@@ -153,7 +153,7 @@
                                     <input type="text" class="form-control text-end bg-light" name="nsub_tot" id="nsub_tot" placeholder="Sub Total">
                                 </div>
                             </div>
-                             <div class="row mb-3 justify-content-end">
+                            <div class="row mb-3 justify-content-end">
                                 <label for="nppn" class="col-sm-2 col-form-label text-end">PPN </label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control text-center" name="nppn" id="nppn" value='{{ $ppn }}' placeholder="Ppn">
@@ -264,13 +264,14 @@ function _calculated(total){
     ntot_ppn.value = addRupiah((total*nppn.value)/100);
     ntotal.value   = addRupiah(((total*nppn.value)/100)+total);
 }
-function _save_data(url,href){
+function _save_data(){
+    const url = "/inventory/rwdata/posave", href= "/inventory/puorder";
     const paytype = document.querySelector("#cpay_type");
     if (paytype.value == null || paytype.value=="") {
         viewAlert('Please Select Payment Type');
         return;
     }
-    save_data("/inventory/rwdata/posave", "/inventory/puorder")
+    save_data(url,href)
 }
 </script>
 @endsection
