@@ -19,7 +19,7 @@ class Formedit extends Component
     //field
     public $page, $photo, $image;
     public $ID, $caddress2, $ccity, $ccontact, $cphone1, $cphone2, $cdefault, $cfax1, $cemail, $clogo;
-
+    public $pageTitle, $pageDescription, $pageBreadcrumb, $cities;
     //name
      #[Rule('required', message: 'Nama perusahaan Harus Diisi')]
      public $cname;
@@ -31,9 +31,9 @@ class Formedit extends Component
 
     public function __construct() {
         $this->page = array(
-            'path'  => 'companies/',
-            'title' => 'Companies',
-            'description'=> 'Update Data'
+            'p'  => 'companies/',
+            't'  => 'Companies',
+            'd'  => 'Update Data'
         );
     }
     public function mount($id)
@@ -53,6 +53,10 @@ class Formedit extends Component
         $this->cemail  = $data->cemail;
         $this->photo   = $data->clogo;
         $this->cdefault = $data->cdefault;
+        $this->pageBreadcrumb = h_::setBreadcrumb($t = $this->page['t'], $d = $this->page['d'], 'profile/', strtolower($t));
+        $this->cities = v_::getCities();
+        $this->pageTitle = $t;
+        $this->pageDescription = $d;
     }
 
     /**
@@ -106,15 +110,7 @@ class Formedit extends Component
     public function render()
     {
         try {
-            $cities = v_::getCities();
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.mcompanie.formedit', [
-                'url'            => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'cities'         => $cities
-            ]);
+            return view('livewire.mcompanie.formedit', ['url'=> s_::URL_. $this->page['p'] ]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

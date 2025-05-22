@@ -10,25 +10,27 @@ use App\Models\Mcompanie as companie;
 class Index extends Component
 {
     public $page;
+    public $pageTitle, $pageDescription, $pageBreadcrumb, $cities;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'companies/',
-            'title' => 'Profile',
-            'description'=> 'Data Companies',
+            'p'  => 'companies/',
+            't' => 'Companies',
+            'd'=> 'Data Companies',
         );
     }
-
+    public function mount()
+    {
+        $this->pageBreadcrumb = h_::setBreadcrumb($t = $this->page['t'], $d = $this->page['d'], 'profile/', strtolower($t));
+        $this->pageTitle = $t;
+        $this->pageDescription = $d;
+    }
     public function render()
     {
         $data = companie::all();
         try {
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
             return view('livewire.mcompanie.index', [
-                'path'           => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
                 'data' => $data,
+                'path' => s_::URL_. $this->page['p'],
             ]);
         }catch(\Exception $e)
         {

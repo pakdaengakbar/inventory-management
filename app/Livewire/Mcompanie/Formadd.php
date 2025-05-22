@@ -18,12 +18,12 @@ class Formadd extends Component
     use WithFileUploads;
     public $page, $photo;
     public $caddress2, $ccity, $ccontact, $cphone1, $cphone2, $cdefault, $cfax1, $cfax2, $cemail, $clogo;
-
+    public $pageTitle, $pageDescription, $pageBreadcrumb, $cities;
     public function __construct() {
         $this->page = array(
-            'path'  => 'companies/',
-            'title' => 'Companies',
-            'description'=> 'Add Data'
+            'p' => 'companies/',
+            't' => 'Companies',
+            'd' => 'Add Data'
         );
     }
 
@@ -42,6 +42,13 @@ class Formadd extends Component
     #[Rule('min:3', message: 'Isi Post Minimal 3 Karakter')]
     public $caddress1;
 
+    public function mount()
+    {
+        $this->pageBreadcrumb = h_::setBreadcrumb($t = $this->page['t'], $d = $this->page['d'], 'profile/', strtolower($t));
+        $this->cities = v_::getCities();
+        $this->pageTitle = $t;
+        $this->pageDescription = $d;
+    }
     /**
      * store
      *
@@ -87,15 +94,7 @@ class Formadd extends Component
     public function render()
     {
         try {
-            $cities = v_::getCities();
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.mcompanie.formadd', [
-                'url'            => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'cities'         => $cities
-            ]);
+            return view('livewire.mcompanie.formadd', ['url'=> s_::URL_. $this->page['p']]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

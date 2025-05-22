@@ -59,7 +59,7 @@
                             <td>{{ $row->cemail }}</td>
                             <td>{{ $row->cphone1 }}</td>
                             <td class="text-center">
-                                <a href="/companies/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="/profile/companies/edit/{{ $row->id }}" class="btn btn-sm btn-warning" title='Update'><i class="mdi mdi-square-edit-outline"></i></a>
                                 <button wire:click="destroy({{ $row->id }})" class="btn btn-sm btn-danger" title='Delete'><i class="mdi mdi-trash-can-outline"></i></button>
                             </td>
                         </tr>
