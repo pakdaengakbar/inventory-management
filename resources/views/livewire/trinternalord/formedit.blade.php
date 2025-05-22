@@ -113,7 +113,7 @@
                                         <td><input type="number" class="form-control text-center form-control-sm qty-input"  name="icode[{{ $no }}][qty]" data-price="{{ $row->nprice }}" value="{{ $row->nqty }}"></td>
                                         <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][uom]" value="{{ $row->cuom }}"></td>
                                         <td><input readonly type="text" class="form-control text-end bg-light form-control-sm"  name="icode[{{ $no }}][price]" value="{{ number_format($row->nprice) }}"></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_item disabled"><i class="mdi mdi-delete-empty"></i></button></td>
                                     </tr>
                                     @php $no++; @endphp
                                 @empty
@@ -140,7 +140,7 @@
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-2 col-form-label text-end">Total </label>
                                 <div class="col-sm-4">
-                                    <input readonly type="text" class="form-control text-end bg-light" id='ntotal' name="ntotal" value="{{ number_format($dtheader['ntotal']) }}" placeholder="Total">
+                                    <input readonly type="text" class="form-control text-end bg-light" id='ntotal' name="ntotal" value="{{ $dtheader['ntotal'] }}" placeholder="Total">
                                 </div>
                             </div>
                         </div>
@@ -194,17 +194,27 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = `
                  <tr>
                     <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="${no}"></td>
-                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][]"></td>
+                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][iid]"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
-                    <td><input type="number" class="form-control text-center form-control-sm" name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1"></td>
+                    <td><input type="number" class="form-control text-center form-control-sm qty-add" name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
                     <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
                     <td hidden><input  readonly type="text" class="form-control text-center bg-light form-control-sm" name="icode[${ctr}][barcode]" value="${data.barcode}"></td>
                 </tr>
            `;
-            wrapper.insertAdjacentHTML('beforeend', row);
+            let found = false;
+            wrapper.querySelectorAll('input[name^="icode"][name$="[item_code]"]').forEach(function(input) {
+                if (input.value === data.icode) {
+                    let qtyInput = input.closest('tr').querySelector('input[name^="icode"][name$="[qty]"]');
+                    qtyInput.value = parseInt(qtyInput.value) + 1;
+                    found = true;
+                }
+            });
+            if (!found) {
+                wrapper.insertAdjacentHTML('beforeend', row);
+            }
             document.querySelector("#barcode").value = "";
             document.querySelector("#barcode").focus();
 
@@ -212,26 +222,20 @@ document.addEventListener('DOMContentLoaded', function () {
             total += price;
             // calculate total
             xtotal = total + parseFloat($("#ntotal").val().replace(/,/g, '')) || 0;
-            $("#ntotal").val(addRupiah(xtotal));
+            ntotal.value = addRupiah(xtotal);
         });
     });
-
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        ctr--; no--;
-        const price = parseFloat($(this).closest('tr').find('input[name^="icode"][name$="[price]"]').val().replace(/,/g, '')) || 0;
-        total -= price;
-        e.preventDefault(); $(this).closest('tr').remove();
-        // calculate total
-        xtotal = parseFloat($("#ntotal").val().replace(/,/g, '')) - price;
-        $("#ntotal").val(addRupiah(xtotal));
-    });
 }); // end document ready
-
 // Recalculate total on qty input change
 document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', calculateTotal);
 });
-
+// Use event delegation for dynamically added .qty-add inputs
+document.querySelector('.input_fields_wrap').addEventListener('input', function(e) {
+    if (e.target && e.target.classList.contains('qty-add')) {
+        calculateTotal();
+    }
+});
 // Initial calculation on page load
 window.addEventListener('DOMContentLoaded', calculateTotal);
 
