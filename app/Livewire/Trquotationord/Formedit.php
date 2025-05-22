@@ -10,12 +10,12 @@ use App\Models\tr_qorderdtl as qodetail;
 
 class Formedit extends Component
 {
-    public $page, $dtheader, $dtdetail;
-
+    public $page, $region, $suppliers, $dtheader, $dtdetail;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'title' => 'Quotation Order',
-            'description'=> 'Edit Data'
+            't' => 'Quotation Order',
+            'd' => 'Edit Data'
         );
     }
 
@@ -23,8 +23,13 @@ class Formedit extends Component
     {
         // Get Header data
         $this->dtheader = qoheader::find($id);
-        // Get Header data
         $this->dtdetail = qodetail::where('nheader_id', $id)->get();
+
+        $this->region     = v_::getRegion();
+        $this->suppliers  = v_::getSupplier();
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'quorder');
     }
 
     /**
@@ -40,17 +45,8 @@ class Formedit extends Component
      */
     public function render()
     {
-        $region = v_::getRegion();
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trquotationord.formedit', [
-                'no' => 1,
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'suppliers'=> v_::getSupplier(),
-                'region'   => $region,
-            ]);
+            return view('livewire.trquotationord.formedit', ['no' => 1]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

@@ -14,6 +14,7 @@ class Rowsalesretail extends Controller
 {
     public function datatable(Request $request)
     {
+
         $sdate  = $request->ajax() ? $request->post('sdate') : date('Y-m-d');
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
@@ -21,16 +22,15 @@ class Rowsalesretail extends Controller
                                     'ncustomer_name','nsub_total','ntot_ppn','ntotal',
                                     'npayment','nremaining','cpay_type','cstatus','nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
-						    ->where(DB::raw('dtrans_date'), '<=', $edate)
-                            ->where('cflag','DO');
-        if ($region != null) $result = $result->where('nregion_id', $region);
+						    ->where(DB::raw('dtrans_date'), '<=', $edate);
+        if ($region != null) $result = $result->where('nregion_ide', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
+
         $data = $result->map(function ($row, $index) {
             return [
                 'no' => $index + 1,
                 'trnsdate' => $row->dtrans_date,
                 'no_faktur'=> $row->cno_faktur,
-                'order_num'=> $row->corder_num,
                 'cust_name'=> $row->ncustomer_name,
                 'sub_total'=> '<div class="float-end">'.number_format($row->nsub_total).'</div>',
                 'tot_ppn'  => '<div class="float-end">'.number_format($row->ntot_ppn).'</div>',
@@ -38,8 +38,8 @@ class Rowsalesretail extends Controller
                 'payment'  => '<div class="float-end">'.number_format($row->npayment).'</div>',
                 'remaining'=> '<div class="float-end">'.number_format($row->nremaining).'</div>',
                 'pay_type' => $row->cpay_type,
-                'region'   => $row->region->cname,
                 'status'   => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
+                'region'   => $row->region ? $row->region->cname : '',
                 'action'   => '<div class="text-center">
                                     <a href="/sales/delivery/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>

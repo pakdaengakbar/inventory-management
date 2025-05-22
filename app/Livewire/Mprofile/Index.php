@@ -18,7 +18,7 @@ class Index extends Component
     public $page, $photo, $image;
     public $id, $cnama, $cstatus, $ccity, $cphone, $cfax, $cemail, $clogo, $ctitle, $ccreate_by, $cupdate_by,
            $cimage, $cmotto, $updatePost = false, $addPost = false;
-
+    public $pageTitle, $pageDescription, $pageBreadcrumb, $cities;
     #[validate('required', message: 'Application Name Required')]
     public $cname;
 
@@ -33,8 +33,8 @@ class Index extends Component
 
     public function __construct() {
         $this->page = array(
-            'title' => 'Profile',
-            'description'=> 'Aplication Profile',
+            't' => 'Profiles',
+            'd' => 'Aplication Profile',
         );
     }
 
@@ -55,20 +55,16 @@ class Index extends Component
         $this->ccreate_by= $data->ccreate_by;
         $this->cupdate_by= $data->cupdate_by;
         $this->cstatus = $data->cstatus;
+        $this->pageBreadcrumb = h_::setBreadcrumb($t = $this->page['t'], $d = $this->page['d'], 'setting/', strtolower($t));
+        $this->cities = v_::getCities();
+        $this->pageTitle = $t;
+        $this->pageDescription = $d;
     }
 
     public function render()
     {
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            $cities = v_::getCities();
-            return view('livewire.mprofile.index', [
-                'url'            => s_::URL_. 'profile/',
-                'cities'         => $cities,
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb
-            ]);
+            return view('livewire.mprofile.index', ['url'=> s_::URL_. 'profile/']);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

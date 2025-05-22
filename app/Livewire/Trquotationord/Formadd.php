@@ -7,12 +7,12 @@ use App\Helpers\MyService as v_;
 
 class Formadd extends Component
 {
-    public $page;
-
+    public $page, $region, $suppliers;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'title' => 'Quotation Order',
-            'description'=> 'Add Data'
+            't' => 'Quotation Order',
+            'd' => 'Add Data'
         );
     }
     /**
@@ -23,6 +23,14 @@ class Formadd extends Component
         // Debugging ntotal value
         //validate
     }
+    public function mount()
+    {
+        $this->region     = v_::getRegion();
+        $this->suppliers  = v_::getSupplier();
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'quorder');
+    }
     /**
      * render
      */
@@ -32,14 +40,7 @@ class Formadd extends Component
         $code  = v_::MaxNumber('tr_qorderhdr', $uauth['region_id'], $uauth['companie_id']);
         $no_inorder = 'QO-'.date('ymd').'-'.$code['gennum'];
         try {
-            $pageBreadcrumb =  h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trquotationord.formadd', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'no_inorder' => $no_inorder,
-                'suppliers'  => v_::getSupplier(),
-            ]);
+            return view('livewire.trquotationord.formadd', ['no_inorder' => $no_inorder]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

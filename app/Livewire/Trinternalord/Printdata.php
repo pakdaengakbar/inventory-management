@@ -10,12 +10,12 @@ use App\Models\tr_inorderdtl as iodetail;
 
 class Printdata extends Component
 {
-    public $page, $dtheader, $dtdetail;
-    public $no=1;
+    public $page, $no=1, $dtheader, $dtdetail;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'title' => 'Internal',
-            'description'=> 'Print',
+            't' => 'Internal',
+            'd' => 'Print',
         );
     }
     public function mount($id)
@@ -23,16 +23,15 @@ class Printdata extends Component
         // Get Data
         $this->dtheader = ioheader::find($id);
         $this->dtdetail = iodetail::where('nheader_id', $id)->get();
+
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'intorder');
     }
     public function render()
     {
         try {
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trinternalord.printdata', [
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-            ]);
+            return view('livewire.trinternalord.printdata');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

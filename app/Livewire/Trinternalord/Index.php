@@ -12,27 +12,29 @@ use App\Models\tr_inorderdtl as iodetail;
 
 class Index extends Component
 {
-    public $page;
+    public $page, $region;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'intorder/',
-            'title' => 'Inventory',
-            'description'=> 'Internal Order',
+            'p' => 'intorder/',
+            't' => 'Inventory',
+            'd' => 'Internal Order',
         );
     }
-
+    /**
+     * mounts
+     */
+    public function mount()
+    {
+        $this->region     = v_::getRegion();
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'intorder');
+    }
     public function render()
     {
         try {
-            $region= v_::getRegion();
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trinternalord.index', [
-                'path'           => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'region'=> $region,
-            ]);
+            return view('livewire.trinternalord.index', ['path'=> s_::URL_. $this->page['p']]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');

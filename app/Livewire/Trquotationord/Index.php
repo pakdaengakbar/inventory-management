@@ -12,27 +12,26 @@ use App\Models\tr_qorderhdr as qodetail;
 
 class Index extends Component
 {
-    public $page;
+    public $page, $region;
+    public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page  = array(
-            'path'  => 'quorder/',
-            'title' => 'Inventory',
-            'description'=> 'Quotation Order',
+            'p' => 'quorder/',
+            't' => 'Inventory',
+            'd' => 'Quotation Order',
         );
     }
-
+    public function mount()
+    {
+        $this->region     = v_::getRegion();
+        $this->pageTitle  = $t = $this->page['t'];
+        $this->pageDescription = $d = $this->page['d'];
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'quorder');
+    }
     public function render()
     {
         try {
-            $region= v_::getRegion();
-            $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.trquotationord.index', [
-                'path'           => s_::URL_. $this->page['path'],
-                'pageTitle'      => $title,
-                'pageDescription'=> $descr,
-                'pageBreadcrumb' => $pageBreadcrumb,
-                'region'=> $region,
-            ]);
+            return view('livewire.trquotationord.index');
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
