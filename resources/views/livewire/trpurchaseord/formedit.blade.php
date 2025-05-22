@@ -145,7 +145,7 @@
                                     <td><input type="number" class="form-control text-center form-control-sm qty-input"  name="icode[{{ $no }}][qty]" data-price="{{ $row->nretail_po_price }}" value="{{ $row->nqty }}"></td>
                                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[{{ $no }}][uom]" value="{{ $row->cuom }}"></td>
                                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm"  name="icode[{{ $no }}][price]" value="{{ number_format($row->nretail_po_price) }}"></td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_item disabled"><i class="mdi mdi-delete-empty"></i></button></td>
                                 </tr>
                                 @php $no++; @endphp
                             @empty
