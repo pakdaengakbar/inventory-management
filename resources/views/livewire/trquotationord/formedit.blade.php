@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = `
                  <tr>
                     <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="${no}"></td>
-                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][]"></td>
+                    <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][iid]"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
                     <td><input type="number" class="form-control text-center form-control-sm" name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1"></td>
