@@ -32,6 +32,8 @@
     @vite(['resources/js/pages/datatable.init.js'])
 
     @yield('script-bottom')
-
+    <script>
+        document.getElementById('daygreating').textContent = checkSpecificTime();
+    </script>
 </body>
 </html>

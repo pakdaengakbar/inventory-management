@@ -13,23 +13,18 @@
 
         @include('layouts.partials/topbar')
         @include('layouts.partials/sidebar')
-
         <div class="content-page">
-
             <div class="content">
-
                 @yield('content')
-
             </div>
-
             @include('layouts.partials/footer')
-
         </div>
-
     </div>
-
     @include('layouts.partials/vendor')
-
+    <script src="{{ URL::asset('build/assets/custom.js') }}"></script>
+    <script>
+        document.getElementById('daygreating').textContent = checkSpecificTime();
+    </script>
 </body>
 
 </html>
