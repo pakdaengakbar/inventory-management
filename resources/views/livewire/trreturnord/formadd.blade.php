@@ -17,7 +17,7 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <button type="button" onclick='_save_data();' id='btn-save1' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='save_check();' id='btn-save1' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
@@ -177,7 +177,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='_save_data();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='save_check();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Save
                     </button>
                     <a href="/sales/delivery" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
@@ -263,7 +263,7 @@ function calculateMOT() {
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
 }
 
-function _save_data(){
+function save_check(){
     const url = "/sales/rwdata/rnsave", href= "/sales/return";
     const sender = document.querySelector("#csender");
     if (sender.value == null || sender.value=="") {
