@@ -24,7 +24,7 @@ class Formadd extends Component
         // Get Data
         $this->ppn = p_::PPN_;
          // get Master
-        $this->path    = p_::URL_. $this->page['p'];
+        $this->path      = p_::URL_. $this->page['p'];
         $this->suppliers = s_::getSupplier();
         $this->pageTitle = $t  = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
