@@ -244,7 +244,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][iid]"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
-                    <td><input type="number" class="form-control text-center form-control-sm qty-add" name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1"></td>
+                    <td>
+                        <input type="text" class="form-control text-center form-control-sm qty-add"
+                            onkeydown="if(event.keyCode==13){event.preventDefault();return false;} if(!((event.keyCode>=48 && event.keyCode<=57) || (event.keyCode>=96 && event.keyCode<=105) || event.keyCode==8 || event.keyCode==37 || event.keyCode==39 || event.keyCode==46)){event.preventDefault();}"
+                            name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}" value="1">
+                    </td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
                     <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
