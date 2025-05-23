@@ -16,8 +16,8 @@ class Index extends Component
     public function __construct() {
         $this->page  = array(
             'p' => 'retail/',
-            't' => 'Saless',
-            'd' => 'Retail',
+            't' => 'Retail',
+            'd' => 'Sales',
         );
     }
     public function mount()
@@ -26,7 +26,7 @@ class Index extends Component
         $this->region  = s_::getRegion();
         $this->pageTitle = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
-        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'sales/', strtolower($t));
     }
     public function render()
     {

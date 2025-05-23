@@ -47,15 +47,13 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Date</th>
-                                    <th>Sales Number</th>
+                                    <th>Sales Num.</th>
                                     <th class="col-1">Sub Total</th>
-                                    <th class="col-1">Tot Ppn</th>
+                                    <th class="col-1">PPN</th>
                                     <th class="col-1">Total</th>
                                     <th class="col-1">Payment</th>
                                     <th class="col-1">Remaining</th>
-                                    <th class="col-1">Pay Type</th>
                                     <th class="col-1">Status</th>
-                                    <th>Region</th>
                                     <th class="col-1">Action</th>
                                 </tr>
                             </thead>
@@ -120,15 +118,12 @@ function handleData() {
             { data: 'no' },
             { data: 'trnsdate' },
             { data: 'no_faktur' },
-            { data: 'cust_name' },
             { data: 'sub_total' },
             { data: 'tot_ppn' },
             { data: 'total' },
             { data: 'payment' },
             { data: 'remaining' },
-            { data: 'pay_type' },
             { data: 'status' },
-            { data: 'region' },
             { data: 'action' }
         ],
         responsive: true

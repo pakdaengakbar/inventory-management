@@ -8,7 +8,6 @@
 <!-- Start Content-->
 <div class="container-fluid">
 {!! $pageBreadcrumb !!}
-
 <form method="POST" id="input-form" enctype="multipart/form-data">
     <div class="row">
         <div class="col-xl-8">
@@ -98,7 +97,7 @@
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Payment </label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control text-end" name="npayment" id="npayment" onkeyup="calculatePay(this);" placeholder="Payment" value='0'>
+                                    <input type="text" class="form-control text-end" name="npayment" id="npayment" onkeydown='paymentEvent(event);' onkeyup="calculatePay(this);" placeholder="Payment" value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
@@ -258,19 +257,36 @@ function calculateSO() {
     nremaining.value = addRupiah((stotal + totPpn) - payment);
     document.getElementById('textSTotal').textContent = addRupiah(stotal);
 }
+
 function calculatePay(tpayment) {
     const payment   = parseFloat(tpayment.value.replace(/,/g, '')) || 0;
     tpayment.value = addRupiah(payment);
     calculateSO();
 }
 
+function paymentEvent(event) {
+    if (event.keyCode === 13) { // 13 is Enter
+        event.preventDefault();
+        document.querySelector('#btn-save2').click();
+    }
+}
+
 function save_check(){
     const url = "/sales/rwdata/rtsave", href= "/sales/retail";
-    const payment = document.querySelector("#npayment");
-    if (payment.value == 0 || regionId.value=="") {
+    const total    = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
+    const payment   = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
+
+    if (payment.value == 0 || payment.value=="") {
         viewAlert('Error, Payment Empty..! ');
+        $("#npayment").focus();
         return;
     }
+    if (total > payment){
+        viewAlert('Error, Underpayment..! ');
+        $("#npayment").focus();
+        return;
+    }
+
     save_data(url,href)
 }
 

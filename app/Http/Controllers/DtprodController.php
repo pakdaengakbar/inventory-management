@@ -50,7 +50,7 @@ class DtprodController extends Controller
                 'rprice' => number_format($item->nretail_po_price),
             ]);
         }
-        return response()->json(['error' => 'Product not found'], 404);
+        return response()->json(['error' => 'Data Empty'], 404);
 	}
 
     public function getSearchProduct(Request $request)
@@ -69,6 +69,10 @@ class DtprodController extends Controller
                 'item_name'=> $item->citem_name,
             ];
         });
-        return response()->json(['data' => $data]);
+
+        if ($data->isNotEmpty()) {
+            return response()->json(['data' => $data]);
+        }
+        return response()->json([]);
     }
 }
