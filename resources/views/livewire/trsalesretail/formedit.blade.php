@@ -14,7 +14,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                         <h6 class="card-title mb-0 caption fw-semibold fs-9">No.Trans : {{ $dtheader['id'] }}</h6>
+                         <h6 class="card-title mb-0 caption fw-semibold fs-9">Total Item :</h6>
+                    </div>
+                    <div class="float-end">
+                        <h5 id='txtTotal' class='text-danger'>Rp {{ number_format($dtheader['nsub_total']) }}</h5>
                     </div>
                 </div><!-- end card header -->
                 <div wire:ignore>
@@ -75,13 +78,6 @@
                                 </tr>
                             @endforelse
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6" class="text-center bg-light"><h4>SUB TOTAL</h4></td>
-                                <td class="text-end bg-light"><h4 id='textSTotal'>{{ number_format($dtheader['nsub_total']) }}</h4></td>
-                                <td class="text-end bg-light"></td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
                 </div>
@@ -91,7 +87,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                        <h6 class="card-title mb-0 caption fw-semibold fs-9">Invoice : {{ $dtheader['cno_faktur'] }}</h6>
+                        <h6 class="card-title mb-0 caption fw-semibold fs-9">Invoice No :</h6>
+                    </div>
+                    <div class="float-end">
+                        <h5 id='txtFaktur' class='text-danger'>{{ $dtheader['cno_faktur'] }}</h5>
                     </div>
                 </div><!-- end card header -->
                 <div wire:ignore>
@@ -100,7 +99,7 @@
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
                                 <div class="col-sm-6">
-                                    <input readonly type="text" class="form-control text-end bg-light fs-16" name="nsub_total" id="nsub_total" value="{{ number_format($dtheader['nsub_total']) }}" placeholder="Sub Total" value='0'>
+                                    <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" value="{{ number_format($dtheader['nsub_total']) }}" placeholder="Sub Total" value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
@@ -109,26 +108,26 @@
                                     <input readonly type="text" class="form-control text-center bg-light" name="nppn" id="nppn" value="{{ $dtheader['nppn'] }}" placeholder="Ppn">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input readonly type="text" class="form-control text-end bg-light fs-16" name="ntot_ppn" id="ntot_ppn"  value="{{ number_format($dtheader['nsub_total']) }}"  placeholder="Total PPN"value='0'>
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntot_ppn" id="ntot_ppn"  value="{{ number_format($dtheader['nsub_total']) }}"  placeholder="Total PPN"value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
                                 <div class="col-sm-6">
-                                    <input readonly type="text" class="form-control text-end bg-light fs-16" name="ntotal" id="ntotal" placeholder="Total"  value="{{ number_format($dtheader['ntotal']) }}" value='0'>
+                                    <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total"  value="{{ number_format($dtheader['ntotal']) }}" value='0'>
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Payment </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control text-end fs-16" name="npayment" id="npayment" onkeyup="calculatePay(this);" value="{{ number_format($dtheader['npayment']) }}" placeholder="Payment" value='0'>
+                                    <input type="text" class="form-control text-end" name="npayment" id="npayment" onkeyup="calculatePay(this);" value="{{ number_format($dtheader['npayment']) }}" placeholder="Payment" value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end">Remaining Change </label>
                                 <div class="col-sm-6">
-                                    <input readonly type="text" class="form-control text-end bg-light fs-16" name="nremaining" id="nremaining" value="{{ number_format($dtheader['nremaining']) }}" placeholder="Remaining" value='0'>
+                                    <input readonly type="text" class="form-control text-end bg-light" name="nremaining" id="nremaining" value="{{ number_format($dtheader['nremaining']) }}" placeholder="Remaining" value='0'>
                                 </div>
                             </div>
                         </div>

@@ -60,7 +60,7 @@ class Rowsalesretail extends Controller
             'cstatus'     => 'C',
             'cflag'       => 'SO',
             'cmonth'      => $month,
-            'cpay_type'   => 'Cash',
+            'cpay_type'   => 2,
             'cno_faktur'  => $no_so = 'SO-'.date('ymd').'-'.$code['gennum'],
             'dtrans_date' => $trans_date =  date('Y-m-d'),
             'ncustomer_id'=> '999999999',

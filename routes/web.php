@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
 /* Master */
+use App\Http\Controllers\Mstcustomer;
+use App\Http\Controllers\Mstsupplier;
+
 use App\Http\Controllers\DtexpController;
 use App\Http\Controllers\DtprodController;
 use App\Http\Controllers\DtbrandController;
@@ -67,10 +70,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/suppliers', App\Livewire\Msupplier\Index::class)->name('suppliers.index');
         Route::get('/suppliers/add', App\Livewire\Msupplier\Formadd::class)->name('suppliers.add');
         Route::get('/suppliers/edit/{id}', App\Livewire\Msupplier\Formedit::class)->name('suppliers.edit');
+        Route::post('/mstdata/supplier', [Mstsupplier::class, 'getDatasearch']);
 
         Route::get('/customers', App\Livewire\Mcustomer\Index::class)->name('customers.index');
         Route::get('/customers/add', App\Livewire\Mcustomer\Formadd::class)->name('customers.add');
         Route::get('/customers/edit/{id}', App\Livewire\Mcustomer\Formedit::class)->name('customers.edit');
+        Route::post('/mstdata/customer', [Mstcustomer::class, 'getDatasearch']);
 
         Route::get('/expeditons', App\Livewire\Mexpedition\Index::class)->name('expeditons.index');
         Route::post('/rwdata/expeditons', [DtexpController::class, 'datatable']);

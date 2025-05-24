@@ -31,7 +31,6 @@ class tr_saleshdr extends Model
         'csales_code',
         'csales_name',
         'cno_chip',
-        'cSdName',
         'nperc_bonus',
         'ntotal_bonus',
         'cwarehouse',
@@ -49,5 +48,6 @@ class tr_saleshdr extends Model
         'nregion_id',
         'ccreate_by',
         'cupdate_by',
+        'cflag'
     ];
 }

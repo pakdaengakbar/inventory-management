@@ -14,7 +14,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                        <h5 class="card-title mb-0 caption fw-semibold fs-18">Get Item</h5>
+                        <h5 class="card-title mb-0 caption fw-semibold fs-18">Total Item</h5>
+                    </div>
+                     <div class="float-end">
+                        <h5 id='txtTotal' class='text-danger'>Rp 0</h5>
                     </div>
                 </div><!-- end card header -->
                 <div wire:ignore>
@@ -49,14 +52,6 @@
                         </thead>
                         <tbody class="input_fields_wrap">
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6" class="text-center bg-light"><h4>SUB TOTAL</h4></td>
-                                <td class="text-end bg-light"><h4 id='textSTotal'>0</h4></td>
-                                <td class="text-end bg-light"></td>
-                            </tr>
-                        </tfoot>
-
                     </table>
                 </div>
                 </div>
@@ -66,7 +61,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                        <h5 class="card-title mb-0 caption fw-semibold fs-18">Invoice</h5>
+                        <h5 class="card-title mb-0 caption fw-semibold fs-18">No.Invoice</h5>
+                    </div>
+                    <div class="float-end">
+                        <h5 id='txtFaktur' class='text-danger'>{{ $cno_faktur }}</h5>
                     </div>
                 </div><!-- end card header -->
                 <div wire:ignore>
@@ -240,7 +238,7 @@ function calculateRow(input) {
         subtotal += val;
     });
     document.getElementById('nsub_total').value = addRupiah(subtotal);
-    document.getElementById('textSTotal').textContent = addRupiah(subtotal);
+    document.getElementById('txtTotal').textContent = 'Rp '+addRupiah(subtotal);
     calculateSO();
 }
 
@@ -255,7 +253,7 @@ function calculateSO() {
     ntotal.value    = addRupiah(stotal + totPpn);
     //nremaining.value = addRupiah(Math.abs((stotal + totPpn) - payment));
     nremaining.value = addRupiah((stotal + totPpn) - payment);
-    document.getElementById('textSTotal').textContent = addRupiah(stotal);
+    document.getElementById('txtTotal').textContent = 'Rp '+addRupiah(stotal);
 }
 
 function calculatePay(tpayment) {

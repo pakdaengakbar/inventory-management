@@ -92,7 +92,7 @@ class MyHelper {
                     <option value="2">Cash</option>
                     <option value="3">Consigment</option>
                 </select>
-                 </div>';
+                </div>';
     }
 
     public static function setSearchRegion($field){

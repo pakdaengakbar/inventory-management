@@ -9,12 +9,11 @@ use App\Constants\Status as p_;
 
 class Formadd extends Component
 {
-    public $page, $path;
-    public $region, $expedition, $employee;
+    public $page, $path, $ppn;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
-            'p' => 'delivery/',
+            'p' => 'service/',
             't' => 'Service',
             'd' => 'Add Data '
         );
@@ -24,13 +23,11 @@ class Formadd extends Component
      */
     public function mount()
     {
-        $this->path       = p_::URL_. $this->page['p'];
-        $this->region     = s_::getRegion();
-        $this->expedition = s_::getExped(1);
-        $this->employee   = s_::getEmployee('Actived');
+        $this->ppn     = p_::PPN_;
+        $this->path    = p_::URL_. $this->page['p'];
         $this->pageTitle  = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
-        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'sales/', strtolower($t));
     }
     /**
      * render
@@ -39,9 +36,9 @@ class Formadd extends Component
     {
         $uauth = s_::getUser_Auth();
         $code  = s_::MaxNumber('tr_saleshdr', $uauth['region_id'], $uauth['companie_id']);
-        $nodo = 'SV-'.date('ymd').'-'.$code['gennum'];
+        $noso  = 'SR-'.date('ymd').'-'.$code['gennum'];
         try {
-            return view('livewire.trsaleservice.formadd', ['cno_delivery'=> $nodo]);
+            return view('livewire.trsaleservice.formadd', ['cno_faktur'=> $noso]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
