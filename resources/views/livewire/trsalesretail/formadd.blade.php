@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button type="button" class="btn btn-success add_item"><i class="mdi mdi-plus"></i>Add Item</button>
+                            <button type="button" class="btn btn-success btn-sm add_item"><i class="mdi mdi-plus"></i>Add Item</button>
                         </div>
                     </div>
                     <table id="itemDTatable" class="table table-bordered dt-responsive nowrap">
@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" placeholder="Sub Total" value='0'>
                                 </div>
                             </div>
@@ -83,26 +83,26 @@
                                 <div class="col-sm-2">
                                     <input readonly type="text" class="form-control text-center bg-light" name="nppn" id="nppn" value='{{ $ppn }}' placeholder="Ppn">
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="ntot_ppn" id="ntot_ppn" placeholder="Total PPN"value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="ntotal" id="ntotal" placeholder="Total" value='0'>
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">Payment </label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <input type="text" class="form-control text-end" name="npayment" id="npayment" onkeydown='paymentEvent(event);' onkeyup="calculatePay(this);" placeholder="Payment" value='0'>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end">Remaining Change </label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="nremaining" id="nremaining" placeholder="Remaining" value='0'>
                                 </div>
                             </div>
@@ -110,10 +110,10 @@
                     </div>
                 </div>
                 <div class="card-footer float-end text-end">
-                    <button type="button" onclick='save_check();' id='btn-save2' class="btn btn-primary waves-effect waves-light">
+                    <button type="button" onclick='save_check();' id='btn-save2' class="btn btn-primary waves-effect waves-light btn-sm">
                         <i class="mdi mdi-content-save"></i> Save & Print
                     </button>
-                    <a href="/sales/retail" type="button" class="btn btn-warning"><i class="mdi mdi-redo-variant"></i> Cancel</a>
+                    <a href="/sales/retail" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Cancel</a>
                 </div>
             </div>
         </div>

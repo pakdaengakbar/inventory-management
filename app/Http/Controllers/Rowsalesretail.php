@@ -8,7 +8,7 @@ use App\Helpers\MyService as v_;
 use App\Helpers\MyHelper as h_;
 
 use App\Models\tr_saleshdr as srheader;
-use App\Models\tr_saleshdr as srdetail;
+use App\Models\tr_salesdtl as srdetail;
 
 class Rowsalesretail extends Controller
 {
@@ -19,11 +19,12 @@ class Rowsalesretail extends Controller
         $edate  = $request->ajax() ? $request->post('edate') : date('Y-m-d');
         $region = $request->ajax() ? $request->post('region') : null;
         $result = srheader::select('id','cno_faktur','corder_num','dtrans_date',
-                                    'ncustomer_name','nsub_total','ntot_ppn','ntotal',
+                                    'ccustomer_name','nsub_total','ntot_ppn','ntotal',
                                     'npayment','nremaining','cpay_type','cstatus','nregion_id')
                             ->where(DB::raw('dtrans_date'), '>=', $sdate)
-						    ->where(DB::raw('dtrans_date'), '<=', $edate);
-        if ($region != null) $result = $result->where('nregion_ide', $region);
+						    ->where(DB::raw('dtrans_date'), '<=', $edate)
+                            ->where('cflag', 'SO');
+        if ($region != null) $result = $result->where('nregion_id', $region);
         $result = $result->orderBy('dtrans_date','desc')->limit(1000)->get();
 
         $data = $result->map(function ($row, $index) {
@@ -31,7 +32,7 @@ class Rowsalesretail extends Controller
                 'no' => $index + 1,
                 'trnsdate' => $row->dtrans_date,
                 'no_faktur'=> $row->cno_faktur,
-                'cust_name'=> $row->ncustomer_name,
+                'cust_name'=> $row->ccustomer_name,
                 'sub_total'=> '<div class="float-end">'.number_format($row->nsub_total).'</div>',
                 'tot_ppn'  => '<div class="float-end">'.number_format($row->ntot_ppn).'</div>',
                 'total'    => '<div class="float-end">'.number_format($row->ntotal).'</div>',
@@ -41,7 +42,7 @@ class Rowsalesretail extends Controller
                 'status'   => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'region'   => $row->region ? $row->region->cname : '',
                 'action'   => '<div class="text-center">
-                                    <a href="/sales/delivery/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="/sales/retail/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                 </div>'
             ];
@@ -54,65 +55,57 @@ class Rowsalesretail extends Controller
         $month = date('m').date('Y');
         //create post
         $uauth = v_::getUser_Auth();
-        $code  = v_::MaxNumber('tr_dorderhdr', $uauth['region_id'], $uauth['companie_id']);
+        $code  = v_::MaxNumber('tr_saleshdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
-            'cstatus'     => 'O',
-            'cflag'       => 'DO',
-            'ctype'       => 'SO',
+            'cstatus'     => 'C',
+            'cflag'       => 'SO',
             'cmonth'      => $month,
-            'cno_delivery'=> $no_mot = 'DO-'.date('ymd').'-'.$code['gennum'],
-            'dtrans_date' => $trans_date =  $request->post('dtrans_date'),
-            'cno_faktur'  => $request->post('cno_faktur'),
-            'cexpedition' => $request->post('cexpedition'),
-            'cshipment'   => $request->post('cshipment'),
-            'ncustomer_id'=> $request->post('ncustomer_id'),
-            'cnotes'      => $request->post('cnotes'),
+            'cpay_type'   => 'Cash',
+            'cno_faktur'  => $no_so = 'SO-'.date('ymd').'-'.$code['gennum'],
+            'dtrans_date' => $trans_date =  date('Y-m-d'),
+            'ncustomer_id'=> '999999999',
+            'ccustomer_name'=> 'Customer',
+            'cnotes'      => 'Sales Retail',
             'nsub_total'  => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
-            'nshipp_cost' => $shipp_cost =  $request->post('nshipp_cost') ? str_replace(",","",$request->post('nshipp_cost')) : 0,
+            'nppn'        => $nppn  =  $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'    => $totppn=  $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
             'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'csender'     => $request->post('csender'),
-            'crecipient'  => $request->post('crecipient'),
+            'npayment'    => $request->post('npayment') ? str_replace(",","",$request->post('npayment')) : 0,
+            'nremaining'   => abs($request->post('nremaining') ? str_replace(",","",$request->post('nremaining')) : 0),
             'ccashier'    => $uauth['name'],
             'ccreate_by'  => $uauth['id'],
             'nnum_log'    => $code['maxnum'],
-            'nregion_id'  => $region_id =  $uauth['region_id'],
+            'nregion_id'  => $region_id = $uauth['region_id'],
             'ncompanie_id'=> $uauth['companie_id'],
         );
         srheader::create($datahdr);
         $headerId = srheader::latest()->first();
-
         // insert detail
-        $totalprice = 0;
         $datadtl = array();
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
                 $datadtl[] = array(
                     'nheader_id'  => $headerId->id,
                     'dtrans_date' => $trans_date,
-                    'cno_delivery'=> $no_mot,
+                    'cno_faktur'  => $no_so,
                     'nbarcode'    => $row['barcode'],
                     'citem_code'  => $row['item_code'],
                     'citem_name'  => $row['item_name'],
                     'cuom'        => $row['uom'],
-                    'nqty'        => $uqty = $row['qty'],
-                    'nprice'      => $uprice = str_replace(",","",$row['price']),
+                    'nqty'        => $row['qty'],
+                    'nprice'      => str_replace(",","",$row['price']),
+                    'ntotal'      => str_replace(",","",$row['itotal']),
                     'ccreate_by'  => $uauth['id'],
                     'cmonth'      => $month,
                     'ctime'       => date('His'),
+                    'ccashier'    => $uauth['name'],
+                    'cpay_type'   => 'Cash',
                     'nregion_id'  => $region_id,
-                    'ncompanie_id' => $uauth['companie_id'],
+                    'ncompanie_id'=> $uauth['companie_id'],
                 );
-                $totalprice += ($uqty * $uprice);
             }
             srdetail::insert($datadtl);
         }
-        $update = array(
-            'nsub_total' => $totalprice ? str_replace(",","",$totalprice) : 0,
-            'ntotal'     => $totalprice + $shipp_cost,
-            'cupdate_by' => $uauth['id'],
-        );
-        srheader::where('id', $headerId->id)->update($update);
-
         return response()->json(array('success' => true, 'last_insert_id' => $headerId), 200);
     }
 
@@ -140,19 +133,18 @@ class Rowsalesretail extends Controller
 
         //update detail
         $datadtl = array();
-        $totalprice = 0;
         if ($request->post('icode')) {
             foreach ($request->post('icode') as $key => $row) {
                 $checkdtl = srdetail::find($row['iid']);
                 if($checkdtl) {
                     $row1dtl = array(
-                        'nqty'        => $hqty = $row['qty'],
-                        'nprice'      => $hprice = str_replace(",","",$row['price']),
+                        'nqty'        => $row['qty'],
+                        'nprice'      => str_replace(",","",$row['price']),
+                        'ntotal'      => str_replace(",","",$row['itotal']),
                         'cupdate_by'  => $uauth['id'],
                         'cmonth'      => $month,
                         'ctime'       => date('His'),
                     );
-                    $totalprice +=  $hqty * $hprice;
                     $checkdtl->update($row1dtl);
                 } else {
                     $check2dtl = srdetail::where('nheader_id', $request->post('id'))
@@ -160,13 +152,13 @@ class Rowsalesretail extends Controller
                                     ->first();
                     if($check2dtl) {
                         $row2dtl = array(
-                            'nqty'        => $uqty = $check2dtl->nqty+$row['qty'],
-                            'nprice'      => $uprice = str_replace(",","",$row['price']),
+                            'nqty'        => $check2dtl->nqty+$row['qty'],
+                            'nprice'      => str_replace(",","",$row['price']),
+                            'ntotal'      => str_replace(",","",$row['itotal']),
                             'cupdate_by'  => $uauth['id'],
                             'cmonth'      => $month,
                             'ctime'       => date('His'),
                         );
-                        $totalprice += ($uqty * $uprice);
                         $check2dtl->update($row2dtl);
                     } else {
                         $datadtl[] = array(
@@ -177,27 +169,22 @@ class Rowsalesretail extends Controller
                             'citem_code'  => $row['item_code'],
                             'citem_name'  => $row['item_name'],
                             'cuom'        => $row['uom'],
-                            'nqty'        => $iqty = $row['qty'],
-                            'nprice'      => $iprice = str_replace(",","",$row['price']),
+                            'nqty'        => $row['qty'],
+                            'nprice'      => str_replace(",","",$row['price']),
+                            'ntotal'      => str_replace(",","",$row['itotal']),
                             'ccreate_by'  => $uauth['id'],
+                            'ccashier'    => $uauth['name'],
+                            'cpay_type'   => 'Cash',
                             'cmonth'      => $month,
                             'ctime'       => date('His'),
                             'nregion_id'  => $request->post('nregion_id'),
                             'ncompanie_id' => $uauth['companie_id'],
                         );
-                        $totalprice += ($iqty * $iprice);
                         srdetail::insert($datadtl);
                     }
                 }
             }
         }
-        $update = array(
-            'nsub_total' => $totalprice ? str_replace(",","",$totalprice) : 0,
-            'ntotal'     => $totalprice + $shipp_cost,
-            'cupdate_by' => $uauth['id'],
-        );
-        srheader::where('id', $request->post('id'))->update($update);
-
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }
 }

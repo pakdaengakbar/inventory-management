@@ -17,6 +17,8 @@ use App\Http\Controllers\Rowmutationin;
 use App\Http\Controllers\Rowdelivery;
 use App\Http\Controllers\Rowreturn;
 use App\Http\Controllers\Rowsalesretail;
+use App\Http\Controllers\Rowsaleservice;
+
 
 /* Website */
 use App\Http\Controllers\Webcategory;
@@ -174,6 +176,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/retail', [Rowsalesretail::class, 'datatable']);
         Route::post('/rwdata/rtsave', [Rowsalesretail::class, 'save']);
         Route::post('/rwdata/rtupdate', [Rowsalesretail::class, 'update']);
+
+         /* sales service */
+        Route::get('/service', App\Livewire\Trsaleservice\Index::class)->name('service.index');
+        Route::get('/service/add', App\Livewire\Trsaleservice\Formadd::class)->name('service.add');
+        Route::get('/service/edit/{id}', App\Livewire\Trsaleservice\Formedit::class)->name('service.edit');
+        Route::get('/service/print/{id}', App\Livewire\Trsaleservice\Printdata::class)->name('service.print');
+        /* Delivery In Ajax */
+        Route::post('/rwdata/service', [Rowsaleservice::class, 'datatable']);
+        Route::post('/rwdata/svsave', [Rowsaleservice::class, 'save']);
+        Route::post('/rwdata/svupdate', [Rowsaleservice::class, 'update']);
 
     });
     Route::group(['prefix' => 'website'], function () {
