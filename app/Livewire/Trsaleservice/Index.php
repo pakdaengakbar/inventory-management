@@ -6,8 +6,8 @@ use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as s_;
 use App\Constants\Status as p_;
 
-use App\Models\tr_dorderhdr as doheader;
-use App\Models\tr_dorderhdr as dodetail;
+use App\Models\tr_saleshdr as soheader;
+use App\Models\tr_salesdtl as sodetail;
 
 class Index extends Component
 {
@@ -41,8 +41,8 @@ class Index extends Component
     public function destroy($id)
     {
         //destroy
-        doheader::destroy($id);
-        dodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
+        soheader::destroy($id);
+        sodetail::where('nheader_id', $id)->delete();
+        $this->dispatch('delDataTable', ['message' => 'Data successfully.']);
     }
 }

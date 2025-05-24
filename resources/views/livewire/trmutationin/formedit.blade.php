@@ -188,7 +188,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Sub Total</label>
                                 <div class="col-sm-4">
                                     <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" value="{{ number_format($dtheader['nsub_total']) }}" placeholder="Sub Total">
                                 </div>

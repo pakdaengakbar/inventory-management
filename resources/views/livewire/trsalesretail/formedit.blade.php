@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                         <h6 class="card-title mb-0 caption fw-semibold fs-9">Total Item :</h6>
+                         <h6 class="card-title mb-0 caption fw-semibold fs-9">Sub Total :</h6>
                     </div>
                     <div class="float-end">
                         <h5 id='txtTotal' class='text-danger'>Rp {{ number_format($dtheader['nsub_total']) }}</h5>
@@ -97,7 +97,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Sub Total </label>
                                 <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" value="{{ number_format($dtheader['nsub_total']) }}" placeholder="Sub Total" value='0'>
                                 </div>
@@ -139,7 +139,7 @@
                         <i class="mdi mdi-content-save"></i> Save & Print
                     </button>
                     @endif
-                    <a href="/sales/retail" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant "></i> Cancel</a>
+                    <a href="/sales/service" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant "></i> Cancel</a>
                 </div>
             </div>
         </div>
@@ -293,7 +293,7 @@ function calculatePay(tpayment) {
 }
 
 function save_check(){
-    const url = "/sales/rwdata/rtsave", href= "/sales/retail";
+    const url = "/sales/rwdata/rtupdate", href= "/sales/retail";
     const total    = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
     const payment   = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
 
@@ -308,7 +308,7 @@ function save_check(){
         $("#npayment").focus();
         return;
     }
-    save_data(url,href)
+    update_data(url,href)
 }
 </script>
 @endsection

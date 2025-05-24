@@ -13,7 +13,7 @@ export default defineConfig({
                 'node_modules/flatpickr/dist/flatpickr.min.css',
                 'node_modules/quill/dist/quill.core.css',
                 'node_modules/quill/dist/quill.snow.css',
-                'node_modules/quill/dist/quill.bubble.css', 
+                'node_modules/quill/dist/quill.bubble.css',
                 'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
                 'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css',
                 'node_modules/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css',
@@ -21,7 +21,7 @@ export default defineConfig({
                 'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css',
                 'node_modules/simple-datatables/dist/style.css',
                 'node_modules/jsvectormap/dist/jsvectormap.min.css',
-                
+
                 // Javascript
                 'resources/js/app.js',
                 'resources/js/pages/crm-dashboard.init.js',
@@ -34,12 +34,15 @@ export default defineConfig({
                 'resources/js/pages/datatable.init.js',
                 'resources/js/pages/coming-soon.init.js',
 
+                // js sales
+                'resources/js/pages/sales-service.js',
+
                 // Calendar
                 'resources/js/pages/demo.calendar.js',
 
                 // Chart
                 'resources/js/pages/apexcharts-line.init.js',
-                'resources/js/pages/apexcharts-area.init.js', 
+                'resources/js/pages/apexcharts-area.init.js',
                 'resources/js/pages/apexcharts-column.init.js',
                 'resources/js/pages/apexcharts-bar.init.js',
                 'resources/js/pages/apexcharts-mixed.init.js',

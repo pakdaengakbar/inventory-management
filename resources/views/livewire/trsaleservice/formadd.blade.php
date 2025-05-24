@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start d-flex justify-content-center">
-                        <h5 class="card-title mb-0 caption fw-semibold fs-18">Total Item</h5>
+                        <h5 class="card-title mb-0 caption fw-semibold fs-18">Sub Total</h5>
                     </div>
                      <div class="float-end">
                         <h5 id='txtTotal' class='text-danger'>Rp 0</h5>
@@ -122,7 +122,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="row mb-3 justify-content-end">
-                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Total Item </label>
+                                <label for="ntotal" class="col-sm-3 col-form-label text-end">Sub Total </label>
                                 <div class="col-sm-6">
                                     <input readonly type="text" class="form-control text-end bg-light" name="nsub_total" id="nsub_total" placeholder="Sub Total" value='0'>
                                 </div>
@@ -326,7 +326,6 @@ function save_check(){
     const url = "/sales/rwdata/svsave", href= "/sales/service";
     const total    = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
     const payment   = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
-
     if (payment.value == 0 || payment.value=="") {
         viewAlert('Error, Payment Empty..! ');
         $("#npayment").focus();
@@ -337,7 +336,12 @@ function save_check(){
         $("#npayment").focus();
         return;
     }
-
+    // check customer
+    const customerId = document.querySelector("#ncustomer_id");
+    if (customerId.value == null || customerId.value=="") {
+        viewAlert('Error, Please Search Customer..!');
+        return;
+    }
     save_data(url,href)
 }
 </script>
