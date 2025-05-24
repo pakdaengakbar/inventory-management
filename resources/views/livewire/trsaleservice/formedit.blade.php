@@ -196,9 +196,10 @@
         </div>
     </div>
 </form>
+</div> <!-- container-fluid -->
 <!-- modal -->
 @include('livewire.trinternalord.prodsearch');
-</div> <!-- container-fluid -->
+@include('livewire.trsaleservice.custsearch');
 </div>
 
 @section('script')

@@ -7,7 +7,7 @@
 <div>
 <!-- Start Content-->
 <div class="container-fluid">
-{!! $pageBreadcrumb !!}
+{!! $pageBreadcrumb !!} vv
 <div class="row">
     <div class="col-12">
         {!! MyHelper::setAlert() !!}
@@ -54,9 +54,10 @@
                                 <label for="cno_order" class="col-sm-2 col-form-label text-end">No. IO/QO</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="cno_order" name="cno_order" placeholder="Enter Order Number"  onkeyup="this.value=toUCase(this.value);">
+                                        <input type="text" class="form-control" id="cno_order" name="cno_order" onkeydown="findTransEvent(event)"
+                                               placeholder="Enter Order Number"  onkeyup="this.value=toUCase(this.value);">
                                         <span class="input-group-text">
-                                            <a href="javascript:;" id="btn_search_order" class="text-primary">
+                                            <a href="javascript:;" id="btn_search_order" class="text-primary" onclick="findDataTrans()">
                                                 <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
                                             </a>
                                         </span>
@@ -183,9 +184,10 @@
         </div>
     </div>
 </div>
+</div> <!-- container-fluid -->
 <!-- modal -->
 @include('livewire.trinternalord.prodsearch');
-</div> <!-- container-fluid -->
+@include('livewire.trpurchaseord.datasearch');
 </div>
 
 @section('script')
@@ -277,5 +279,6 @@ function save_check(){
     }
     save_data(url,href)
 }
+
 </script>
 @endsection

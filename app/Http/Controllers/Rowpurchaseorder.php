@@ -18,6 +18,30 @@ use App\Models\tr_orderdtl as podetail;
 
 class Rowpurchaseorder extends Controller
 {
+    public function getDatasearch(Request $request)
+    {
+        $status = $request->ajax() ? $request->post('status') : null;
+        $search = $request->ajax() ? $request->post('search') : null;
+        if ($status == null || $search == null){ return response()->json([]);}
+        if ($status == 'IO'){
+            $rowdata = ioheader::select('id','cno_inorder as ccode','cnotes')->where('cno_inorder', 'like', '%'.$search.'%')->get();
+        }else{
+            $rowdata = qoheader::select('id','cno_quorder as ccode','cnotes')->where('cno_quorder', 'like', '%'.$search.'%')->get();
+        }
+        $data = $rowdata->map(function ($data, $index) {
+            return [
+                'no' => $index + 1,
+                'ccode'=> '<a href="javascript:void(0)"
+                        onclick="getDataTrans(\''.$data->ccode.'\')" title="Get barcode">'.$data->ccode.'</a>',
+                'cnotes'=> $data->cnotes,
+            ];
+        });
+        if ($data->isNotEmpty()) {
+            return response()->json(['data' => $data]);
+        }
+        return response()->json([]);
+    }
+
     public function datatable(Request $request)
     {
         $sdate  = $request->ajax() ? $request->post('sdate') : date('Y-m-d');
@@ -136,9 +160,12 @@ class Rowpurchaseorder extends Controller
             'dtrans_date' => $request->post('dtrans_date'),
             'csupplier_id'=> $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
-            'cnotes' => $request->post('cnotes'),
-            'ntotal' => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'cupdate_by'=> $uauth['id'],
+            'corder_type' => $request->post('gridRadios'),
+            'cpay_type'   => $pay_type = $request->post('cpay_type'),
+            'cno_order'   => $no_order = $request->post('cno_order'),
+            'cnotes'      => $request->post('cnotes'),
+            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'cupdate_by'  => $uauth['id'],
         );
         $datahdr->update($rowhdr);
 
@@ -179,7 +206,8 @@ class Rowpurchaseorder extends Controller
                             'nheader_id'  => $request->post('id'),
                             'dtrans_date' => $request->post('dtrans_date'),
                             'csupplier_id'=> $request->post('csupplier_id'),
-                            'cno_inorder' => $request->post('cno_inorder'),
+                            'cno_order'   => $no_order,
+                            'cpay_type'   => $pay_type,
                             'nbarcode'    => $row['barcode'],
                             'citem_code'  => $row['item_code'],
                             'citem_name'  => $row['item_name'],

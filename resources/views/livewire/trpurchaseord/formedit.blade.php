@@ -54,9 +54,10 @@
                                 <label for="cno_order" class="col-sm-2 col-form-label text-end">No. IO/QO</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="cno_order" name="cno_order" value="{{ $dtheader['cno_order'] }}" placeholder="Enter Order Number">
+                                        <input type="text" class="form-control" id="cno_order" name="cno_order"  value="{{ $dtheader['cno_order'] }}" onkeydown="findTransEvent(event)"
+                                               placeholder="Enter Order Number"  onkeyup="this.value=toUCase(this.value);">
                                         <span class="input-group-text">
-                                            <a href="javascript:;" id="btn_search_order" class="text-primary">
+                                            <a href="javascript:;" id="btn_search_order" class="text-primary" onclick="findDataTrans()">
                                                 <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
                                             </a>
                                         </span>
@@ -89,8 +90,15 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                {!! MyHelper::setOPayentType() !!}
-
+                                <label class="col-sm-2 col-form-label text-end">Type</label>
+                                <div class="col-sm-4">
+                                    <select class="form-select" id="cpay_type" name="cpay_type" >
+                                        <option value="">Payment Type</option>
+                                        <option value="1">Credit</option>
+                                        <option value="2" {{ $dtheader['cpay_type'] == 2 ? 'selected' : '' }}>Cash</option>
+                                        <option value="3" {{ $dtheader['cpay_type'] == 3 ? 'selected' : '' }}>Consigment</option>
+                                    </select>
+                                </div>
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Due Date </label>
                                 <div class="col-sm-4">
                                     <input type="date" class="form-control" value="{{ $dtheader['ddue_date'] }}" name="ddue_date" placeholder="Enter date">
@@ -203,9 +211,10 @@
         </div>
     </div>
 </div>
+</div> <!-- container-fluid -->
 <!-- modal -->
 @include('livewire.trinternalord.prodsearch');
-</div> <!-- container-fluid -->
+@include('livewire.trpurchaseord.datasearch');
 </div>
 
 @section('script')

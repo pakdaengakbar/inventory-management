@@ -132,6 +132,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/puorder', [Rowpurchaseorder::class, 'datatable']);
         Route::post('/rwdata/posave', [Rowpurchaseorder::class, 'save']);
         Route::post('/rwdata/poupdate', [Rowpurchaseorder::class, 'update']);
+
+        Route::post('/rwdata/datatrans', [Rowpurchaseorder::class, 'getDatasearch']);
         /* Mutation Out */
         Route::get('/mutout', App\Livewire\Trmutationout\Index::class)->name('mutout.index');
         Route::get('/mutout/add', App\Livewire\Trmutationout\Formadd::class)->name('mutout.add');
