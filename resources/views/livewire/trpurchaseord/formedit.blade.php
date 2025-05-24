@@ -101,8 +101,8 @@
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" name="csupplier_inv" value="{{ $dtheader['csupplier_inv'] }}" placeholder="Supplier Invoice">
                                 </div>
-                                <div class="col-sm-2">
-                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}" placeholder="Automatic" readonly>
+                                <div class="col-sm-2" hidden>
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                         </div>
