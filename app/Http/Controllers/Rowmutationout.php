@@ -39,7 +39,7 @@ class Rowmutationout extends Controller
                 'total'      => '<div class="float-end">'.number_format($row->ntotal).'</div>',
                 'action'     => '<div class="text-center">
                                     <a href="/inventory/mutout/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
-                                    <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
+                                    <button wire:click="destroy('.$row->id.', \''.$row->cstatus.'\')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                 </div>'
             ];
         });

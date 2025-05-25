@@ -8,7 +8,7 @@ use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
 
 use App\Models\tr_qorderhdr as qoheader;
-use App\Models\tr_qorderhdr as qodetail;
+use App\Models\tr_qorderdtl as qodetail;
 
 class Index extends Component
 {
@@ -38,11 +38,15 @@ class Index extends Component
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, $status)
     {
         //destroy
-        qoheader::destroy($id);
-        qodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        if ($status == 'O'){
+            qoheader::destroy($id);
+            qodetail::where('nheader_id', $id)->delete();
+            $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        }else{
+            $this->dispatch('delDataTable', ['message' => 'Error, Data Status Close / Progress']);
+        }
     }
 }

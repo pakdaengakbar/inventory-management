@@ -41,11 +41,15 @@ class Index extends Component
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, $status)
     {
         //destroy
-        ioheader::destroy($id);
-        iodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        if ($status == 'O'){
+            ioheader::destroy($id);
+            iodetail::where('nheader_id', $id)->delete();
+            $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        }else{
+            $this->dispatch('delDataTable', ['message' => 'Error, Data Status Close / Progress']);
+        }
     }
 }

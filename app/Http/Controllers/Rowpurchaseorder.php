@@ -67,8 +67,8 @@ class Rowpurchaseorder extends Controller
                 'total'   => '<div class="float-end">'.number_format($row->ntotal).'</div>',
                 'action'  => '<div class="text-center">
                                 <a href="/inventory/puorder/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
-                                <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
-                               </div>'
+                                <button wire:click="destroy('.$row->id.', \''.$row->cstatus.'\')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
+                             </div>'
             ];
         });
         return response()->json(['data' => $data]);
@@ -161,11 +161,15 @@ class Rowpurchaseorder extends Controller
             'csupplier_id'=> $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
             'corder_type' => $request->post('gridRadios'),
-            'cpay_type'   => $pay_type = $request->post('cpay_type'),
-            'cno_order'   => $no_order = $request->post('cno_order'),
-            'cnotes'      => $request->post('cnotes'),
-            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'cupdate_by'  => $uauth['id'],
+            'cpay_type' => $pay_type = $request->post('cpay_type'),
+            'cno_order' => $no_order = $request->post('cno_order'),
+            'cnotes'    => $request->post('cnotes'),
+            'capprove'  => $request->post('capprove'),
+            'nsub_tot'  => $request->post('nsub_tot') ? str_replace(",","",$request->post('nsub_tot')) : 0,
+            'nppn'      => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'  => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
+            'ntotal'    => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'cupdate_by'=> $uauth['id'],
         );
         $datahdr->update($rowhdr);
 
@@ -249,6 +253,6 @@ class Rowpurchaseorder extends Controller
             'capprove'  => $request->post('approved'),
         );
         $datahdr->update($rowhdr);
-        return response()->json(array('success' => true, 'status' => 'Close'), 200);
+        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..',), 200);
     }
 }

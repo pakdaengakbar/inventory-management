@@ -35,11 +35,16 @@ class Index extends Component
             return view('livewire.error404.index');
         }
     }
-    public function destroy($id)
+
+    public function destroy($id, $status)
     {
         //destroy
-        moheader::destroy($id);
-        modetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        if ($status == 'O'){
+           moheader::destroy($id);
+            modetail::where('nheader_id', $id)->delete();
+            $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
+        }else{
+            $this->dispatch('delDataTable', ['message' => 'Error, Data Status Close / Progress']);
+        }
     }
 }

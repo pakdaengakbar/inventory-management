@@ -18,7 +18,7 @@
                 <div class="float-end">
                     <a href="javascript:;" class="btn btn-sm btn-primary" title='print' onclick="printData();">
                         <i class="mdi mdi-printer-outline"></i> Print</a>
-                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/qoapproved');"  >
                         <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
@@ -168,7 +168,7 @@
                     <button type="button" onclick='updateCheck();' id='btn-save1' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
-                     <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                     <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/qoapproved');"  >
                         <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/quorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
@@ -285,40 +285,6 @@ function printData() {
     var id = idInput.value;
     var cLink = "/inventory/quorder/print/" + id;
     window.open(cLink, "_blank", "menubar=no,location=no,status=yes,toolbar=no,directoris=no,scrollbars=yes,resizable=yes,top=100,left=500,width=1000,height=750");
-}
-
-
-function updateStatus(){
-    if ( checkStatusOpen() == true){
-        const approved  = $("#capprove").val();
-        const progress  = document.getElementById('progress');
-        if(approved.length==0){
-            $("#capprove").focus();
-            viewAlert('error, Approved Empty..!');
-            return false;
-        }
-        var id	= $("#id").val();
-        $.ajax({
-            type	: 'POST',
-            url		: "/inventory/rwdata/qoapproved",
-            data	: "id="+id+"&approved="+approved,
-            dataType: "json",
-            beforeSend: function() {
-                progress.removeAttribute('hidden');
-            },
-            success	: function(data){
-                    bootstrap.Alert.getOrCreateInstance(progress).close();
-                    $('#cstatus').val(data.status);
-            },
-            error: function(jqXHR, exception){
-                console.log('error load model');
-                console.log(jqXHR.status);
-            }
-        });
-    }else{
-        viewAlert('Error, Status Already Close / Progress');
-    }
-     pageScrollUp();
 }
 </script>
 @endsection

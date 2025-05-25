@@ -38,7 +38,7 @@ class Rowdelivery extends Controller
                 'status'    => '<div class="text-center">'.h_::_getstatus($row->cstatus).'</div>',
                 'action'    => '<div class="text-center">
                                     <a href="/sales/delivery/edit/'.$row->id.'" class="btn btn-sm btn-warning" title="Update"><i class="mdi mdi-square-edit-outline"></i></a>
-                                    <button wire:click="destroy('.$row->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
+                                    <button wire:click="destroy('.$row->id.', \''.$row->cstatus.'\')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>
                                 </div>'
             ];
         });

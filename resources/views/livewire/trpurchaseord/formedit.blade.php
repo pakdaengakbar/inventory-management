@@ -18,7 +18,7 @@
                 <div class="float-end">
                     <a href="/inventory/puorder/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-primary" title='print'>
                         <i class="mdi mdi-printer-outline"></i> Print</a>
-                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/poapproved');"  >
                         <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
@@ -220,7 +220,7 @@
                     <button type="button" onclick='updateCheck();' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
-                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/poapproved');"  >
                         <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
@@ -324,39 +324,5 @@ function updateCheck(){
     }
     pageScrollUp();
 }
-
-function updateStatus(){
-    if ( checkStatusOpen() == true){
-        const approved  = $("#capprove").val();
-        const progress  = document.getElementById('progress');
-        if(approved.length==0){
-            $("#capprove").focus();
-            viewAlert('error, Approved Empty..!');
-            return false;
-        }
-        var id	= $("#id").val();
-        $.ajax({
-            type	: 'POST',
-            url		: "/inventory/rwdata/poapproved",
-            data	: "id="+id+"&approved="+approved,
-            dataType: "json",
-            beforeSend: function() {
-                progress.removeAttribute('hidden');
-            },
-            success	: function(data){
-                    bootstrap.Alert.getOrCreateInstance(progress).close();
-                    $('#cstatus').val(data.status);
-            },
-            error: function(jqXHR, exception){
-                console.log('error load model');
-                console.log(jqXHR.status);
-            }
-        });
-    }else{
-        viewAlert('Error, Status Already Close / Progress');
-    }
-    pageScrollUp();
-}
-
 </script>
 @endsection
