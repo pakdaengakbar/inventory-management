@@ -23,8 +23,8 @@
                 <div wire:ignore>
                 <div class="card-body">
                     {!! MyHelper::setAlert() !!}
-                    <div class="row mb-3" hidden>
-                        <label for="ntotal" class="col-sm-1 col-form-label text-end">ID Trans </label>
+                    <div class="row mb-3 d-none">
+                        <label for="ntotal" class="col-sm-1 col-form-label text-end">ID</label>
                         <div class="col-sm-1">
                             <input readonly type="text" class="form-control text-center bg-light" name="id"  value="{{ $dtheader['id'] }}">
                         </div>

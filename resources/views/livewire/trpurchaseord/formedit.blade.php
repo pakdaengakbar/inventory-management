@@ -28,7 +28,12 @@
                     <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
-
+                            <div class="row mb-3 d-none">
+                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">ID </label>
+                                <div class="col-sm-2">
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
+                                </div>
+                            </div>
                             <fieldset class="row mb-3 justify-content-center">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">Date </label>
                                 <div class="col-sm-4">
@@ -108,9 +113,6 @@
                                 <label for="cno_inorder" class="col-sm-2 col-form-label text-end">Invoice</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" name="csupplier_inv" value="{{ $dtheader['csupplier_inv'] }}" placeholder="Supplier Invoice">
-                                </div>
-                                <div class="col-sm-2" hidden>
-                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                         </div>

@@ -27,6 +27,12 @@
                    <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
+                            <div class="row mb-3 d-none">
+                                <label for="dtrans_date" class="col-sm-2 col-form-label text-end">ID </label>
+                                <div class="col-sm-2">
+                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
+                                </div>
+                            </div>
                             <div class="row mb-3">
                                 <label for="dtrans_date" class="col-sm-3 col-form-label text-end">Date Trans.</label>
                                 <div class="col-sm-4">
@@ -82,9 +88,6 @@
                                             <option value="{{ $d->id }}" {{ $d->id == $dtheader['ndst_region'] ? 'selected' : '' }}>{{ ucfirst($d->id.' - '.$d->cname) }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                         </div>
