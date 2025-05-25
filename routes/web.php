@@ -148,6 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/mutout', [Rowmutationout::class, 'datatable']);
         Route::post('/rwdata/mosave', [Rowmutationout::class, 'save']);
         Route::post('/rwdata/moupdate', [Rowmutationout::class, 'update']);
+        Route::post('/rwdata/moapproved', [Rowmutationout::class, 'approved']);
         /* Mutation In */
         Route::get('/mutin', App\Livewire\Trmutationin\Index::class)->name('mutin.index');
         Route::get('/mutin/add', App\Livewire\Trmutationin\Formadd::class)->name('mutin.add');
@@ -157,6 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/mutin', [Rowmutationin::class, 'datatable']);
         Route::post('/rwdata/misave', [Rowmutationin::class, 'save']);
         Route::post('/rwdata/miupdate', [Rowmutationin::class, 'update']);
+        Route::post('/rwdata/miapproved', [Rowmutationin::class, 'approved']);
     });
     Route::group(['prefix' => 'sales'], function () {
         /* Delivery */
@@ -168,7 +170,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/delivery', [Rowdelivery::class, 'datatable']);
         Route::post('/rwdata/dosave', [Rowdelivery::class, 'save']);
         Route::post('/rwdata/doupdate', [Rowdelivery::class, 'update']);
-
+        Route::post('/rwdata/doapproved', [Rowdelivery::class, 'approved']);
         /* Delivery */
         Route::get('/return', App\Livewire\Trreturnord\Index::class)->name('return.index');
         Route::get('/return/add', App\Livewire\Trreturnord\Formadd::class)->name('return.add');
@@ -178,7 +180,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/return', [Rowreturn::class, 'datatable']);
         Route::post('/rwdata/rnsave', [Rowreturn::class, 'save']);
         Route::post('/rwdata/rnupdate', [Rowreturn::class, 'update']);
-
+        Route::post('/rwdata/rnapproved', [Rowreturn::class, 'approved']);
          /* sales Retail */
         Route::get('/retail', App\Livewire\Trsalesretail\Index::class)->name('retail.index');
         Route::get('/retail/add', App\Livewire\Trsalesretail\Formadd::class)->name('retail.add');

@@ -250,9 +250,10 @@ class Rowpurchaseorder extends Controller
         $rowhdr = array(
             'cstatus'   => 'C',
             'capp_date' => date('Y-m-d'),
+            'cterminal' => request()->ip(),
             'capprove'  => $request->post('approved'),
         );
         $datahdr->update($rowhdr);
-        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..',), 200);
+        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..'), 200);
     }
 }

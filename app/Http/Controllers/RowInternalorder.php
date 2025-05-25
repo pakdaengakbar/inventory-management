@@ -202,6 +202,6 @@ class RowInternalorder extends Controller
             'capprove'  => $request->post('approved'),
         );
         $datahdr->update($rowhdr);
-        return response()->json(array('success' => true, 'status' => 'Close'), 200);
+        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..'), 200);
     }
 }

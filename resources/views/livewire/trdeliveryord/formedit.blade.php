@@ -10,7 +10,6 @@
 {!! $pageBreadcrumb !!}
 <div class="row">
     <div class="col-12">
-        {!! MyHelper::setAlert() !!}
         <div class="card">
             <div class="card-header">
                 <div class="float-start d-flex justify-content-center">
@@ -25,6 +24,8 @@
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
+                        {!! MyHelper::setAlert() !!}
+                        {!! MyHelper::setSpinner() !!}
                         <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3 d-none">

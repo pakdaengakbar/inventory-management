@@ -10,21 +10,24 @@
 {!! $pageBreadcrumb !!}
 <div class="row">
     <div class="col-12">
-        {!! MyHelper::setAlert() !!}
         <div class="card">
             <div class="card-header">
                 <div class="float-start d-flex justify-content-center">
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/inventory/mutin/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" title='print' onclick="printData('/inventory/mutin/print/');">
                         <i class="mdi mdi-printer-outline"></i> Print</a>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/miapproved', false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
+                        {!! MyHelper::setAlert() !!}
+                        {!! MyHelper::setSpinner() !!}
                         <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3 d-none">
@@ -83,7 +86,7 @@
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus"  id="cstatus"   value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -216,6 +219,8 @@
                     <button type="button" onclick='update_data("/inventory/rwdata/miupdate", "/inventory/mutin");' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
+                     <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/inventory/rwdata/miapproved', false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/mutin" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
@@ -314,5 +319,16 @@ function calculateMOT() {
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
 }
 
+function printData(url) {
+    // Get the id value from the hidden input in the form
+    var idInput = document.querySelector('input[name="id"]');
+    if (!idInput) {
+        alert('ID not found');
+        return;
+    }
+    var id = idInput.value;
+    var cLink = url + id;
+    window.open(cLink, "_blank", "menubar=no,location=no,status=yes,toolbar=no,directoris=no,scrollbars=yes,resizable=yes,top=100,left=500,width=1000,height=750");
+}
 </script>
 @endsection

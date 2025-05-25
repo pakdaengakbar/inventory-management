@@ -23,6 +23,7 @@
                 <div wire:ignore>
                 <div class="card-body">
                     {!! MyHelper::setAlert() !!}
+                    {!! MyHelper::setSpinner() !!}
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row mb-3 d-none">

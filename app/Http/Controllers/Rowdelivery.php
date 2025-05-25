@@ -193,7 +193,19 @@ class Rowdelivery extends Controller
             'cupdate_by' => $uauth['id'],
         );
         doheader::where('id', $request->post('id'))->update($update);
-
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
+    }
+
+    public function approved(Request $request)
+    {
+        $uauth = v_::getUser_Auth();
+        $datahdr = doheader::find($request->post('id'));
+        $rowhdr = array(
+            'cstatus'   => 'C',
+            'cterminal' => request()->ip(),
+            'cupdate_by'=> $uauth['id'],
+        );
+        $datahdr->update($rowhdr);
+        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..'), 200);
     }
 }

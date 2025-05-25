@@ -200,7 +200,18 @@ class Rowmutationin extends Controller
             'cupdate_by' => $uauth['id'],
         );
         moheader::where('id', $request->post('id'))->update($update);
-
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
+    }
+
+    public function approved(Request $request)
+    {
+        $uauth = v_::getUser_Auth();
+        $datahdr = moheader::find($request->post('id'));
+        $rowhdr = array(
+            'cstatus'   => 'C',
+            'cupdate_by' => $uauth['id'],
+        );
+        $datahdr->update($rowhdr);
+        return response()->json(array('success' => true, 'status' => 'Close', 'message' => 'Approved Success..'), 200);
     }
 }

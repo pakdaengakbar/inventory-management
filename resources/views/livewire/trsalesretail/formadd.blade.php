@@ -23,6 +23,7 @@
                 <div wire:ignore>
                 <div class="card-body">
                     {!! MyHelper::setAlert() !!}
+                    {!! MyHelper::setSpinner() !!}
                     <div class="row mb-3 row-cols-lg-auto g-2 align-items-center">
                         <label for="citem" class="form-label">Item Kode</label>
                         <div class="col-sm-3">
