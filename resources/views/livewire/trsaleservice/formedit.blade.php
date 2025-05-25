@@ -28,7 +28,7 @@
                             <div class="row mb-3 d-none">
                                 <label for="ntotal" class="col-sm-3 col-form-label text-end">ID Trans </label>
                                 <div class="col-sm-2">
-                                    <input readonly type="text" class="form-control text-center bg-light" name="id" id="id" value="{{ $dtheader['id'] }}">
+                                    <input readonly type="text" class="form-control text-center bg-light" name="id"id="id" id="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                             <div class="row mb-3">

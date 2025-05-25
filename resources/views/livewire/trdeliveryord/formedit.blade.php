@@ -30,7 +30,7 @@
                             <div class="row mb-3 d-none">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">ID </label>
                                 <div class="col-sm-2">
-                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
+                                    <input readonly class="form-control text-center bg-light" name="id" id="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                             <div class="row mb-3">

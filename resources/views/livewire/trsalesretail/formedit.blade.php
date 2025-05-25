@@ -26,7 +26,7 @@
                     <div class="row mb-3 d-none">
                         <label for="ntotal" class="col-sm-1 col-form-label text-end">ID</label>
                         <div class="col-sm-1">
-                            <input readonly type="text" class="form-control text-center bg-light" name="id"  value="{{ $dtheader['id'] }}">
+                            <input readonly type="text" class="form-control text-center bg-light" name="id"  id="id" value="{{ $dtheader['id'] }}">
                         </div>
                     </div>
                     @if ($dtheader['cstatus']=="O")

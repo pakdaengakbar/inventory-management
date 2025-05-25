@@ -19,7 +19,7 @@ class tr_porderhdr extends Model
         'csupplier_name',
         'dtrans_date',
         'cppprove',
-        'cppp_date',
+        'capp_date',
         'cpay_type',
         'ccashier',
         'ntotal',

@@ -10,7 +10,7 @@ use App\Models\tr_qorderdtl as qodetail;
 
 class Formedit extends Component
 {
-    public $page, $region, $suppliers, $dtheader, $dtdetail;
+    public $page, $region, $suppliers, $employee, $dtheader, $dtdetail;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
@@ -27,6 +27,7 @@ class Formedit extends Component
 
         $this->region     = v_::getRegion();
         $this->suppliers  = v_::getSupplier();
+        $this->employee   = v_::getEmployee('Actived');
         $this->pageTitle  = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'inventory/', 'quorder');

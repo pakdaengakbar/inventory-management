@@ -114,6 +114,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/intorder', [RowInternalorder::class, 'datatable']);
         Route::post('/rwdata/iosave', [RowInternalorder::class, 'save']);
         Route::post('/rwdata/ioupdate', [RowInternalorder::class, 'update']);
+        Route::post('/rwdata/ioapproved', [RowInternalorder::class, 'approved']);
+
         /* Quotation Order */
         Route::get('/quorder', App\Livewire\Trquotationord\Index::class)->name('quorder.index');
         Route::get('/quorder/add', App\Livewire\Trquotationord\Formadd::class)->name('quorder.add');
@@ -123,15 +125,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/quorder', [Rowquotationorder::class, 'datatable']);
         Route::post('/rwdata/qosave', [Rowquotationorder::class, 'save']);
         Route::post('/rwdata/qoupdate', [Rowquotationorder::class, 'update']);
+        Route::post('/rwdata/qoapproved', [Rowquotationorder::class, 'approved']);
         /* Purchase Order */
         Route::get('/puorder', App\Livewire\Trpurchaseord\Index::class)->name('puorder.index');
         Route::get('/puorder/add', App\Livewire\Trpurchaseord\Formadd::class)->name('puorder.add');
         Route::get('/puorder/edit/{id}', App\Livewire\Trpurchaseord\Formedit::class)->name('puorder.edit');
         Route::get('/puorder/print/{id}', App\Livewire\Trpurchaseord\Printdata::class)->name('puorder.print');
+
         /* Purchase Order Ajax */
         Route::post('/rwdata/puorder', [Rowpurchaseorder::class, 'datatable']);
         Route::post('/rwdata/posave', [Rowpurchaseorder::class, 'save']);
         Route::post('/rwdata/poupdate', [Rowpurchaseorder::class, 'update']);
+        Route::post('/rwdata/poapproved', [Rowpurchaseorder::class, 'approved']);
 
         Route::post('/rwdata/datatrans', [Rowpurchaseorder::class, 'getDatasearch']);
         /* Mutation Out */

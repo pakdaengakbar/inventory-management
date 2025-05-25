@@ -10,28 +10,31 @@
 {!! $pageBreadcrumb !!}
 <div class="row">
     <div class="col-12">
-        {!! MyHelper::setAlert() !!}
         <div class="card">
             <div class="card-header">
                 <div class="float-start d-flex justify-content-center">
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/inventory/puorder/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="/inventory/puorder/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-primary" title='print'>
                         <i class="mdi mdi-printer-outline"></i> Print</a>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <div wire:ignore>
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
+                    {!! MyHelper::setAlert() !!}
+                    {!! MyHelper::setSpinner() !!}
                     <div class="row">
                         <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3 d-none">
                                 <label for="dtrans_date" class="col-sm-2 col-form-label text-end">ID </label>
                                 <div class="col-sm-2">
-                                    <input readonly class="form-control text-center bg-light" name="id" value="{{ $dtheader['id'] }}">
+                                    <input readonly class="form-control text-center bg-light" name="id" id="id" value="{{ $dtheader['id'] }}">
                                 </div>
                             </div>
                             <fieldset class="row mb-3 justify-content-center">
@@ -91,7 +94,7 @@
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus" id="cstatus"   value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -175,6 +178,17 @@
                                     <textarea class="form-control" rows="3" name="cnotes" onkeyup="this.value=toUCword(this.value);" placeholder="Enter notes">{{ $dtheader['cnotes'] }}</textarea>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="ntotal" class="col-sm-2 col-form-label text-end">Approved </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" list="rowdata" name="capprove" id="capprove" onkeyup="this.value=toUCword(this.value);"  value="{{ $dtheader['capprove'] }}" placeholder="Type to search...">
+                                    <datalist id="rowdata">
+                                        @foreach ($employee as $e)
+                                            <option value="{{ ucwords(strtolower($e->cname)) }}">{{ ucwords(strtolower($e->cname)) }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-3 justify-content-end">
@@ -203,9 +217,11 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/inventory/rwdata/poupdate", "/inventory/puorder");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='updateCheck();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/inventory/puorder" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
@@ -298,5 +314,49 @@ document.querySelector('.input_fields_wrap').addEventListener('input', function(
 });
 // Initial calculation on page load
 window.addEventListener('DOMContentLoaded', calculateSubTotal);
+
+
+function updateCheck(){
+    if ( checkStatusOpen() == true){
+        update_data("/inventory/rwdata/poupdate", "/inventory/puorder");
+    }else{
+        viewAlert('Error, Status Already Close / Progress');
+    }
+    pageScrollUp();
+}
+
+function updateStatus(){
+    if ( checkStatusOpen() == true){
+        const approved  = $("#capprove").val();
+        const progress  = document.getElementById('progress');
+        if(approved.length==0){
+            $("#capprove").focus();
+            viewAlert('error, Approved Empty..!');
+            return false;
+        }
+        var id	= $("#id").val();
+        $.ajax({
+            type	: 'POST',
+            url		: "/inventory/rwdata/poapproved",
+            data	: "id="+id+"&approved="+approved,
+            dataType: "json",
+            beforeSend: function() {
+                progress.removeAttribute('hidden');
+            },
+            success	: function(data){
+                    bootstrap.Alert.getOrCreateInstance(progress).close();
+                    $('#cstatus').val(data.status);
+            },
+            error: function(jqXHR, exception){
+                console.log('error load model');
+                console.log(jqXHR.status);
+            }
+        });
+    }else{
+        viewAlert('Error, Status Already Close / Progress');
+    }
+    pageScrollUp();
+}
+
 </script>
 @endsection

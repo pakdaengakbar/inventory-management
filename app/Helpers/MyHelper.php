@@ -17,6 +17,14 @@ class MyHelper {
         }
     }
 
+    public static function setSpinner(){
+        return '<div class="d-flex justify-content-center">
+                    <div class="spinner-border m-2" role="status" id="progress" hidden>
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>';
+    }
+
     public static function setAlert(){
         return '<div wire:ignore id="mAlert" class="alert alert-primary alert-dismissible fade d-none" role="alert">
                     <span id="mAlertMessage"></span>

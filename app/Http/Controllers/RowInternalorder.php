@@ -190,4 +190,17 @@ class RowInternalorder extends Controller
 
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }
+
+    public function approved(Request $request)
+    {
+        $datahdr = ioheader::find($request->post('id'));
+
+        $rowhdr = array(
+            'cstatus'   => 'C',
+            'capp_date' => date('Y-m-d'),
+            'capprove'  => $request->post('approved'),
+        );
+        $datahdr->update($rowhdr);
+        return response()->json(array('success' => true, 'status' => 'Close'), 200);
+    }
 }

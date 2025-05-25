@@ -6,7 +6,7 @@
 @endsection
 <div>
     <div class="container-fluid">
-        <{!! $pageBreadcrumb !!}
+        {!! $pageBreadcrumb !!}
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

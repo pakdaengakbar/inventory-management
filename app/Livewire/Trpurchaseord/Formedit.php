@@ -12,7 +12,7 @@ use App\Models\tr_orderdtl as odetail;
 class Formedit extends Component
 {
     public $page, $dtheader, $dtdetail;
-    public $path, $suppliers;
+    public $path, $suppliers, $employee;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
 
     public function __construct() {
@@ -26,11 +26,12 @@ class Formedit extends Component
     public function mount($id)
     {
         // Get Data
-        $this->dtheader = oheader::find($id);
-        $this->dtdetail = odetail::where('nheader_id', $id)->get();
+        $this->dtheader  = oheader::find($id);
+        $this->dtdetail  = odetail::where('nheader_id', $id)->get();
          // get Master
-        $this->path    = p_::URL_. $this->page['p'];
+        $this->path      = p_::URL_. $this->page['p'];
         $this->suppliers = s_::getSupplier();
+        $this->employee  = s_::getEmployee('Actived');
         $this->pageTitle = $t  = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
