@@ -42,6 +42,6 @@ class Index extends Component
         //destroy
         product::destroy($id);
         $this->dispatch('delDataTable');
-        session()->flash('message', 'Delete Successfuly.');
+        session()->flash('message', 'Delete Data Successfuly..');
     }
 }

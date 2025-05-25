@@ -92,7 +92,7 @@ class Index extends Component
     public function delExp($id)
     {
         expedition::find($id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Expedition Delete successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 
 }

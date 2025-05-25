@@ -201,7 +201,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='update_data("/sales/rwdata/rnupdate", "/sales/return");' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='update_data("/sales/rwdata/rnupdate", "/sales/return");' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
                     <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>

@@ -43,6 +43,6 @@ class Index extends Component
         //destroy
         soheader::destroy($id);
         sodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 }

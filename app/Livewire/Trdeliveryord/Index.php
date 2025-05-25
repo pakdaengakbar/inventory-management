@@ -44,6 +44,6 @@ class Index extends Component
         //destroy
         doheader::destroy($id);
         dodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 }

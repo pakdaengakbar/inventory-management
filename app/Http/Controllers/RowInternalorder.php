@@ -118,9 +118,10 @@ class RowInternalorder extends Controller
             'dtrans_date' => $request->post('dtrans_date'),
             'csupplier_id'=> $request->post('csupplier_id'),
             'csupplier_name' => $supplier->cname,
-            'cnotes' => $request->post('cnotes'),
-            'ntotal' => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'cupdate_by'=> $uauth['id'],
+            'cnotes'      => $request->post('cnotes'),
+            'capprove'    => $request->post('capprove'),
+            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'cupdate_by'  => $uauth['id'],
         );
         $datahdr->update($rowhdr);
 

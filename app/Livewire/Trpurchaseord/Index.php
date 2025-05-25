@@ -44,6 +44,6 @@ class Index extends Component
         //destroy
         oheader::destroy($id);
         odetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 }

@@ -43,6 +43,6 @@ class Index extends Component
         //destroy
         qoheader::destroy($id);
         qodetail::where('nheader_id', $id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data '.$this->page['description'].' successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 }

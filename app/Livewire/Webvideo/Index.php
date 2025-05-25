@@ -88,7 +88,7 @@ class Index extends Component
     public function delData($id)
     {
         video::find($id)->delete();
-        $this->dispatch('delDataTable', ['message' => 'Data Delete successfully.']);
+        $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 
 }

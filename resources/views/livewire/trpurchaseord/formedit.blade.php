@@ -217,7 +217,7 @@
                     <!-- end footer -->
                 </div>
                 <div class="card-footer float-end">
-                    <button type="button" onclick='updateCheck();' id='btn-save2' class="btn btn-primary btn-sm waves-effect waves-light">
+                    <button type="button" onclick='updateCheck();' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
                     <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus();"  >

@@ -186,7 +186,7 @@
                 </div>
                 <div class="card-footer float-end text-end">
                     @if ($dtheader['cstatus']=="O")
-                    <button type="button" onclick='save_check();' id='btn-save2s' class="btn btn-primary waves-effect waves-light btn-sm">
+                    <button type="button" onclick='save_check();' id='btn-update2' class="btn btn-primary waves-effect waves-light btn-sm">
                         <i class="mdi mdi-content-save"></i> Save & Print
                     </button>
                     @endif
