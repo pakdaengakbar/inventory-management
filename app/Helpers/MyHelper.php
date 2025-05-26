@@ -57,7 +57,7 @@ class MyHelper {
 
      public static function _getstatus($status)
     {
-        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected'];
+        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected', 'D' => 'Delivery'];
         return $statusarr[$status];
     }
 

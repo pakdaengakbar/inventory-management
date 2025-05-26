@@ -16,8 +16,10 @@
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/sales/delivery/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" title='print' onclick="printData('/sales/delivery/print/');">
                         <i class="mdi mdi-printer-outline"></i> Print</a>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/sales/rwdata/doapproved',false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/sales/delivery" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
@@ -67,7 +69,7 @@
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus" id="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -205,10 +207,11 @@
                     <button type="button" onclick='update_data("/sales/rwdata/doupdate", "/sales/delivery");' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
+                     <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/sales/rwdata/doapproved', false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/sales/delivery" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -300,6 +303,18 @@ function calculateMOT() {
     // Format number as currency (you can customize this)
     document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
     document.getElementById('nshipp_cost').value = addRupiah(shipping);
+}
+
+function printData(url) {
+    // Get the id value from the hidden input in the form
+    var idInput = document.querySelector('input[name="id"]');
+    if (!idInput) {
+        alert('ID not found');
+        return;
+    }
+    var id = idInput.value;
+    var cLink = url + id;
+    window.open(cLink, "_blank", "menubar=no,location=no,status=yes,toolbar=no,directoris=no,scrollbars=yes,resizable=yes,top=100,left=500,width=1000,height=750");
 }
 
 </script>

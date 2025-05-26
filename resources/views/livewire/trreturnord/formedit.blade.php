@@ -10,21 +10,24 @@
 {!! $pageBreadcrumb !!}
 <div class="row">
     <div class="col-12">
-        {!! MyHelper::setAlert() !!}
         <div class="card">
             <div class="card-header">
                 <div class="float-start d-flex justify-content-center">
                     <h5 class="card-title mb-0 caption fw-semibold fs-18">{{ $pageTitle }}</h5>
                 </div>
                 <div class="float-end">
-                    <a href="/sales/return/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-success" title='print'>
+                    <a href="/sales/return/print/{{ $dtheader['id'] }}" class="btn btn-sm btn-primary" title='print'>
                         <i class="mdi mdi-printer-outline"></i> Print</a>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/sales/rwdata/rnapproved', false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div><!-- end card header -->
             <form class="form-horizontal"  method="POST" id="update-form" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
+                        {!! MyHelper::setAlert() !!}
+                        {!! MyHelper::setSpinner() !!}
                         <!-- start header -->
                         <div class="col-lg-6">
                             <div class="row mb-3 d-none">
@@ -66,7 +69,7 @@
                                 </div>
                                 <label for="cstatus" class="col-sm-2 col-form-label text-center">Status</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
+                                    <input type="text" class="form-control text-center" name="cstatus" id="cstatus" value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -204,6 +207,8 @@
                     <button type="button" onclick='update_data("/sales/rwdata/rnupdate", "/sales/return");' id='btn-update2' class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-content-save"></i> Update
                     </button>
+                    <a href="javascript:;" class="btn btn-success btn-sm" title="approved" onclick="updateStatus('/sales/rwdata/rnapproved', false);"  >
+                        <i class="mdi mdi mdi-check-all"></i> Complete</a>
                     <a href="/sales/return" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </form>
@@ -242,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                viewAlert(data.error);
                 console.error(data.error);
                 return;
             }

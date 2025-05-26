@@ -185,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                viewAlert(data.error);
                 console.error(data.error);
                 return;
             }

@@ -218,7 +218,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                viewAlert(data.error);
                 console.error(data.error);
                 return;
             }
@@ -272,6 +271,8 @@ function save_check(){
     const sender = document.querySelector("#csender");
     if (sender.value == null || sender.value=="") {
         viewAlert('Sender Name Empty..!');
+         $("#csender").focus();
+        pageScrollUp();
         return;
     }
     save_data(url,href)

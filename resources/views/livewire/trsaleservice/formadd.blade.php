@@ -68,7 +68,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" hidden>
                                     <input type="text" class="form-control text-center bg-light" id="ncustomer_id" name="ncustomer_id" placeholder="Customer" readonly>
                                 </div>
                             </div>
@@ -207,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                viewAlert(data.error);
                 console.error(data.error);
                 return;
             }

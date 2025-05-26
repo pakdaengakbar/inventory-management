@@ -190,6 +190,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/retail', [Rowsalesretail::class, 'datatable']);
         Route::post('/rwdata/rtsave', [Rowsalesretail::class, 'save']);
         Route::post('/rwdata/rtupdate', [Rowsalesretail::class, 'update']);
+        Route::post('/rwdata/searchsales', [Rowsalesretail::class, 'getSearchsales']);
 
          /* sales service */
         Route::get('/service', App\Livewire\Trsaleservice\Index::class)->name('service.index');

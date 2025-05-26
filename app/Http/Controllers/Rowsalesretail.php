@@ -187,4 +187,24 @@ class Rowsalesretail extends Controller
         }
         return response()->json(array('success' => true, 'last_insert_id' => $request->post('cno_inorder')), 200);
     }
+
+    public function getSearchsales(Request $request)
+    {
+        $search= $request->ajax() ? $request->post('search') : null;
+        $sales = srheader::select('dtrans_date','cno_faktur','ntotal')->where('cflag', 'SO')->where('cstatus', 'C')->where('cno_faktur', 'like', '%'.$search.'%')->get();
+        $data  = $sales->map(function ($data, $index) {
+            return [
+                'no' => $index + 1,
+                'trans_date'=> $data->dtrans_date,
+                'no_faktur'=> '<a href="javascript:void(0)" onclick="getSalesretail(\''.$data->cno_faktur.'\')"
+                                title="Get No-sales">'.$data->cno_faktur.'</a>',
+                'total'=> number_format($data->ntotal),
+            ];
+        });
+
+        if ($data->isNotEmpty()) {
+            return response()->json(['data' => $data]);
+        }
+        return response()->json([]);
+    }
 }

@@ -66,26 +66,38 @@
                                     <input type="text" class="form-control text-center" name="cstatus"  value="{{ MyHelper::_getstatus('O') }}" placeholder="Status" readonly>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-3 g-2 align-items-center">
                                 <label for="cno_faktur" class="col-sm-3 col-form-label text-end">Sales Num.</label>
-                                <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_faktur" name="cno_faktur"  onkeyup="this.value=toUCase(this.value);" placeholder="Enter Sales Order">
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cno_faktur" name="cno_faktur" onkeydown="findSalesEvent(event)"
+                                                placeholder="Enter Sales Order" onkeyup="this.value=toUCase(this.value);" onchange='visibleButton();' >
+                                        <span class="input-group-text">
+                                            <a href="javascript:;" id="btn_search_customer" class="text-primary" onclick="findSalesretail()">
+                                                <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" id='btn_getItem'>
+                                    <button type="button" class="btn btn-primary btn-sm get_item"><i class="mdi mdi-plus"></i>Get Item</button>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="cshipment" class="col-sm-3 col-form-label text-end">Customer</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ncustomer_name" name="ncustomer_name" placeholder="Find Customer Name" readonly>
+                                        <input type="text" class="form-control" id="ccustomer_name" name="ccustomer_name" onkeydown="findCustomerEvent(event)"
+                                                           placeholder="Enter Customer" onkeyup="this.value=toUCword(this.value);">
                                         <span class="input-group-text">
-                                            <a href="javascript:;" id="btn_search_customer" class="text-primary">
-                                                <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
-                                            </a>
+                                        <a href="javascript:;" id="btn_search_customer" class="text-primary" onclick="findCustomerName()">
+                                            <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
+                                        </a>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="ncustomer_id" name="ncustomer_id"  placeholder="Cust. Id" >
+                                <div class="col-sm-2" hidden>
+                                    <input type="text" class="form-control text-center bg-light" id="ncustomer_id" name="ncustomer_id" placeholder="Customer" readonly>
                                 </div>
                             </div>
                         </div>
@@ -190,6 +202,9 @@
 </div>
 <!-- modal -->
 @include('livewire.trinternalord.prodsearch');
+@include('livewire.trsaleservice.custsearch');
+@include('livewire.trdeliveryord.datasearch');
+
 </div> <!-- container-fluid -->
 </div>
 
@@ -218,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                viewAlert(data.error);
                 console.error(data.error);
                 return;
             }
@@ -269,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
+    visibleButton();
 }); // end document ready mutout
 
 // Use event delegation for dynamically added .qty-add inputs
@@ -286,6 +301,15 @@ function save_check(){
         return;
     }
     save_data(url,href)
+}
+
+function visibleButton(){
+    const  faktur = document.querySelector("#cno_faktur");
+    if (faktur) {
+        document.getElementById("btn_getItem").style.display = "none";
+    } else {
+        document.getElementById("btn_getItem").style.display = "block";
+    }
 }
 </script>
 @endsection
