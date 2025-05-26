@@ -276,27 +276,6 @@ document.querySelector('.input_fields_wrap').addEventListener('input', function(
     }
 });
 
-function calculateMOT() {
-    let total = 0;
-    document.querySelectorAll('.qty-add').forEach(input => {
-        if (!input.disabled && input.offsetParent !== null) { // check if enabled and visible
-            const qty = parseFloat(input.value) || 0;
-            const price = parseFloat(input.dataset.price) || 0;
-            total += qty * price;
-        }
-    });
-    const stotal = document.getElementById('nsub_total');
-    if (stotal) {
-        stotal.value = addRupiah(total);
-    }
-
-    const subtotal = parseFloat(document.getElementById('nsub_total').value.replace(/,/g, '')) || 0;
-    const shipping = parseFloat(document.getElementById('nshipp_cost').value.replace(/,/g, '')) || 0;
-    // Format number as currency (you can customize this)
-    document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
-    document.getElementById('nshipp_cost').value = addRupiah(shipping);
-}
-
 function save_check(){
     const url = "/inventory/rwdata/mosave", href= "/inventory/mutout";
     const sender = document.querySelector("#csender");

@@ -229,9 +229,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
                     <td>
-                        <input type="text" class="form-control text-center form-control-sm"
+                        <input type="text" class="form-control text-center form-control-sm qty-add"
                             onkeydown="if(event.keyCode==13){event.preventDefault();return false;} if(!((event.keyCode>=48 && event.keyCode<=57) || (event.keyCode>=96 && event.keyCode<=105) || event.keyCode==8 || event.keyCode==37 || event.keyCode==39 || event.keyCode==46)){event.preventDefault();}"
-                            name="icode[${ctr}][qty]" value="1">
+                            name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}"  value="1">
                     </td>
                     <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
                     <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
@@ -271,13 +271,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 }); // end document ready mutout
 
-function calculateMOT() {
-    const subtotal = parseFloat(document.getElementById('nsub_total').value.replace(/,/g, '')) || 0;
-    const shipping = parseFloat(document.getElementById('nshipp_cost').value.replace(/,/g, '')) || 0;
-    // Format number as currency (you can customize this)
-    document.getElementById('ntotal').value = addRupiah(subtotal + shipping);
-    document.getElementById('nshipp_cost').value = addRupiah(shipping);
-}
+// Use event delegation for dynamically added .qty-add inputs
+document.querySelector('.input_fields_wrap').addEventListener('input', function(e) {
+    if (e.target && e.target.classList.contains('qty-add')) {
+        calculateMOT();
+    }
+});
 
 function save_check(){
     const url = "/sales/rwdata/dosave", href= "/sales/delivery";

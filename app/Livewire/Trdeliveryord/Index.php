@@ -8,7 +8,7 @@ use App\Helpers\MyService as s_;
 use App\Constants\Status as p_;
 
 use App\Models\tr_dorderhdr as doheader;
-use App\Models\tr_dorderhdr as dodetail;
+use App\Models\tr_dorderdtl as dodetail;
 
 class Index extends Component
 {

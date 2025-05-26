@@ -23,7 +23,7 @@
     @include('layouts.partials/vendor')
     <script src="{{ URL::asset('build/assets/custom.js') }}"></script>
     <script>
-        document.getElementById('daygreating').textContent = checkSpecificTime();
+        document.getElementById('daygreating').textContent = checkTimeOfDay();
     </script>
 </body>
 

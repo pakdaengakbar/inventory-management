@@ -272,8 +272,8 @@ function paymentEvent(event) {
 
 function save_check(){
     const url = "/sales/rwdata/rtsave", href= "/sales/retail";
-    const total    = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
-    const payment   = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
+    const total   = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
+    const payment = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
 
     if (payment.value == 0 || payment.value=="") {
         viewAlert('Error, Payment Empty..! ');

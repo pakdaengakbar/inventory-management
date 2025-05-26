@@ -33,7 +33,7 @@
 
     @yield('script-bottom')
     <script>
-        document.getElementById('daygreating').textContent = checkSpecificTime();
+        document.getElementById('daygreating').textContent = checkTimeOfDay();
     </script>
 </body>
 </html>
