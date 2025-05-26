@@ -71,7 +71,7 @@
                                 <div class="col-sm-5">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="cno_faktur" name="cno_faktur" onkeydown="findSalesEvent(event)"
-                                                placeholder="Enter Sales Order" onkeyup="this.value=toUCase(this.value);" onchange='visibleButton();' >
+                                                placeholder="Enter Sales Order" onkeyup="this.value=toUCase(this.value);">
                                         <span class="input-group-text">
                                             <a href="javascript:;" id="btn_search_customer" class="text-primary" onclick="findSalesretail()">
                                                 <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
@@ -79,7 +79,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-3" id='btn_getItem'>
+                                <div class="col-sm-3" id='btn_getItem' hide>
                                     <button type="button" class="btn btn-primary btn-sm get_item"><i class="mdi mdi-plus"></i>Get Item</button>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" hidden>
+                                <div class="col-sm-2 d-none">
                                     <input type="text" class="form-control text-center bg-light" id="ncustomer_id" name="ncustomer_id" placeholder="Customer" readonly>
                                 </div>
                             </div>
@@ -214,6 +214,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     const btn_additem = document.querySelector('.add_item');
+    const btn_getitem = document.querySelector('.get_item');
     const wrapper = document.querySelector('.input_fields_wrap');
     let ctr = 0, no = 0, total = 0;
 
@@ -283,8 +284,68 @@ document.addEventListener('DOMContentLoaded', function () {
         ctr--; no--;
         e.preventDefault(); $(this).closest('tr').remove();
     });
+
     visibleButton();
-}); // end document ready mutout
+    btn_getitem.addEventListener('click', function (e) {
+        e.preventDefault();
+        const nofaktur = document.querySelector("#cno_faktur").value;
+        if (!nofaktur) return;
+        ctr++; no++;
+        fetch("/sales/rwdata/getitemsales", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: "nofaktur=" + nofaktur
+        })
+        .then(response => response.json())
+        .then(item => {
+            // Remove all item rows if cno_faktur is blank or changed
+            const fakturInput = document.querySelector("#cno_faktur");
+            if (!fakturInput.value || fakturInput.value.trim() === "") {
+                wrapper.innerHTML = "";
+                total = 0;
+                nsub_total.value = addRupiah(total);
+                calculateMOT();
+                return;
+            }
+            if (item.error) {
+                console.error(item.error);
+                return;
+            }
+            // Clear previous rows before adding new ones
+            wrapper.innerHTML = "";
+            total = 0;
+            item.forEach(data => {
+            const row = `
+                <tr>
+                <td><input readonly type="text" class="form-control text-center bg-light form-control-sm" value="${no}"></td>
+                <td hidden><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][barcode]" value="${data.barcode}"></td>
+                <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_code]" value="${data.icode}"></td>
+                <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][item_name]" value="${data.iname}"></td>
+                <td>
+                <input type="text" class="form-control text-center form-control-sm qty-add"
+                    onkeydown="if(event.keyCode==13){event.preventDefault();return false;} if(!((event.keyCode>=48 && event.keyCode<=57) || (event.keyCode>=96 && event.keyCode<=105) || event.keyCode==8 || event.keyCode==37 || event.keyCode==39 || event.keyCode==46)){event.preventDefault();}"
+                    name="icode[${ctr}][qty]" data-price="${data.rprice.replace(/,/g, '')}"  value="1">
+                </td>
+                <td><input readonly type="text" class="form-control bg-light form-control-sm" name="icode[${ctr}][uom]" value="${data.runit}"></td>
+                <td><input readonly type="text" class="form-control text-end bg-light form-control-sm" name="icode[${ctr}][price]" value="${data.rprice}"></td>
+                <td class="text-center"><button class="btn btn-sm btn-icon btn-warning remove_field"><i class="mdi mdi-delete-empty"></i></button></td>
+            </tr>`;
+            wrapper.insertAdjacentHTML('beforeend', row);
+            document.querySelector("#barcode").value = "";
+            document.querySelector("#barcode").focus();
+            ctr++; no++;
+            const price = parseFloat(data.rprice.replace(/,/g, '')) || 0;
+            total += price;
+            nsub_total.value = addRupiah(total);
+            calculateMOT();
+            });
+        });
+    });
+});
+
 
 // Use event delegation for dynamically added .qty-add inputs
 document.querySelector('.input_fields_wrap').addEventListener('input', function(e) {
@@ -304,12 +365,13 @@ function save_check(){
 }
 
 function visibleButton(){
-    const  faktur = document.querySelector("#cno_faktur");
-    if (faktur) {
+    const faktur = document.querySelector("#cno_faktur");
+    if (!faktur.value || faktur.value.trim() === "" || faktur.value.length < 10) {
         document.getElementById("btn_getItem").style.display = "none";
     } else {
         document.getElementById("btn_getItem").style.display = "block";
     }
 }
+
 </script>
 @endsection

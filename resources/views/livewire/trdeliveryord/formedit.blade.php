@@ -75,22 +75,16 @@
                             <div class="row mb-3">
                                 <label for="cno_faktur" class="col-sm-3 col-form-label text-end">Sales Num.</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="cno_faktur" name="cno_faktur"  value="{{ $dtheader['cno_faktur'] }}" onkeyup="this.value=toUCase(this.value);" placeholder="Enter Sales Order">
+                                    <input type="text" readonly class="form-control bg-light" id="cno_faktur" name="cno_faktur"  value="{{ $dtheader['cno_faktur'] }}" onkeyup="this.value=toUCase(this.value);" placeholder="Enter Sales Order">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="cshipment" class="col-sm-3 col-form-label text-end">Customer</label>
                                 <div class="col-sm-5">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="ncustomer_name" name="ncustomer_name" value="{{ $dtheader['ncustomer_id'] }}" placeholder="Find Customer Name" readonly>
-                                        <span class="input-group-text">
-                                            <a href="javascript:;" id="btn_search_customer" class="text-primary">
-                                                <i class="mdi mdi-magnify" style="font-size: 1rem;"></i>
-                                            </a>
-                                        </span>
-                                    </div>
+                                     <input type="text" readonly class="form-control bg-light" id="ncustomer_name" name="ncustomer_name" value="{{ $dtheader['customer']['cname'] }}" placeholder="Find Customer Name" readonly>
+
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2 d-none">
                                     <input type="text" class="form-control" id="ncustomer_id" name="ncustomer_id"  value="{{ $dtheader['ncustomer_id'] }}" placeholder="Cust. Id" >
                                 </div>
                             </div>

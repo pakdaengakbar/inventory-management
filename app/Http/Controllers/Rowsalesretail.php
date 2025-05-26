@@ -57,7 +57,6 @@ class Rowsalesretail extends Controller
         $uauth = v_::getUser_Auth();
         $code  = v_::MaxNumber('tr_saleshdr', $uauth['region_id'], $uauth['companie_id']);
         $datahdr = array(
-            'cstatus'     => 'C',
             'cflag'       => 'SO',
             'cmonth'      => $month,
             'cpay_type'   => 2,
@@ -66,18 +65,26 @@ class Rowsalesretail extends Controller
             'ncustomer_id'=> '999999999',
             'ccustomer_name'=> 'Customer',
             'cnotes'      => 'Sales Retail',
+            'nprint'      => 1,
             'nsub_total'  => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
-            'nppn'        => $nppn  =  $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
-            'ntot_ppn'    => $totppn=  $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
+            'nppn'        => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'    => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
             'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
             'npayment'    => $request->post('npayment') ? str_replace(",","",$request->post('npayment')) : 0,
-            'nremaining'   => abs($request->post('nremaining') ? str_replace(",","",$request->post('nremaining')) : 0),
+            'nremaining'  => abs($request->post('nremaining') ? str_replace(",","",$request->post('nremaining')) : 0),
             'ccashier'    => $uauth['name'],
             'ccreate_by'  => $uauth['id'],
             'nnum_log'    => $code['maxnum'],
             'nregion_id'  => $region_id = $uauth['region_id'],
             'ncompanie_id'=> $uauth['companie_id'],
         );
+        // check if status is pending or complete
+        if ($request->post('status') == 'P') {
+            $datahdr['cstatus'] = 'P';
+        }else {
+            $datahdr['cstatus'] = 'C';
+        }
+        // insert header
         srheader::create($datahdr);
         $headerId = srheader::latest()->first();
         // insert detail
@@ -116,21 +123,16 @@ class Rowsalesretail extends Controller
         $uauth = v_::getUser_Auth();
         $datahdr = srheader::find($request->post('id'));
         $rowhdr = array(
-            'dtrans_date' => $request->post('dtrans_date'),
-            'cexpedition' => $request->post('cexpedition'),
-            'cshipment'   => $request->post('cshipment'),
-            'nsrc_region' => $request->post('nsrc_region'),
-            'ndst_region' => $request->post('ndst_region'),
-            'cnotes'      => $request->post('cnotes'),
-            'csender'     => $request->post('csender'),
-            'crecipient'  => $request->post('crecipient'),
-            'nsub_total'  => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
-            'nshipp_cost' => $shipp_cost = $request->post('nshipp_cost') ? str_replace(",","",$request->post('nshipp_cost')) : 0,
-            'ntotal'      => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
-            'cupdate_by'=> $uauth['id'],
+            'nsub_total' => $request->post('nsub_total') ? str_replace(",","",$request->post('nsub_total')) : 0,
+            'nppn'       => $request->post('nppn') ? str_replace(",","",$request->post('nppn')) : 0,
+            'ntot_ppn'   => $request->post('ntot_ppn') ? str_replace(",","",$request->post('ntot_ppn')) : 0,
+            'ntotal'     => $request->post('ntotal') ? str_replace(",","",$request->post('ntotal')) : 0,
+            'npayment'   => $request->post('npayment') ? str_replace(",","",$request->post('npayment')) : 0,
+            'nremaining' => abs($request->post('nremaining') ? str_replace(",","",$request->post('nremaining')) : 0),
+            'nprint'     => $datahdr->nprint + 1,
+            'cupdate_by' => $uauth['id'],
         );
         $datahdr->update($rowhdr);
-
         //update detail
         $datadtl = array();
         if ($request->post('icode')) {
@@ -162,9 +164,9 @@ class Rowsalesretail extends Controller
                         $check2dtl->update($row2dtl);
                     } else {
                         $datadtl[] = array(
-                            'nheader_id'  => $request->post('id'),
-                            'dtrans_date' => $request->post('dtrans_date'),
-                            'cno_delivery'=> $request->post('cno_delivery'),
+                            'nheader_id'  => $datahdr->id,
+                            'dtrans_date' => $datahdr->dtrans_date,
+                            'cno_faktur'  => $datahdr->cno_faktur,
                             'nbarcode'    => $row['barcode'],
                             'citem_code'  => $row['item_code'],
                             'citem_name'  => $row['item_name'],
@@ -191,19 +193,42 @@ class Rowsalesretail extends Controller
     public function getSearchsales(Request $request)
     {
         $search= $request->ajax() ? $request->post('search') : null;
-        $sales = srheader::select('dtrans_date','cno_faktur','ntotal')->where('cflag', 'SO')->where('cstatus', 'C')->where('cno_faktur', 'like', '%'.$search.'%')->get();
+        $sales = srheader::select('dtrans_date','cno_faktur','ntotal','ncustomer_id','ccustomer_name')->where('cflag', 'SV')->where('cstatus', 'C')->where('cno_faktur', 'like', '%'.$search.'%')->get();
         $data  = $sales->map(function ($data, $index) {
             return [
                 'no' => $index + 1,
                 'trans_date'=> $data->dtrans_date,
-                'no_faktur'=> '<a href="javascript:void(0)" onclick="getSalesretail(\''.$data->cno_faktur.'\')"
+                'no_faktur'=> '<a href="javascript:void(0)" onclick="getSalesretail(\''.$data->cno_faktur.'\',\''.$data->ncustomer_id.'\',\''.$data->ccustomer_name.'\')"
                                 title="Get No-sales">'.$data->cno_faktur.'</a>',
                 'total'=> number_format($data->ntotal),
+                'customer'=> '<a href="javascript:void(0)" class="text-danger" onclick="getSalesretail(\''.$data->cno_faktur.'\',\''.$data->ncustomer_id.'\',\''.$data->ccustomer_name.'\')"
+                                title="Get No-sales">'.$data->ccustomer_name.'</a>',
             ];
         });
 
         if ($data->isNotEmpty()) {
             return response()->json(['data' => $data]);
+        }
+        return response()->json([]);
+    }
+
+    public function getItemsales(Request $request)
+    {
+        $nofaktur = $request->post('nofaktur');
+        $sales = isset($nofaktur) ? srdetail::select('nbarcode','citem_code','citem_name','cuom','nqty','nprice')
+                           ->where('cno_faktur', $nofaktur)->get() : null;
+        if ($sales && $sales->isNotEmpty()) {
+            $item = $sales->map(function ($data) {
+                return [
+                    'barcode' => $data->nbarcode,
+                    'icode'   => $data->citem_code,
+                    'iname'   => $data->citem_name,
+                    'runit'   => $data->cuom,
+                    'qty'     => $data->nqty,
+                    'rprice'  => number_format($data->nprice),
+                ];
+            });
+            return response()->json($item);
         }
         return response()->json([]);
     }

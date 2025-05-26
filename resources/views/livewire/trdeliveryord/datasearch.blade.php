@@ -10,6 +10,7 @@
                     <thead>
                         <tr>
                             <th scope="col" class="col-1">Date</th>
+                            <th scope="col">Customer</th>
                             <th scope="col" class="col-1">Code</th>
                             <th>Total</th>
                         </tr>
