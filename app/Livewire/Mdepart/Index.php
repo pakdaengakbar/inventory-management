@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Mdepart;
+namespace App\Livewire\mdepart;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
@@ -8,7 +8,7 @@ use App\Helpers\MyHelper as h_;
 use App\Constants\Status as s_;
 use App\Helpers\MyService as v_;
 
-use App\Models\Mdepart as departs;
+use App\Models\mdepart as departs;
 use App\Models\Mposition as positions;
 use Livewire\WithPagination;
 

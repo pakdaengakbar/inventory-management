@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mregion extends Model
+class mregion extends Model
 {
     //protected $table = 'mcompanies';
 	protected $fillable   =

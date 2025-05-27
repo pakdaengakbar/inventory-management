@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-use App\Models\Mregion as Region;
+use App\Models\mregion as Region;
 use App\Models\mexpedition as Expedition;
 
 class tr_mutationhdr extends Model

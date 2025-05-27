@@ -9,7 +9,7 @@ use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as s_;
 
-use App\Models\Mregion as region;
+use App\Models\mregion as region;
 
 class Formadd extends Component
 {

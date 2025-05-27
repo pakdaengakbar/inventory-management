@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Mcompanie;
-use App\Models\Mregion;
-use App\Models\Mdepart;
+use App\Models\mregion;
+use App\Models\mdepart;
 use App\Models\Mposition;
 use App\Models\muom as uom;
 use App\Models\indcities as cities;
@@ -17,8 +17,8 @@ use App\Models\msupplier as supplier;
 use App\Models\mcustomer as customer;
 use App\Models\mexpedition as expedition;
 use App\Models\memployee as employee;
-use App\Models\Mlog_user as userLog;
-use App\Models\Mlog_activity as activitylog;
+use App\Models\mlog_user as userLog;
+use App\Models\mlog_activity as activitylog;
 
 class MyService {
     /* Log Query */
@@ -171,11 +171,11 @@ class MyService {
         return $result;
     }
     public static function getRegion(){
-        $result = Mregion::where('cstatus',1)->get();
+        $result = mregion::where('cstatus',1)->get();
         return $result;
     }
     public static function getDepart(){
-        $result = Mdepart::all();
+        $result = mdepart::all();
         return $result;
     }
     public static function getPosition(){
@@ -211,7 +211,7 @@ class MyService {
         return $result;
     }
     public static function getBranchId($where){
-        $result = Mregion::where($where)->first();
+        $result = mregion::where($where)->first();
         return $result;
     }
     public static function getExped($status){

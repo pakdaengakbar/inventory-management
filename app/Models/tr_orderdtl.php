@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\msupplier as Supplier;
 use App\Models\Mcompanie as Companie;
-use App\Models\Mregion as Region;
+use App\Models\mregion as Region;
 
 class tr_orderdtl extends Model
 {

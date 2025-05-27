@@ -2,7 +2,7 @@
 namespace App\Livewire\mprofile;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\Mprofile as profile;
+use App\Models\mprofile as profile;
 
 use Livewire\WithFileUploads;
 use Livewire\Component;

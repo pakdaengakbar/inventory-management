@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\Mprofile as profile;
+use App\Models\mprofile as profile;
 
 class AppServiceProvider extends ServiceProvider
 {

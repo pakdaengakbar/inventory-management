@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
+
 /* Master */
 use App\Http\Controllers\Mstcustomer;
 use App\Http\Controllers\Mstsupplier;
-
 use App\Http\Controllers\DtexpController;
 use App\Http\Controllers\DtprodController;
 use App\Http\Controllers\DtbrandController;
@@ -21,8 +21,9 @@ use App\Http\Controllers\Rowdelivery;
 use App\Http\Controllers\Rowreturn;
 use App\Http\Controllers\Rowsalesretail;
 use App\Http\Controllers\Rowsaleservice;
-
-
+/* cafee */
+use App\Http\Controllers\CftableController;
+use App\Http\Controllers\CfprodCotntroller;
 /* Website */
 use App\Http\Controllers\Webcategory;
 use App\Http\Controllers\Webclient;
@@ -35,7 +36,6 @@ use App\Http\Controllers\Webpromo;
 use App\Http\Controllers\Webservice;
 use App\Http\Controllers\Webstaff;
 use App\Http\Controllers\Webvideo;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,6 +46,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/profiles', App\Livewire\Mprofile\Index::class)->name('profiles.index');
     });
+      /*
+    |--------------------------------------------------------------------------
+    | Cafee
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['prefix' => 'cafe'], function () {
+        /* Cafee */
+        Route::get('/tables', App\Livewire\Cafetable\Index::class)->name('cafetable.index');
+        Route::post('/rwdata/tables', [CftableController::class, 'datatable']);
+
+        Route::get('/products', App\Livewire\Cafeproduct\Index::class)->name('products.index');
+        Route::get('/products/add', App\Livewire\Cafeproduct\Formadd::class)->name('products.add');
+        Route::get('/products/edit/{id}', App\Livewire\Cafeproduct\FormEdit::class)->name('products.edit');
+        Route::post('/rwdata/products', [CfprodCotntroller::class, 'datatable']);
+    });
+
     /*
     |--------------------------------------------------------------------------
     | Master Profile
@@ -160,6 +176,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/miupdate', [Rowmutationin::class, 'update']);
         Route::post('/rwdata/miapproved', [Rowmutationin::class, 'approved']);
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sales
+    |--------------------------------------------------------------------------
+    */
     Route::group(['prefix' => 'sales'], function () {
         /* Delivery */
         Route::get('/delivery', App\Livewire\Trdeliveryord\Index::class)->name('delivery.index');
@@ -202,8 +224,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/service', [Rowsaleservice::class, 'datatable']);
         Route::post('/rwdata/svsave', [Rowsaleservice::class, 'save']);
         Route::post('/rwdata/svupdate', [Rowsaleservice::class, 'update']);
-
     });
+
     Route::group(['prefix' => 'website'], function () {
         Route::get('/configs', App\Livewire\Webconfig\Index::class)->name('configs.index');
         Route::get('/category', App\Livewire\Webcategory\Index::class)->name('webcategory.index');
