@@ -32,19 +32,39 @@
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Barcode</label>
-                                <input class="form-control" type="text" wire:model="nbarcode" placeholder="Enter barcode">
+                                <input class="form-control @error('nbarcode') is-invalid @enderror" type="text" wire:model="nbarcode" placeholder="Enter barcode">
+                                @error('nbarcode')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Item Code</label>
-                                <input type="text" class="form-control" wire:model="citem_code" placeholder="Enter item code">
+                                <input type="text" class="form-control @error('citem_code') is-invalid @enderror" wire:model="citem_code" placeholder="Enter item code">
+                                @error('citem_code')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Item Name</label>
-                                <input type="text" class="form-control" wire:model="citem_name" placeholder="Enter item name">
+                                <input type="text" class="form-control @error('citem_name') is-invalid @enderror" wire:model="citem_name" placeholder="Enter item name">
+                                @error('citem_name')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Description</label>
-                                <textarea class="form-control" wire:model="cdescription" placeholder="Enter description"></textarea>
+                                <textarea class="form-control @error('cdescription') is-invalid @enderror" wire:model="cdescription" placeholder="Enter description"></textarea>
+                                @error('cdescription')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="mb-2">

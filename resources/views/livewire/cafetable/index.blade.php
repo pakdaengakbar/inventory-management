@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         paginationType : 'full_numbers',
         StateSave : true,
         ajax: {
-            "url"	 : '/cafee/rwdata/tables',
+            "url"	 : '/cafe/rwdata/tables',
             "type"   : "POST",
         },
         columns: [

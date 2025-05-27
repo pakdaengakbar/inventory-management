@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\msupplier as supplier ;
+use App\Models\User ;
 
 class mproduct extends Model
 {
@@ -52,6 +54,14 @@ class mproduct extends Model
     public function supplier()
     {
         return $this->belongsTo(supplier::class, 'csupplier_id');
+    }
+    public function createby(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'ccreate_by');
+    }
+    public function updateby(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'cupdate_by');
     }
 }
 

@@ -40,7 +40,7 @@
                                     <option value="">All Data</option>
                                     <option disabled>Select Group</option>
                                     @foreach ($group as $c)
-                                        <option value="{{ $c->id }}">{{ $c->ccode.' - '.ucwords(strtolower($c->cname)) }}</option>
+                                        <option value="{{ $c->ccode }}">{{ $c->ccode.' - '.ucwords(strtolower($c->cname)) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="float-end">
-                            <a href="{{ route('products.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
+                            <a href="{{ route('cfproducts.add') }}" id='btn_add'type="button" class="btn btn-primary btn-sm">
                                 <i class="mdi mdi-plus"></i> New Data
                             </a>
                             <a href="javascript:;" type="button" class="btn btn-warning btn-sm" id="btn_reload" onclick="handleData();">
@@ -64,6 +64,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Image</th>
                                     <th>Item Code</th>
                                     <th>Item Name</th>
                                     <th>Barcode</th>
@@ -143,6 +144,7 @@ function handleData() {
         },
         columns: [
             { data: 'no' },
+            { data: 'image' },
             { data: 'item_code' },
             { data: 'item_name' },
             { data: 'barcode' },

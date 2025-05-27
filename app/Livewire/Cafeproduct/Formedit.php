@@ -22,14 +22,14 @@ class Formedit extends Component
             $nopname_G3, $clocation1, $clocation2, $clocation3, $cmade_in,
             $COGS, $ccreate_by, $created_at, $cupdate_by, $updated_at, $csupplier_id,
             $cGroupStock, $cflag_pusat, $iPhoto, $cstatus, $ctimer;
-    public $supplier, $brdgroup, $brdtype, $brdproduct, $uoms, $path;
+    public $supplier, $brdgroup, $brdtype, $brdproduct, $uoms, $url;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
 
     public function __construct() {
         $this->page = array(
             'p' => 'products/',
             't' => 'Products',
-            'd' => 'Add Data'
+            'd' => 'Edit Data'
         );
     }
 
@@ -86,10 +86,10 @@ class Formedit extends Component
         $this->cdescription    = $data->cdescription;
         $this->cmade_in        = $data->cmade_in;
         $this->COGS            = $data->COGS;
-        $this->ccreate_by      = $data->ccreate_by;
-        $this->created_at      = $data->created_at;
-        $this->cupdate_by      = $data->cupdate_by;
-        $this->updated_at      = $data->updated_at;
+        $this->ccreate_by      = isset($data->createby->name) ? $data->createby->name : '';
+        $this->created_at      = $data->created_at ? $data->created_at->format('m / d / Y H:i:s') : null;
+        $this->cupdate_by      = isset($data->updateby->name) ? $data->updateby->name : '';
+        $this->updated_at      = $data->updated_at ? $data->updated_at->format('m / d / Y H:i:s') : null;
         $this->csupplier_id    = $data->csupplier_id;
         $this->iPhoto          = $data->iPhoto;
         $this->cstatus         = $data->cstatus;
@@ -101,7 +101,7 @@ class Formedit extends Component
         $this->brdtype         = v_::getProdtype();
         $this->brdproduct      = v_::getProdbrand();
 
-        $this->path            = s_::URL_. $this->page['p'];
+        $this->url             = s_::URL_. $this->page['p'];
         $this->pageTitle       = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
@@ -114,10 +114,12 @@ class Formedit extends Component
      */
     public function update()
     {
+
         $uauth = v_::getUser_Auth();
         $this->validate();
         //get data
         $data = product::find($this->id);
+        // dd($data);
         //check if image
         $row = array(
             'nbarcode'           => $this->nbarcode,
@@ -148,31 +150,45 @@ class Formedit extends Component
             'clocation3'         => $this->clocation3,
             'cdescription'       => $this->cdescription,
             'cmade_in'           => $this->cmade_in,
-            'ccreate_by'         => $this->ccreate_by,
-            'created_at'         => $this->created_at,
-            'updated_at'         => $this->updated_at,
-            'csupplier_id'     => $this->csupplier_id,
+            'csupplier_id'       => $this->csupplier_id,
             'iPhoto'             => $this->iPhoto,
             'cstatus'            => $this->cstatus,
             'ctimer'             => $this->ctimer,
             'cupdate_by'         => $uauth['id'],
         );
-        if ($this->image) {
-            $p_ = s_::PATH_. $this->page['path'];
+        // dd($row);
+        //check if image
+        if ($this->iPhoto && $this->image) {
+            //delete old image
+            $p_ = s_::PATH_. $this->page['p'];
             Storage::delete($p_.$this->iPhoto);
             //store image in storage/app/public/posts
             $this->image->storeAs($p_, $this->image->hashName());
             //update post
             $row['iPhoto'] = $this->image->hashName();
-            $data->update($row);
-        } else {
-            //update post
-            $data->update($row);
+            $this->iPhoto  = $this->image->hashName();
+            $this->image   = "";
+        } elseif ($this->iPhoto && !$this->image) {
+            //update post without image
+            $row['iPhoto'] = $this->iPhoto;
+        } elseif (!$this->iPhoto && !$this->image) {
+            //no image update post
+            $row['iPhoto'] = null;
         }
+
+        //update post
+        // Update the product with new data
+        $data->update($row);
+        // Optionally, you can check if the update was successful
         //flash message
-        session()->flash('message', 'Update Successfuly.');
+        if ($data->wasChanged()) {
+            session()->flash('message', 'Update Successfuly.');
+        } else {
+            session()->flash('message', 'No changes were made to the model.');
+            //dd('No changes were made to the model.');
+        }
         //redirect
-        return redirect()->route('products.index');
+        //return redirect()->route('cfproducts.index');
     }
 
     /**

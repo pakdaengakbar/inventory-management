@@ -32,19 +32,39 @@
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Barcode</label>
-                                <input class="form-control" type="text" wire:model="nbarcode" placeholder="Enter barcode">
+                                <input class="form-control @error('nbarcode') is-invalid @enderror" type="text" wire:model="nbarcode" placeholder="Enter barcode">
+                                @error('nbarcode')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Item Code</label>
-                                <input type="text" class="form-control" wire:model="citem_code" placeholder="Enter item code">
+                                <input type="text" class="form-control @error('citem_code') is-invalid @enderror" wire:model="citem_code" placeholder="Enter item code">
+                                @error('citem_code')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Item Name</label>
-                                <input type="text" class="form-control" wire:model="citem_name" placeholder="Enter item name">
+                                <input type="text" class="form-control @error('citem_name') is-invalid @enderror" wire:model="citem_name" placeholder="Enter item name">
+                                @error('citem_name')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Description</label>
-                                <textarea class="form-control" wire:model="cdescription" placeholder="Enter description"></textarea>
+                                <textarea class="form-control @error('cdescription') is-invalid @enderror" wire:model="cdescription" placeholder="Enter description"></textarea>
+                                @error('cdescription')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="mb-2">
@@ -56,38 +76,39 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="mb-2">
-                                <label class="form-label">Retail Unit Value</label>
-                                <input type="number" class="form-control" wire:model="nretail_value" placeholder="Enter Retail UOM value">
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Wholesales Unit Value</label>
-                                <input type="number" class="form-control" wire:model="nwsale_value" placeholder="Enter Wholesales value">
-                            </div>
-
                         </div>
                         <!-- Right column -->
                         <div class="col-lg-6 mb-2">
                             <div class="mb-3">
                                 <label for="cbrand_code" class="form-label">Brand Product</label>
-                                <select class="form-select" wire:model="cbrand_code" >
+                                <select class="form-select @error('cbrand_code') is-invalid @enderror" wire:model="cbrand_code" >
                                     <option value="" disabled>Select Brand</option>
                                     @foreach ($brdproduct as $c)
                                         <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
                                     @endforeach
                                 </select>
+                                @error('cbrand_code')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="cgroup_code" class="form-label">Group Product</label>
-                                <select class="form-select" wire:model="cgroup_code" >
+                                <select class="form-select @error('cgroup_code') is-invalid @enderror" wire:model="cgroup_code" >
                                     <option value="" disabled>Select Group</option>
                                     @foreach ($brdgroup as $c)
                                         <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
                                     @endforeach
                                 </select>
+                                @error('cgroup_code')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="csupplier_id" class="form-label">Type Product</label>
+                                <label for="ctype_code" class="form-label">Type Product</label>
                                 <select class="form-select" wire:model="ctype_code" >
                                     <option value="" disabled>Select Type</option>
                                     @foreach ($brdtype as $c)
@@ -104,16 +125,17 @@
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">Made In</label>
-                                <input type="text" class="form-control" wire:model="cmade_in" placeholder="Enter made in">
-                            </div>
-                            <div class="mb-3">
-                                <label for="csupplier_id" class="form-label">Supplier</label>
-                                <select class="form-select" wire:model="csupplier_id" >
-                                    <option value="">Select Status</option>
-                                    @foreach ($supplier as $c)
-                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
-                                    @endforeach
+                                <label class="form-label">Type Menu</label>
+                                <select class="form-select" wire:model="cmade_in" >
+                                    <option value="" disabled>Select Made In</option>
+                                    <option value='APPETIZER'>APPETIZER</option>
+                                    <option value='COFFEE'>COFFEE</option>
+                                    <option value='DRINK'>DRINK</option>
+                                    <option value='DESSERT'>DESSERT</option>
+                                    <option value='SNACK'>SNACK</option>
+                                    <option value='MAIN_COURSE'>MAIN COURSE</option>
+                                    <option value='KETO'>KETO</option>
+                                    <option value='FRENCH_TOAST'>FRENCH TOAST</option>
                                 </select>
                             </div>
                         </div>
@@ -122,9 +144,9 @@
                                 <div class="silva-main-sections">
                                     <div class="silva-profile-main">
                                         @if ($iPhoto)
-                                        <img src="{{ asset($url.$iPhoto) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        <img src="{{ asset($url.$iPhoto) }}" alt="Image" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
                                         @else
-                                        <img src="{{ asset($no_img) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        <img src="{{ asset($no_img) }}" alt="Image" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
                                         @endif
                                     </div>
                                     <div class="overflow-hidden ms-md-4 ms-0">
@@ -192,76 +214,39 @@
                         <!-- Item Price -->
                         <div class="col-lg-6 mb-2">
                             <div class="mb-2">
-                                <label class="form-label">Wholesale PO Price</label>
-                                <input type="number" class="form-control" wire:model="nwsale_po_price" placeholder="Enter wholesale PO price">
-                            </div>
-                            <div class="mb-2">
                                 <label class="form-label">Retail PO Price</label>
                                 <input type="number" class="form-control" wire:model="nretail_po_price" placeholder="Enter retail PO price">
                             </div>
-
                         </div>
                         <div class="col-lg-6 mb-2">
-                            <div class="mb-2">
-                                <label class="form-label">Wholesale Sell Price</label>
-                                <input type="number" class="form-control" wire:model="nwsale_sell_price" placeholder="Enter wholesale sell price">
-                            </div>
                             <div class="mb-2">
                                 <label class="form-label">Retail Sell Price</label>
                                 <input type="number" class="form-control" wire:model="nretail_sell_price" placeholder="Enter retail sell price">
                             </div>
                         </div>
                         <!-- Opname Location -->
-                        <h5 class="card-title mb-3">Location</h5>
-                        <div class="col-lg-6 mb-2">
-                            <div class="mb-2">
-                                <label class="form-label">Location 1</label>
-                                <input type="text" class="form-control" wire:model="clocation1" placeholder="Enter location 1">
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Location 2</label>
-                                <input type="text" class="form-control" wire:model="clocation2" placeholder="Enter location 2">
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Location 3</label>
-                                <input type="text" class="form-control" wire:model="clocation3" placeholder="Enter location 3">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-2">
-                            <div class="mb-2">
-                                <label class="form-label">Opname G1</label>
-                                <input type="number" class="form-control" wire:model="nopname_G1" placeholder="Enter opname G1">
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Opname G2</label>
-                                <input type="number" class="form-control" wire:model="nopname_G2" placeholder="Enter opname G2">
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Opname G3</label>
-                                <input type="number" class="form-control" wire:model="nopname_G3" placeholder="Enter opname G3">
-                            </div>
-                        </div>
+
                         <!-- user update -->
                         <h5 class="card-title mb-3">Create / Update By</h5>
                         <div class="col-lg-6">
                              <div class="mb-2">
                                 <label class="form-label">Created By</label>
-                                <input type="text" class="form-control" wire:model="ccreate_by" placeholder="Creator">
+                                <input readonly type="text" class="form-control bg-light" wire:model="ccreate_by" placeholder="Creator">
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Created At</label>
-                                <input type="datetime-local" class="form-control" wire:model="created_at">
+                                <input readonly type="text" class="form-control bg-light" wire:model="created_at">
                             </div>
                         </div>
                         <!-- Opname Location -->
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label">Updated By</label>
-                                <input type="text" class="form-control" wire:model="cupdate_by" placeholder="Updater">
+                                <input readonly type="text" class="form-control bg-light" wire:model="cupdate_by" placeholder="Updater">
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Updated At</label>
-                                <input type="datetime-local" class="form-control" wire:model="updated_at">
+                                <input readonly type="text" class="form-control bg-light" wire:model="updated_at">
                             </div>
                         </div>
                         <h5 class="card-title mb-3">Stock</h5>
@@ -292,13 +277,14 @@
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label">Timer</label>
-                                <input type="text" class="form-control" wire:model="ctimer" placeholder="Enter timer">
+                                <input readonly type="text" class="form-control  bg-light" wire:model="ctimer" placeholder="Enter timer">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer float-end">
-                    <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
+                    <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light">
+                        <i class="mdi mdi-content-save"></i> Update</button>
                     <a href="/cafe/products" type="button" class="btn btn-warning btn-sm">
                         <i class="mdi mdi-redo-variant"></i> Back
                     </a>

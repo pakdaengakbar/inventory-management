@@ -21,7 +21,7 @@ class Formadd extends Component
             $nopname_G3, $clocation1, $clocation2, $clocation3, $cmade_in,
             $COGS, $ccreate_by, $created_at, $cupdate_by, $updated_at, $csupplier_id,
             $cGroupStock, $cflag_pusat, $iPhoto, $cstatus, $ctimer;
-    public $supplier, $brdgroup, $brdtype, $brdproduct, $uoms, $path;
+    public $supplier, $brdgroup, $brdtype, $brdproduct, $uoms, $url;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
 
     public function __construct() {
@@ -59,7 +59,7 @@ class Formadd extends Component
         $this->brdtype         = v_::getProdtype();
         $this->brdproduct      = v_::getProdbrand();
 
-        $this->path            = s_::URL_. $this->page['p'];
+        $this->url            = s_::URL_. $this->page['p'];
         $this->pageTitle       = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
@@ -103,9 +103,6 @@ class Formadd extends Component
             'clocation3'         => $this->clocation3,
             'cdescription'       => $this->cdescription,
             'cmade_in'           => $this->cmade_in,
-            'ccreate_by'         => $this->ccreate_by,
-            'created_at'         => $this->created_at,
-            'updated_at'         => $this->updated_at,
             'csupplier_id'       => $this->csupplier_id,
             'cstatus'            => $this->cstatus,
             'ctimer'             => $this->ctimer,
@@ -120,7 +117,7 @@ class Formadd extends Component
         //flash message
         session()->flash('message', 'Save Successfuly');
         //redirect
-        return redirect()->route('products.index');
+        return redirect()->route('cfproducts.index');
     }
 
     /**

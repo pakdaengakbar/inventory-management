@@ -25,7 +25,7 @@ class Index extends Component
     {
         // get Master
         $this->path      = s_::URL_. $this->page['p'];
-        $this->group    =  v_::getProdgroup();
+        $this->group    =  v_::getProdgroup(true);
         $this->pageTitle = $t  = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));

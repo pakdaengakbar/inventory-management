@@ -56,9 +56,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/tables', App\Livewire\Cafetable\Index::class)->name('cafetable.index');
         Route::post('/rwdata/tables', [CftableController::class, 'datatable']);
 
-        Route::get('/products', App\Livewire\Cafeproduct\Index::class)->name('products.index');
-        Route::get('/products/add', App\Livewire\Cafeproduct\Formadd::class)->name('products.add');
-        Route::get('/products/edit/{id}', App\Livewire\Cafeproduct\FormEdit::class)->name('products.edit');
+        Route::get('/products', App\Livewire\Cafeproduct\Index::class)->name('cfproducts.index');
+        Route::get('/products/add', App\Livewire\Cafeproduct\Formadd::class)->name('cfproducts.add');
+        Route::get('/products/edit/{id}', App\Livewire\Cafeproduct\FormEdit::class)->name('cfproducts.edit');
         Route::post('/rwdata/products', [CfprodCotntroller::class, 'datatable']);
     });
 

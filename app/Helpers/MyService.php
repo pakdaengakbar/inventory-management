@@ -186,8 +186,13 @@ class MyService {
         $result = cities::all();
         return $result;
     }
-    public static function getProdgroup(){
-        $result = prodgroup::all();
+    public static function getProdgroup($cafe = false){
+        $group = array('100','101','102');
+        if ($cafe) {
+            $result = prodgroup::whereIn('ccode', $group)->get();
+        } else {
+            $result = prodgroup::all();
+        }
         return $result;
     }
     public static function getProdbrand(){
