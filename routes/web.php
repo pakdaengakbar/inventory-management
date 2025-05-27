@@ -60,6 +60,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/products/add', App\Livewire\Cafeproduct\Formadd::class)->name('cfproducts.add');
         Route::get('/products/edit/{id}', App\Livewire\Cafeproduct\FormEdit::class)->name('cfproducts.edit');
         Route::post('/rwdata/products', [CfprodCotntroller::class, 'datatable']);
+
+        /* sales service */
+        Route::get('/cashier', App\Livewire\Cafecashier\Index::class)->name('cashier.index');
+        Route::get('/cashier/add', App\Livewire\Cafecashier\Formadd::class)->name('cashier.add');
+        Route::get('/cashier/edit/{id}', App\Livewire\Cafecashier\Formedit::class)->name('cashier.edit');
+        Route::get('/cashier/print/{id}', App\Livewire\Cafecashier\Printdata::class)->name('cashier.print');
+
     });
 
     /*
@@ -215,7 +222,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/searchsales', [Rowsalesretail::class, 'getSearchsales']);
         Route::post('/rwdata/getitemsales', [Rowsalesretail::class, 'getItemsales']);
 
-         /* sales service */
+        /* sales service */
         Route::get('/service', App\Livewire\Trsaleservice\Index::class)->name('service.index');
         Route::get('/service/add', App\Livewire\Trsaleservice\Formadd::class)->name('service.add');
         Route::get('/service/edit/{id}', App\Livewire\Trsaleservice\Formedit::class)->name('service.edit');
