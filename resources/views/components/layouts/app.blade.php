@@ -17,7 +17,6 @@
     <div id="app-layout">
         @include('layouts.partials/topbar')
         @include('layouts.partials/sidebar')
-
         <div class="content-page">
             <div class="content">
                 {{ $slot }}

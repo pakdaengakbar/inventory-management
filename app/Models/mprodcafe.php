@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\msupplier as supplier ;
+use App\Models\mbrand_group;
 use App\Models\User;
 
 class mprodcafe extends Model
@@ -64,6 +65,12 @@ class mprodcafe extends Model
     {
         return $this->belongsTo(User::class, 'cupdate_by');
     }
+    public function itemgroup(): BelongsTo
+    {
+        return $this->belongsTo(mbrand_group::class, 'cgroup_code','ccode');
+
+    }
+
 }
 
 

@@ -1,13 +1,17 @@
 <?php
 namespace App\Helpers;
-use App\Helpers\MyService;
+
 use DateTime;
+use App\Models\mprodcafe as icafe;
+use App\Models\cafetable;
+use App\Helpers\MyService;
 
 class MyHelper {
     function key_google()
     {
         return "AIzaSyDxGJcoCywnUNJF-ldIz6dPka8NZ1tAKys";
     }
+
     function format_th($th){
         if($th=='id'){
             return 'ID';
@@ -15,6 +19,16 @@ class MyHelper {
         else{
             return ucwords(str_replace("_", " ", $th));
         }
+    }
+    //select data product
+    public static function getItemCafe($where,$order)
+    {
+        return icafe::where($where)->orderBy($order,'asc')->get();
+    }
+    //select data table
+    public static function getTableCafe($status)
+    {
+        return cafetable::where('cstatus',$status)->orderBy('id','asc')->get();
     }
 
     public static function setSpinner(){

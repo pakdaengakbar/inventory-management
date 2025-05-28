@@ -6,11 +6,9 @@
 @endsection
 
 <div>
-<div id="views">
 <!-- Start Content-->
 <div class="container-fluid">
 {!! $pageBreadcrumb !!}
-
 <!-- Button Datatable -->
 <div class="row">
     <div class="col-12">
@@ -70,14 +68,11 @@
 </div>
 </div>
 
-<div id="forms"><div id="form"></div></div>
-</div>
-
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-
+    hiddenSidebar();
     if (window.Livewire) {
         console.warn('Livewire actived.');
         Livewire.hook('message.processed', (message, component) => {
@@ -87,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.warn('Livewire is not loaded.');
     }
     handleData();
+
 });
 
 function handleData() {

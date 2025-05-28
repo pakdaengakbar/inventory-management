@@ -26,7 +26,7 @@ class Index extends Component
         $this->region  = s_::getRegion();
         $this->pageTitle = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
-        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));
+        $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'cafe/', strtolower($t));
     }
     public function render()
     {
