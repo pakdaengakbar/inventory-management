@@ -124,7 +124,7 @@
                                 <select class="form-select @error('cgroup_code') is-invalid @enderror" wire:model="cgroup_code" >
                                     <option value="">Select Group</option>
                                     @foreach ($brdgroup as $c)
-                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->cname)) }}</option>
+                                        <option value="{{ $c->ccode }}">{{ ucwords(strtolower($c->cname)) }}</option>
                                     @endforeach
                                 </select>
                                 @error('cgroup_code')

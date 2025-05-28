@@ -17,7 +17,7 @@ class CfprodCotntroller extends Controller
         // Check if group is null or empty
         $product = $group === null || $group === ''
                     ? product::whereIn('cgroup_code', $code)->get()
-                    : product::where('cgroup_code', $group)->get();
+                    : product::with('itemgroup')->where('cgroup_code', $group)->get();
         $data = $product->map(function ($item, $index) use ($url_) {
             if ($item->iPhoto){
                 $src = $url_.$item->iPhoto;
@@ -29,6 +29,7 @@ class CfprodCotntroller extends Controller
             return [
                 'no'       => $index + 1,
                 'image'    => $photo,
+                'group'    => $item->itemgroup->cname,
                 'item_code'=> $item->citem_code,
                 'item_name'=> $item->citem_name,
                 'barcode'  => $item->nbarcode,

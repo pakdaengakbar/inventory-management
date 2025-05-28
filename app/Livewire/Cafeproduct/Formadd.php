@@ -59,7 +59,7 @@ class Formadd extends Component
         $this->brdtype         = v_::getProdtype();
         $this->brdproduct      = v_::getProdbrand();
 
-        $this->url            = s_::URL_. $this->page['p'];
+        $this->url             = s_::URL_. $this->page['p'];
         $this->pageTitle       = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, strtolower($t));

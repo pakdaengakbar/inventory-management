@@ -65,6 +65,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Image</th>
+                                    <th>Group</th>
                                     <th>Item Code</th>
                                     <th>Item Name</th>
                                     <th>Barcode</th>
@@ -145,6 +146,7 @@ function handleData() {
         columns: [
             { data: 'no' },
             { data: 'image' },
+            { data: 'group' },
             { data: 'item_code' },
             { data: 'item_name' },
             { data: 'barcode' },
