@@ -11,9 +11,10 @@ class CftableController extends Controller
         $cafes = cafetable::all();
         $data = $cafes->map(function ($data, $index) {
             return [
-                'no' => $index + 1,
-                'code' => $data->ccode,
-                'name' => $data->cname,
+                'no'     => $index + 1,
+                'code'   => $data->ccode,
+                'name'   => $data->cname,
+                'status' => $data->cstatus,
                 'action' => '<div class="text-center">
                                 <button wire:click="editData('.$data->id.')" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#dataModal" title="Update"><i class="mdi mdi-square-edit-outline"></i></button>
                                 <button wire:click="delData('.$data->id.')" class="btn btn-sm btn-danger" title="Delete"><i class="mdi mdi-trash-can-outline"></i></button>

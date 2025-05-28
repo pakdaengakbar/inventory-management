@@ -48,10 +48,11 @@
                                     <table id="rowDatatable" class="table">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
+                                                <th class='col-1'>No</th>
                                                 <th>Code</th>
                                                 <th>Name</th>
-                                                <th>Action</th>
+                                                <th class='col-1'>Status</th>
+                                                <th class='col-1'>Action</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -79,19 +80,30 @@
                     </div>
                     <div class="mb-3">
                         <label>Code</label>
-                        <input type="text" class="form-control" wire:model="ccode" maxlength="5">
+                        <input type="text" class="form-control @error('ccode') is-invalid @enderror" wire:model="ccode" maxlength="5">
                         @error('ccode')
-                            <span class="text-danger">{{ $message }}</span>
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label>Nname</label>
-                        <input type="text" class="form-control" wire:model="cname">
+                        <input type="text" class="form-control @error('cname') is-invalid @enderror" wire:model="cname">
                         @error('cname')
-                            <span class="text-danger">{{ $message }}</span>
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
-
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" wire:model="cstatus" >
+                            <option value="">Select Status</option>
+                            <option value='Actived'>Actived</option>
+                            <option value='Not Actived'>Not Actived</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -119,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'no' },
             { data: 'code' },
             { data: 'name' },
+            { data: 'status' },
             { data: 'action' }
         ],
         responsive: true

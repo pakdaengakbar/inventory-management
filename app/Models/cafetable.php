@@ -12,5 +12,6 @@ class cafetable extends Model
 	[
 		'ccode',
 		'cname',
+        'cstatus',
 	];
 }

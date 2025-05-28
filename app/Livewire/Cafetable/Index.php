@@ -12,7 +12,7 @@ use App\Models\cafetable;
 class Index extends Component
 {
 
-    public $page, $id;
+    public $page, $id, $cstatus;
     #[Rule('required', message: 'Kode Table Harus Diisi')]
     public $ccode;
 
@@ -55,6 +55,7 @@ class Index extends Component
         $this->id = '';
         $this->ccode = '';
         $this->cname = '';
+        $this->cstatus = 'Actived';
     }
 
     public function store()
@@ -64,6 +65,7 @@ class Index extends Component
         cafetable::updateOrCreate(['id' => $this->id], [
             'cname' => $this->cname,
             'ccode' => $this->ccode,
+            'cstatus' => $this->cstatus,
         ]);
         $this->dispatch('editDataTable', ['message' => $this->id ? 'Data updated successfully.' : 'Data created successfully.']);
         $this->resetFields();
@@ -75,6 +77,8 @@ class Index extends Component
         $this->id = $id;
         $this->ccode = $data->ccode;
         $this->cname = $data->cname;
+        $this->cstatus = $data->cstatus;
+
     }
 
     public function delData($id)
