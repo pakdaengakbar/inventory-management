@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
-use App\Models\mproduct as product;
+use App\Models\mprodcafe as product;
 
 class Formedit extends Component
 {
@@ -55,7 +55,7 @@ class Formedit extends Component
     public function mount($id)
     {
         // Get supplier data
-        $data = product::find($id);
+        $data = product::with('createby')->find($id);
         // Assign values
         $this->nbarcode        = $data->nbarcode;
         $this->cbrand_code     = $data->cbrand_code;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\mproduct as product;
+use App\Models\mprodcafe as product;
 use App\Constants\Status as s_;
 
 class CfprodCotntroller extends Controller
@@ -12,7 +12,7 @@ class CfprodCotntroller extends Controller
     {
 
         $url_ = s_::URL_.'products/';
-        $code  = array('33','34','35');
+        $code  = array('100','101','102');
         $group = $request->post('group');
         // Check if group is null or empty
         $product = $group === null || $group === ''

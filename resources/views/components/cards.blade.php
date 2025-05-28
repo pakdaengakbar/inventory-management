@@ -76,7 +76,6 @@
             </div> <!-- end card-->
         </div><!-- end col -->
     </div>
-
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <h5 class="mb-4 mt-4">Header and footer</h5>
@@ -108,7 +107,7 @@
                         </footer>
                     </blockquote>
                 </div>
-                
+
             </div><!-- end card -->
         </div><!-- end col -->
 
@@ -325,7 +324,7 @@
             </div><!-- end col -->
         </div>
     </div> <!-- end row -->
-    
+
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <h5 class="mb-4 mt-4">Horizontal</h5>

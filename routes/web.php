@@ -24,6 +24,8 @@ use App\Http\Controllers\Rowsaleservice;
 /* cafee */
 use App\Http\Controllers\CftableController;
 use App\Http\Controllers\CfprodCotntroller;
+use App\Http\Controllers\CfcashierController;
+
 /* Website */
 use App\Http\Controllers\Webcategory;
 use App\Http\Controllers\Webclient;
@@ -62,11 +64,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/rwdata/products', [CfprodCotntroller::class, 'datatable']);
 
         /* sales service */
-        Route::get('/cashier', App\Livewire\Cafecashier\Index::class)->name('cashier.index');
-        Route::get('/cashier/add', App\Livewire\Cafecashier\Formadd::class)->name('cashier.add');
-        Route::get('/cashier/edit/{id}', App\Livewire\Cafecashier\Formedit::class)->name('cashier.edit');
-        Route::get('/cashier/print/{id}', App\Livewire\Cafecashier\Printdata::class)->name('cashier.print');
+        Route::get('/cashiers', App\Livewire\Cafecashier\Index::class)->name('cashiers.index');
+        Route::get('/cashiers/add', App\Livewire\Cafecashier\Formadd::class)->name('cashiers.add');
+        Route::get('/cashiers/edit/{id}', App\Livewire\Cafecashier\Formedit::class)->name('cashiers.edit');
+        Route::get('/cashiers/print/{id}', App\Livewire\Cafecashier\Printdata::class)->name('cashiers.print');
 
+        Route::post('/rwdata/cashiers', [CfcashierController::class, 'datatable']);
+        Route::post('/rwdata/casave', [CfcashierController::class, 'save']);
+        Route::post('/rwdata/caupdate', [CfcashierController::class, 'update']);
     });
 
     /*

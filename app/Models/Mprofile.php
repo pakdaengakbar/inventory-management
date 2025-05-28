@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class mprofile extends Model
 {
-    //protected $table = 'Mprofiles';
+
 	protected $fillable   =
 	[
         'cname',

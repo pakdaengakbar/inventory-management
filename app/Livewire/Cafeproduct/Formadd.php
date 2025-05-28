@@ -8,7 +8,7 @@ use Livewire\Attributes\Rule;
 use App\Helpers\MyHelper as h_;
 use App\Helpers\MyService as v_;
 use App\Constants\Status as s_;
-use App\Models\mproduct as product;
+use App\Models\mprodcafe as product;
 
 class Formadd extends Component
 {

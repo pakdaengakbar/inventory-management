@@ -26,13 +26,49 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 mb-2">
+                            <div class="mb-3">
+                                <div class="silva-main-sections">
+                                    <div class="silva-profile-main">
+                                        @if ($iPhoto)
+                                        <img src="{{ asset($url.$iPhoto) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        @else
+                                        <img src="{{ asset($no_img) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
+                                        @endif
+                                    </div>
+                                    <div class="overflow-hidden ms-md-4 ms-0">
+                                        <p class="my-1 text-muted fs-16">Image Item</p>
+                                        <span class="fs-15"><i class="mdi mdi-message me-2 align-middle"></i>{{ $citem_name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-3">
+                                <label for="ccontact" class="form-label">File Image</label>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="file-upload" wire:model="image">
+                                <!-- error message untuk title -->
+                                @if ($image)
+                                    <div class="mt-3">
+                                        <div class="silva-main-sections">
+                                            <div class="silva-profile-main">
+                                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start">
+                                            </div>
+                                            <div class="overflow-hidden ms-md-4 ms-0">
+                                                <p class="my-1 text-muted fs-16">Preview Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
                             <div class="mb-2" hidden>
                                 <label class="form-label">ID</label>
                                 <input class="form-control" type="text"  wire:model="id" placeholder="AutoSystem" readonly>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Barcode</label>
-                                <input class="form-control @error('nbarcode') is-invalid @enderror" type="text" wire:model="nbarcode" placeholder="Enter barcode">
+                                <input readonly class="form-control @error('nbarcode') is-invalid @enderror bg-light" type="text" wire:model="nbarcode" placeholder="Enter barcode">
                                 @error('nbarcode')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -41,7 +77,7 @@
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Item Code</label>
-                                <input type="text" class="form-control @error('citem_code') is-invalid @enderror" wire:model="citem_code" placeholder="Enter item code">
+                                <input readonly type="text" class="form-control @error('citem_code') is-invalid @enderror bg-light" wire:model="citem_code" placeholder="Enter item code">
                                 @error('citem_code')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -137,42 +173,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <div class="silva-main-sections">
-                                    <div class="silva-profile-main">
-                                        @if ($iPhoto)
-                                        <img src="{{ asset($url.$iPhoto) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
-                                        @else
-                                        <img src="{{ asset($no_img) }}" alt="logo" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start" width='10%' id='file_image'>
-                                        @endif
-                                    </div>
-                                    <div class="overflow-hidden ms-md-4 ms-0">
-                                        <p class="my-1 text-muted fs-16">Image Item</p>
-                                        <span class="fs-15"><i class="mdi mdi-message me-2 align-middle"></i>{{ $citem_name }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="ccontact" class="form-label">File Image</label>
-                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="file-upload" wire:model="image">
-                                <!-- error message untuk title -->
-                                @if ($image)
-                                    <div class="mt-3">
-                                        <div class="silva-main-sections">
-                                            <div class="silva-profile-main">
-                                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="rounded-circle img-fluid avatar-xl img-thumbnail float-start">
-                                            </div>
-                                            <div class="overflow-hidden ms-md-4 ms-0">
-                                                <p class="my-1 text-muted fs-16">Preview Image</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+
 
                         <h5 class="card-title mb-3">Unit Of Material</h5>
                         <!-- Item Price -->
@@ -266,22 +267,22 @@
                         <div class="col-lg-6">
                              <div class="mb-2">
                                 <label class="form-label">Created By</label>
-                                <input type="text" class="form-control" wire:model="ccreate_by" placeholder="Creator">
+                                <input readonly type="text" class="form-control bg-light" wire:model="ccreate_by" placeholder="Creator">
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Created At</label>
-                                <input type="datetime-local" class="form-control" wire:model="created_at">
+                                <input readonly type="text" class="form-control bg-light" wire:model="created_at">
                             </div>
                         </div>
                         <!-- Opname Location -->
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label">Updated By</label>
-                                <input type="text" class="form-control" wire:model="cupdate_by" placeholder="Updater">
+                                <input readonly type="text" class="form-control bg-light" wire:model="cupdate_by" placeholder="Updater">
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Updated At</label>
-                                <input type="datetime-local" class="form-control" wire:model="updated_at">
+                                <input readonly type="text" class="form-control bg-light" wire:model="updated_at">
                             </div>
                         </div>
                         <h5 class="card-title mb-3">Stock</h5>
@@ -318,7 +319,7 @@
                     </div>
                 </div>
                 <div class="card-footer float-end">
-                    <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Save</button>
+                    <button type="submit"  class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-content-save"></i> Update</button>
                     <a href="/product/products" type="button" class="btn btn-warning btn-sm">
                         <i class="mdi mdi-redo-variant"></i> Back
                     </a>
