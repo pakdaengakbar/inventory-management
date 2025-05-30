@@ -8,7 +8,6 @@
 <div>
 <!-- Start Content-->
 <div class="container-fluid">
-{!! $pageBreadcrumb !!}
 <!-- Button Datatable -->
 <div class="row">
     <div class="col-12">
@@ -24,8 +23,11 @@
             <div class="card-body">
                 <form class="row row-cols-lg-auto g-3 align-items-center mb-3">
                     {!! MyHelper::getSearchByDate() !!}
-                    <div class="col-12">
+                    <div class="col-12" hidden>
                          {!! MyHelper::setSearchRegion('region') !!}
+                    </div>
+                    <div class="col-12">
+                        {!! MyHelper::setStatusTrans() !!}
                     </div>
                     <div class="col-12">
                         <div class="float-end mt-4">
@@ -48,7 +50,8 @@
                                     <th>Sales Num.</th>
                                     <th>Customer</th>
                                     <th class="col-1">Sub Total</th>
-                                    <th class="col-1">PPN</th>
+                                    <th class="col-1">Ppn</th>
+                                    <th class="col-1">Disc</th>
                                     <th class="col-1">Total</th>
                                     <th class="col-1">Payment</th>
                                     <th class="col-1">Remaining</th>
@@ -86,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function handleData() {
-    var sdate = $("#sdate").val(), edate = $("#edate").val();
-    var region = $("#region").val();
+    var sdate  = $("#sdate").val(), edate = $("#edate").val();
+    var region = $("#region").val(), status = $("#cstatus").val();
     if ($.fn.DataTable.isDataTable('#rowDatatable')) {
         $('#rowDatatable').DataTable().destroy();
     }
@@ -99,9 +102,10 @@ function handleData() {
             "url"  : '/cafe/rwdata/cashiers',
             "type" : "POST",
             "data" : {
-                "sdate" : sdate,
-                "edate" : edate,
-                "region" : region
+                "sdate"  : sdate,
+                "edate"  : edate,
+                "region" : region,
+                "status" : status,
             },
             "dataSrc": function (json) {
                 if (!json || typeof json !== 'object') {
@@ -118,6 +122,7 @@ function handleData() {
             { data: 'cust_name' },
             { data: 'sub_total' },
             { data: 'tot_ppn' },
+            { data: 'tot_disc' },
             { data: 'total' },
             { data: 'payment' },
             { data: 'remaining' },

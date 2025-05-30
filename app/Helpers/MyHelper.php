@@ -30,6 +30,11 @@ class MyHelper {
     {
         return cafetable::where('cstatus',$status)->orderBy('id','asc')->get();
     }
+    //select data menu
+    public static function getItemdetil($id){
+        $result = icafe::where('id', $id)->first();
+        return $result;
+    }
 
     public static function setSpinner(){
         return '<div class="d-flex justify-content-center">
@@ -77,9 +82,9 @@ class MyHelper {
 
     public static function setStatusTrans(){
         return '<label class="form-label">Status</label>
-                <select class="form-select" wire:model="cstatus" >
+                <select class="form-select" wire:model="cstatus" name="cstatus" id="cstatus" >
                     <option value="">Select Status</option>
-                    <option value="O">Open</option>
+                    <option value="O" selected>Open</option>
                     <option value="P">On Process</option>
                     <option value="C">Close</option>
                     <option value="R">Reject</option>

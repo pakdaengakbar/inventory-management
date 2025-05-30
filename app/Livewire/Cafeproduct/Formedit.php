@@ -159,9 +159,11 @@ class Formedit extends Component
         // dd($row);
         //check if image
         if ($this->iPhoto && $this->image) {
-            //delete old image
             $p_ = s_::PATH_. $this->page['p'];
-            Storage::delete($p_.$this->iPhoto);
+            //delete old image
+            if ($this->iPhoto != 'ZONNg0A9zAuyrHsvEZyaSoMwb6VBxM4lfdwKdLKh.jpg'){
+                Storage::delete($p_.$this->iPhoto);
+            }
             //store image in storage/app/public/posts
             $this->image->storeAs($p_, $this->image->hashName());
             //update post
