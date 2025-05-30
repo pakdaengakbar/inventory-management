@@ -27,7 +27,7 @@
                          {!! MyHelper::setSearchRegion('region') !!}
                     </div>
                     <div class="col-12">
-                        {!! MyHelper::setStatusTrans() !!}
+                        {!! MyHelper::setStatusCafe() !!}
                     </div>
                     <div class="col-12">
                         <div class="float-end mt-4">

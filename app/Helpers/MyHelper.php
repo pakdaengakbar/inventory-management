@@ -35,6 +35,11 @@ class MyHelper {
         $result = icafe::where('id', $id)->first();
         return $result;
     }
+    //select data menu
+    public static function getItemcode($id){
+        $result = icafe::where('citem_code', $id)->first();
+        return $result;
+    }
 
     public static function setSpinner(){
         return '<div class="d-flex justify-content-center">
@@ -74,20 +79,42 @@ class MyHelper {
                 </select>';
     }
 
-     public static function _getstatus($status)
+    public static function _getstatus($status)
     {
-        $statusarr = ['O' => 'Open', 'C' => 'Close', 'P' => 'Process', 'R' => 'Rejected', 'D' => 'Delivery'];
+        $statusarr = ['N' => 'New',
+                      'O' => 'Open',
+                      'P' => 'On Process',
+                      'C' => 'Close',
+                      'R' => 'Rejected',
+                      'D' => 'Delivery',
+                      'I' => 'Paid'];
         return $statusarr[$status];
     }
 
     public static function setStatusTrans(){
         return '<label class="form-label">Status</label>
                 <select class="form-select" wire:model="cstatus" name="cstatus" id="cstatus" >
-                    <option value="">Select Status</option>
+                    <option value="">All Status</option>
+                    <option disabled>Select Status</option>
                     <option value="O" selected>Open</option>
                     <option value="P">On Process</option>
                     <option value="C">Close</option>
                     <option value="R">Reject</option>
+                    <option value="D">Delivery</option>
+                </select>';
+    }
+
+    public static function setStatusCafe(){
+        return '<label class="form-label">Status</label>
+                <select class="form-select" wire:model="cstatus" name="cstatus" id="cstatus" >
+                    <option value="" selected>All Status</option>
+                    <option disabled>Select Status</option>
+                    <option value="N">New</option>
+                    <option value="O">Open</option>
+                    <option value="S">On Process</option>
+                    <option value="C">Close</option>
+                    <option value="R">Reject</option>
+                    <option value="P">Paid</option>
                 </select>';
     }
 
