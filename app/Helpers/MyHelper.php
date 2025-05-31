@@ -2,8 +2,10 @@
 namespace App\Helpers;
 
 use DateTime;
+use App\Models\cafetable as itable;
 use App\Models\mprodcafe as icafe;
-use App\Models\cafetable;
+use App\Models\mpaymethod as ipmethod;
+use App\Models\mbank as ibank;
 use App\Helpers\MyService;
 
 class MyHelper {
@@ -25,20 +27,35 @@ class MyHelper {
     {
         return icafe::where($where)->orderBy($order,'asc')->get();
     }
-    //select data table
-    public static function getTableCafe($status)
-    {
-        return cafetable::where('cstatus',$status)->orderBy('id','asc')->get();
-    }
-    //select data menu
     public static function getItemdetil($id){
         $result = icafe::where('id', $id)->first();
         return $result;
     }
-    //select data menu
     public static function getItemcode($id){
         $result = icafe::where('citem_code', $id)->first();
         return $result;
+    }
+    public static function getBank(){
+        $result = ibank::all();
+        return $result;
+    }
+    //select data table
+    public static function getTableCafe($status = true)
+    {
+        if ($status){
+            return itable::where('cstatus','actived')->orderBy('id','asc')->get();
+        }else{
+            return itable::orderBy('id','asc')->all();
+        }
+    }
+    //select data payment method
+    public static function getPaymethod($status = true)
+    {
+        if ($status){
+            return ipmethod::where('cstatus','actived')->orderBy('id','asc')->get();
+        }else{
+            return ipmethod::orderBy('id','asc')->all();
+        }
     }
 
     public static function setSpinner(){

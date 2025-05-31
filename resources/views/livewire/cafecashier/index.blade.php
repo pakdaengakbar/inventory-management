@@ -9,7 +9,7 @@
 <!-- Start Content-->
 <div class="container-fluid">
 <!-- Button Datatable -->
-<div class="row">
+<div class="row mt-2">
     <div class="col-12">
         {!! MyHelper::setAlert() !!}
         <div class="card">

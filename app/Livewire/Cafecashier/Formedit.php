@@ -11,8 +11,9 @@ use App\Models\tr_salesdtl as sodetail;
 
 class Formedit extends Component
 {
-    public $page, $path, $ppn, $fee, $fee_on, $no=0;
+    public $page, $path, $no=0;
     public $table, $food, $drink, $package;
+    public $ppn, $bank, $fee, $fee_on, $pmethod;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public $dtheader, $dtdetail;
     public function __construct() {
@@ -34,7 +35,10 @@ class Formedit extends Component
         $this->fee    = s_::FEE_;
         $this->fee_on = s_::FEE_ON;
         $this->path   = s_::URL_. $this->page['p'];
-        $this->table  = h_::getTableCafe('actived');
+
+        $this->table  = h_::getTableCafe();
+        $this->pmethod= h_::getPaymethod();
+        $this->bank   = h_::getBank();
         $this->food   = h_::getItemCafe(array('cgroup_code' => '101'),'id');
         $this->drink  = h_::getItemCafe(array('cgroup_code' => '100'),'id');
         $this->package= h_::getItemCafe(array('cgroup_code' => '102'),'id');

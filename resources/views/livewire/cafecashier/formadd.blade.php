@@ -8,7 +8,7 @@
 <!-- Start Content-->
 <div class="container-fluid">
 <form method="POST" id="input-form" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-xl-9">
             <div class="card">
                 <div class="card-header">
@@ -16,15 +16,18 @@
                     {!! MyHelper::setSpinner() !!}
                     <div class="float-start d-flex justify-content-center">
                         <div class="row">
-                            <label for="ccustomer_name" class="col-sm-4 col-form-label text-end">Customer</label>
-                            <div class="col-sm-8">
+                            <label for="ccustomer_name" class="col-sm-2 col-form-label text-end">Customer</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" id="ccustomer_name" name="ccustomer_name"
                                         placeholder="Enter Customer Name"
                                         onkeyup="this.value=toUCword(this.value);">
                             </div>
+                            <div class="col-sm-2">
+                                <input readonly class="form-control text-center bg-light" name="id" id="id">
+                            </div>
                         </div>
                     </div>
-                    <div class="row text-end">
+                     <div class="row mb-3 justify-content-end">
                         <label class="col-sm-6 col-form-label text-end">Table</label>
                         <div class="col-sm-4">
                             <select class="form-select" id="corder_num" name="corder_num" >

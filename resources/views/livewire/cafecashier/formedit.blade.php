@@ -8,7 +8,7 @@
 <!-- Start Content-->
 <div class="container-fluid">
 <form method="POST" id="update-form" enctype="multipart/form-data">
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-xl-9">
             <div class="card">
                 <div class="card-header">
@@ -21,7 +21,7 @@
                                 <input type="text" class="form-control" value="{{ $dtheader->ccustomer_name }}" id="ccustomer_name" name="ccustomer_name"
                                         placeholder="Enter Customer Name" onkeyup="this.value=toUCword(this.value);">
                             </div>
-                             <div class="col-sm-2">
+                            <div class="col-sm-2">
                                 <input readonly class="form-control text-center bg-light" name="id" id="id" value="{{ $dtheader['id'] }}">
                             </div>
                         </div>
@@ -37,6 +37,10 @@
                                     <option value="">Data Empty</option>
                                 @endforelse
                             </select>
+                        </div>
+                        <div class="col-sm-2 d-none">
+                            <input type="text" class="form-control text-center bg-light" name="cstatus" id="cstatus"
+                                   value="{{ MyHelper::_getstatus($dtheader['cstatus']) }}" placeholder="Status" readonly>
                         </div>
                     </div>
                 </div><!-- end card header -->
@@ -183,7 +187,7 @@
             </div>
         </div>
         <div class="col-xl-3">
-            <div class="card">
+            <div class="card" id='Form-Invoice'>
                 <div class="card-header">
                    <div class="float-start d-flex justify-content-center">
                         <h5 class="card-title mb-0 caption fw-semibold fs-18">No.Invoice</h5>
@@ -242,7 +246,7 @@
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end fs-9"><b>Sub Total</b></label>
                                 <div class="col-sm-8">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="nsub_total" id="nsub_total"
-                                           value="{{ number_format($dtheader->nsub_total) }}"  placeholder="Sub Total" value='0'>
+                                           value="{{ number_format($dtheader->nsub_total) }}"  placeholder="Sub Total">
                                 </div>
                             </div>
                             @if ($fee_on==true)
@@ -254,7 +258,7 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="ntot_fee" id="ntot_fee"
-                                           value="{{ number_format($dtheader->ntot_fee) }}" placeholder="Total Fee"value='0'>
+                                           value="{{ number_format($dtheader->ntot_fee) }}" placeholder="Total Fee">
                                 </div>
                             </div>
                             @endif
@@ -266,7 +270,7 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="ntot_ppn" id="ntot_ppn"
-                                           value="{{ number_format($dtheader->ntot_ppn) }}" placeholder="Total PPN"value='0'>
+                                           value="{{ number_format($dtheader->ntot_ppn) }}" placeholder="Total PPN">
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
@@ -277,40 +281,116 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="ntot_disc" id="ntot_disc"
-                                           value="{{ number_format($dtheader->ntot_disc) }}" placeholder="Total Discount"value='0'>
+                                           value="{{ number_format($dtheader->ntot_disc) }}" placeholder="Total Discount">
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end fs-9"><b>Total Item</b></label>
                                 <div class="col-sm-8">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="ntotal" id="ntotal"
-                                           value="{{ number_format($dtheader->ntotal) }}" placeholder="Total" value='0'>
+                                           value="{{ number_format($dtheader->ntotal) }}" placeholder="Total">
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end fs-9">Payment </label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control text-end fs-10" name="npayment" id="npayment" onkeydown='paymentEvent(event);' onkeyup="calculatePay(this);"
-                                           value="{{ number_format($dtheader->npayment) }}" placeholder="Payment" value='0'>
+                                    <input readonly type="text" class="form-control text-end bg-light fs-10" name="npayment" id="npayment"
+                                           value="{{ number_format($dtheader->npayment) }}" placeholder="Payment">
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <label for="ntotal" class="col-sm-4 col-form-label text-end fs-9">Remaining </label>
                                 <div class="col-sm-8">
                                     <input readonly type="text" class="form-control text-end bg-light fs-10" name="nremaining" id="nremaining"
-                                           value="{{ number_format($dtheader->nremaining) }}" placeholder="Remaining" value='0'>
+                                           value="{{ number_format($dtheader->nremaining) }}" placeholder="Remaining">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer float-end text-end">
+                 <div class="card-footer text-end text-body-secondary bg-transparent border-top text-muted">
                     <a href="javascript:;" onclick='save_order();' id='btn-save1' type="button" class="btn btn-success waves-effect waves-light btn-sm">
                         <i class="mdi mdi-content-save"></i> Update</a>
-                    <a href="javascript:;" onclick='save_payment();' id='btn-save2' type="button" class="btn btn-primary waves-effect waves-light btn-sm">
+                    <a href="javascript:;" onclick='viewPayment(1);' type="button" class="btn btn-primary waves-effect waves-light btn-sm">
                         <i class="mdi mdi-printer-check"></i> Payment</a>
                     <a href="/cafe/cashiers" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
+                </div>
+            </div>
+            <div class="card border border-primary d-none" id='Form-Payment'>
+                <div class="card-header bg-transparent border-primary">
+                    <div class="float-start d-flex justify-content-center">
+                        <h1>Rp.</h1>
+                    </div>
+                    <div class="float-end">
+                        <h1 id='tmpRemain'>{{ number_format($dtheader->nremaining) }}</h1>
+                    </div>
+                </div><!-- end card header -->
+                <div wire:ignore>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row mb-3 justify-content-end">
+                                <label class="col-sm-4 col-form-label text-end fs-6"><b>TOTAL </b></label>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control text-end bg-light" id="ctmpTotal" value="{{ number_format($dtheader->ntotal) }}"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <label class="col-sm-4 col-form-label text-end fs-8"><b>PAYMENT</b></label>
+                                <div class="col-sm-8">
+                                    <select id="cpay_type" name="cpay_type" class="form-control fs-10" onchange="showform()" onfocus='onFocusBground("cpay_type");'>
+                                        @forelse ($pmethod as $trow)
+                                            <option value="{{ $trow->cmethod }}" {{ $trow->cmethod == 'Cash' ? 'selected' : '' }} >{{ $trow->cmethod }}</option>
+                                        @empty
+                                            <option value="">Data Empty</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="pay-method">
+                                <div class="row mb-3 justify-content-end">
+                                    <label class="col-sm-4 col-form-label text-end fs-8 text-primary">CARD NUM.</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control fs-10" name="ccard_num" id="ccard_num" onfocus='onFocusBground("ccard_num");'
+                                               onkeyup="this.value=cc_format(this.value);" placeholder="Card Number" maxlength="20" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3 justify-content-end">
+                                    <label class="col-sm-4 col-form-label text-end fs-8 text-primary">BANK NAME</label>
+                                    <div class="col-sm-8">
+                                        <datalist id="rowdata">
+                                            @foreach ($bank as $b)
+                                                <option value="{{ ucwords(strtolower($b->cname)) }}">{{ ucwords(strtolower($b->cname)) }}</option>
+                                            @endforeach
+                                        </datalist>
+                                        <input list="rowdata" class="form-control" onfocus='onFocusBground("ccard_bank");' name="ccard_bank" id="ccard_bank" placeholder="Bank Name" maxlength="35"/>
+                                    </div>
+                                </div>
+                                <div class="row mb-3 justify-content-end">
+                                    <label class="col-sm-4 col-form-label text-end fs-8 text-primary">CARD NAME</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ccard_name" id="ccard_name" onfocus='onFocusBground("ccard_name");' placeholder="Card Name" maxlength="35" />
+                                    </div>
+                                </div>
+                            </div><hr>
+                            <div class="row mb-3 justify-content-end">
+                                <label class="col-sm-4 col-form-label text-end fs-3">BAYAR</label>
+                                <div class="col-sm-8">
+                                    <input type='text' id="tmp_payment" name="tmp_payment" class="form-control font-bold text-end fs-3"
+                                           onkeyup  ="this.value=addCommas(this.value); calculateTemp();"
+                                           onkeydown="paymentEvent(event);"
+                                           onfocus  ="onFocusBground('tmp_payment');"/>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end text-body-secondary bg-transparent border-top text-muted">
+                    <a href="javascript:;" onclick='save_payment();' id='btn-save2' type="button"
+                       class="btn btn-primary waves-effect waves-light btn-sm"> <i class="mdi mdi-content-save"></i> Save Payment</a>
+                    <a href="javascript:;" onclick='viewPayment(2);' type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-close-thick"></i> Close</a>
                 </div>
             </div>
         </div>
@@ -492,6 +572,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 // end document ready cashier cafee
+function viewPayment(flag) {
+    pageScrollUp();
+    if (checkStatusOpen() == true){
+        const payment = document.getElementById('Form-Payment');
+        const invoice = document.getElementById('Form-Invoice');
+        if (flag==1) {
+            payment.classList.remove('d-none');
+            invoice.classList.add('d-none');
+            $("#tmp_payment").focus();
+        }else{
+            payment.classList.add('d-none');
+            invoice.classList.remove('d-none');
+        }
+        showform();
+    }else{
+        viewAlert('Error, Check Status..['+ cstatus.value +']');
+        return false;
+    }
+}
+
 // calculate order caffe
 function calculateOrder() {
     let tmpTotal = 0, tmpStotal = 0, tmpDisc = 0, tmpFee = 0;
@@ -534,46 +634,45 @@ function paymentEvent(event) {
         document.querySelector('#btn-save2').click();
     }
 }
-function calculatePay(tpayment) {
-    const payment   = parseFloat(tpayment.value.replace(/,/g, '')) || 0;
-    tpayment.value = addRupiah(payment);
-    calculateOrder();
-}
 // save transaction
 function save_order(){
-    const url = "/cafe/rwdata/caupdate", href= "/cafe/cashiers";
-     if (ccustomer_name.value == ''){
-        viewAlert('Error, Customer Name empty ! ');
-        pageScrollUp();
-        $("#ccustomer_name").focus();
+    pageScrollUp();
+    if (checkStatusOpen() == true){
+        const url = "/cafe/rwdata/caupdate", href= "/cafe/cashiers";
+        if (ccustomer_name.value == ''){
+            viewAlert('Error, Customer Name empty ! ');
+            $("#ccustomer_name").focus();
+            return false;
+        }
+        update_data(url,href)
+    }else{
+        viewAlert('Error, Check Status....['+ cstatus.value +']');
         return false;
     }
-    update_data(url,href)
 }
 function save_payment(){
     const url = "/cafe/rwdata/caupdate", href= "/cafe/cashiers";
     const total   = parseFloat(document.getElementById('ntotal').value.replace(/,/g, '')) || 0;
     const payment = parseFloat(document.getElementById('npayment').value.replace(/,/g, '')) || 0;
     // check payment
+    pageScrollUp();
     if (payment.value == 0 || payment.value=="") {
         viewAlert('Error, Payment Empty..! ');
-        pageScrollUp();
         $("#npayment").focus();
         return false;
     }
     if (total > payment){
         viewAlert('Error, Underpayment..! ');
-        pageScrollUp();
         $("#npayment").focus();
         return false;
     }
     // check customer
-     if (ccustomer_name.value == ''){
+    if (ccustomer_name.value == ''){
         viewAlert('Error, Customer Name empty ! ');
-        pageScrollUp();
         $("#ccustomer_name").focus();
         return false;
     }
+    viewPayment(2);
     update_data(url,href)
 }
 // add order qty
@@ -588,6 +687,29 @@ function iDelete(i){
     let t = parseFloat(tInput ? tInput.value.replace(/,/g, '') : 0) || 0;
 	if (t > 0){t = t-1;}
 	tInput.value = t;
+}
+
+function showform() {
+    if (cpay_type.value == "Cash"){
+		$("#pay-method").hide();
+		$("#ctmpTotpay").focus();
+	}else{
+		$("#pay-method").show();
+		$("#ctmpNodebit").focus();
+	}
+}
+
+function calculateTemp() {
+    let tpayment = 0, nremain = 0;
+    const total   = parseFloat(document.getElementById('ctmpTotal').value.replace(/,/g, '')) || 0;
+    const payment = parseFloat(document.getElementById('tmp_payment').value.replace(/,/g, '')) || 0;
+
+    tpayment = payment;
+    nremain  = total-tpayment;
+
+    npayment.value   = addRupiah(tpayment);
+    nremaining.value = addRupiah(nremain);
+	$('#tmpRemain').html(nremaining.value);
 }
 </script>
 @endsection
