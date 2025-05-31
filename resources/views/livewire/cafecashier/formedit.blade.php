@@ -314,6 +314,8 @@
                         <i class="mdi mdi-content-save"></i> Update</a>
                     <a href="javascript:;" onclick='viewPayment(1);' type="button" class="btn btn-primary waves-effect waves-light btn-sm">
                         <i class="mdi mdi-printer-check"></i> Payment</a>
+                    <a href="javascript:;" class="btn btn-sm btn-danger" title='print' onclick="printData('/cafe/cashiers/print/');">
+                        <i class="mdi mdi-printer-outline"></i> Print</a>
                     <a href="/cafe/cashiers" type="button" class="btn btn-warning btn-sm"><i class="mdi mdi-redo-variant"></i> Back</a>
                 </div>
             </div>
@@ -711,5 +713,17 @@ function calculateTemp() {
     nremaining.value = addRupiah(nremain);
 	$('#tmpRemain').html(nremaining.value);
 }
+function printData(url) {
+    // Get the id value from the hidden input in the form
+    var idInput = document.querySelector('input[name="id"]');
+    if (!idInput) {
+        alert('ID not found');
+        return;
+    }
+    var id = idInput.value;
+    var cLink = url + id;
+    window.open(cLink, "_blank", "menubar=no,location=no,status=yes,toolbar=no,directoris=no,scrollbars=yes,resizable=yes,top=90,left=750,width=500,height=720");
+}
+
 </script>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Cafecashier;
+namespace App\Livewire\Cafewaiters;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;

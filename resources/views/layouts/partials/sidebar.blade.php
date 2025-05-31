@@ -114,8 +114,8 @@
                         <li><a href="{{ route('second', ['dashboard', 'ecommerce'])}}" class="tp-link" wire:current>Dashboard</a></li>
                         <li><a href="{{ route('any', 'cafe/tables')}}" class="tp-link" wire:current>Cafe Table</a></li>
                         <li><a href="{{ route('any', 'cafe/products')}}" class="tp-link" wire:current>Cafe Product</a></li>
+                        <li><a href="{{ route('any', 'cafe/orders')}}" class="tp-link" wire:current>Cafe Order</a></li>
                         <li><a href="{{ route('any', 'cafe/cashiers')}}" class="tp-link" wire:current>Cafe Cashier</a></li>
-                        <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Waiters</a></li>
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cafe Kitchen</a></li>
                     </ul>
                     </div>
