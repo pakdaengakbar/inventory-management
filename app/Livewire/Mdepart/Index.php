@@ -9,7 +9,7 @@ use App\Constants\Status as s_;
 use App\Helpers\MyService as v_;
 
 use App\Models\mdepart as departs;
-use App\Models\Mposition as positions;
+use App\Models\mposition as positions;
 use Livewire\WithPagination;
 
 class Index extends Component

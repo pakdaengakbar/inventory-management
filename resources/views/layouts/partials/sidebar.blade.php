@@ -156,6 +156,8 @@
                     </a>
                     <div class="collapse" id="sidebartrello">
                       <ul class="nav-second-level">
+                        <li><a href="{{ route('any', 'finance/paymethod')}}" class="tp-link" wire:current>Payment Method</a></li>
+                        <li><a href="{{ route('any', 'finance/bank')}}" class="tp-link" wire:current>Data of Bank</a></li>
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Chart Of Account</a></li>
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Initial Balance</a></li>
                         <li><a href="{{ route('second', ['error', 'error-404'])}}" class="tp-link" wire:current>Cash / Bank In</a></li>

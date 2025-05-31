@@ -25,7 +25,6 @@ use App\Http\Controllers\Rowsaleservice;
 use App\Http\Controllers\CftableController;
 use App\Http\Controllers\CfprodCotntroller;
 use App\Http\Controllers\CfcashierController;
-
 /* Website */
 use App\Http\Controllers\Webcategory;
 use App\Http\Controllers\Webclient;
@@ -38,6 +37,10 @@ use App\Http\Controllers\Webpromo;
 use App\Http\Controllers\Webservice;
 use App\Http\Controllers\Webstaff;
 use App\Http\Controllers\Webvideo;
+/* finance */
+use App\Http\Controllers\Dtpaymethod;
+use App\Http\Controllers\DtbankController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +50,13 @@ require __DIR__ . '/auth.php';
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/profiles', App\Livewire\Mprofile\Index::class)->name('profiles.index');
+    });
+    Route::group(['prefix' => 'finance'], function () {
+        Route::get('/paymethod', App\Livewire\Mpaymethod\Index::class)->name('paymethod.index');
+        Route::post('/rwdata/paymethod', [Dtpaymethod::class, 'datatable']);
+
+        Route::get('/bank', App\Livewire\Mbank\Index::class)->name('bank.index');
+        Route::post('/rwdata/bank', [DtbankController::class, 'datatable']);
     });
       /*
     |--------------------------------------------------------------------------

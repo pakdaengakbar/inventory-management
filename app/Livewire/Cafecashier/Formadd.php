@@ -9,8 +9,8 @@ use App\Constants\Status as p_;
 
 class Formadd extends Component
 {
-    public $page, $path, $ppn;
-    public $food, $drink, $pastry, $package, $beverage;
+    public $page, $path, $ppn, $fee, $fee_on, $no=0;
+    public $table, $food, $drink, $package;
     public $pageTitle, $pageDescription, $pageBreadcrumb;
     public function __construct() {
         $this->page = array(
@@ -24,8 +24,14 @@ class Formadd extends Component
      */
     public function mount()
     {
-        $this->ppn     = p_::PPN_;
-        $this->path    = p_::URL_. $this->page['p'];
+        $this->ppn    = p_::PPN_;
+        $this->fee    = p_::FEE_;
+        $this->fee_on = p_::FEE_ON;
+        $this->path   = p_::URL_. $this->page['p'];
+        $this->table  = h_::getTableCafe('actived');
+        $this->food   = h_::getItemCafe(array('cgroup_code' => '101'),'id');
+        $this->drink  = h_::getItemCafe(array('cgroup_code' => '100'),'id');
+        $this->package= h_::getItemCafe(array('cgroup_code' => '102'),'id');
         $this->pageTitle  = $t = $this->page['t'];
         $this->pageDescription = $d = $this->page['d'];
         $this->pageBreadcrumb  = h_::setBreadcrumb($t, $d, 'cashiers/', strtolower($t));

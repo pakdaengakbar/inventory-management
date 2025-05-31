@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mposition extends Model
+class mposition extends Model
 {
     protected $primaryKey = 'ccode';
 	protected $fillable   =

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Mcompanie;
 use App\Models\mregion;
 use App\Models\mdepart;
-use App\Models\Mposition;
+use App\Models\mposition;
 use App\Models\muom as uom;
 use App\Models\indcities as cities;
 use App\Models\mbrand_group as prodgroup;
@@ -179,7 +179,7 @@ class MyService {
         return $result;
     }
     public static function getPosition(){
-        $result = Mposition::all();
+        $result = mposition::all();
         return $result;
     }
     public static function getCities(){

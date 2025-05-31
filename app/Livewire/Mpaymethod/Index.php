@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Livewire\Cafetable;
+namespace App\Livewire\Mpaymethod;
 
 use Livewire\Component;
 use App\Helpers\MyHelper as h_;
-use App\Constants\Status as s_;
 use Livewire\Attributes\Rule;
 
-use App\Models\cafetable;
+use App\Models\mpaymethod;
 
 class Index extends Component
 {
-
     public $page, $id, $cstatus;
-    #[Rule('required', message: 'Kode Table Harus Diisi')]
-    public $ccode;
-
-    #[Rule('required', message: 'Nama Table Harus Diisi')]
-    public $cname;
+    #[Rule('required', message: 'Payment Method Harus Diisi')]
+    public $cmethod;
 
     public function __construct() {
         $this->page  = array(
-            'title' => 'Master',
-            'description'=> 'Data Table',
+            'title' => 'Finance',
+            'description'=> 'Payment',
         );
     }
 
@@ -30,12 +25,11 @@ class Index extends Component
     {
         try {
             $pageBreadcrumb = h_::setBreadcrumb($title = $this->page['title'], $descr = $this->page['description'], strtolower($title));
-            return view('livewire.cafetable.index', [
-                'path'           => s_::URL_. 'cafetable/',
+            return view('livewire.mpaymethod.index', [
                 'pageTitle'      => $title,
                 'pageDescription'=> $descr,
                 'pageBreadcrumb' => $pageBreadcrumb,
-         ]);
+            ]);
         }catch(\Exception $e)
         {
             return view('livewire.error404.index');
@@ -51,8 +45,7 @@ class Index extends Component
     public function resetFields()
     {
         $this->id = '';
-        $this->ccode = '';
-        $this->cname = '';
+        $this->cmethod = '';
         $this->cstatus = 'Actived';
     }
 
@@ -60,9 +53,8 @@ class Index extends Component
     {
 
         $this->validate();
-        cafetable::updateOrCreate(['id' => $this->id], [
-            'cname' => $this->cname,
-            'ccode' => $this->ccode,
+        mpaymethod::updateOrCreate(['id' => $this->id], [
+            'cmethod' => $this->cmethod,
             'cstatus' => $this->cstatus,
         ]);
         $this->dispatch('editDataTable', ['message' => $this->id ? 'Data updated successfully.' : 'Data created successfully.']);
@@ -71,17 +63,16 @@ class Index extends Component
 
     public function editData($id)
     {
-        $data = cafetable::findOrFail($id);
+        $data = mpaymethod::findOrFail($id);
         $this->id = $id;
-        $this->ccode = $data->ccode;
-        $this->cname = $data->cname;
+        $this->cmethod = $data->cmethod;
         $this->cstatus = $data->cstatus;
 
     }
 
     public function delData($id)
     {
-        cafetable::find($id)->delete();
+        mpaymethod::find($id)->delete();
         $this->dispatch('delDataTable', ['message' => 'Delete Data Successfuly..']);
     }
 
